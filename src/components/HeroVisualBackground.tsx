@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { LAUMED_LOGO_SRC } from '../data/logoConfig';
 import { sharedAnimationLoop } from '../utils/animationLoop';
+import { fastScrollTracker, isLowEndOrMobileDevice } from '../utils/scrollPerformance';
 
 /**
  * Tweakable settings for the Medical-Tech Hero Canvas & Watermark
@@ -105,11 +106,12 @@ export const HeroVisualBackground: React.FC = () => {
 
     let width = container.clientWidth || window.innerWidth;
     let height = container.clientHeight || 520;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let dpr = Math.min(window.devicePixelRatio || 1, isLowEndOrMobileDevice() ? 1.5 : 2);
     let isMobile = width < 700;
 
     let unsubscribeLoop: (() => void) | null = null;
     let isHeroVisible = true;
+    let isFastScrolling = false;
     let elapsed = 0;
     let watermarkPulseBoost = 0;
 
@@ -176,7 +178,7 @@ export const HeroVisualBackground: React.FC = () => {
       if (!container || !canvas) return;
       width = container.clientWidth || window.innerWidth;
       height = container.clientHeight || 520;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, isLowEndOrMobileDevice() ? 1.5 : 2);
       isMobile = width < 700;
 
       canvas.width = Math.floor(width * dpr);
@@ -522,8 +524,11 @@ export const HeroVisualBackground: React.FC = () => {
       if (!unsubscribeLoop && isHeroVisible) {
         unsubscribeLoop = sharedAnimationLoop.subscribe({
           id: 'hero-visual-background',
-          targetFps: 60,
-          onFrame: (_ts, dt) => renderFrame(dt, false)
+          targetFps: isLowEndOrMobileDevice() ? 30 : 60,
+          onFrame: (_ts, dt) => {
+            if (isFastScrolling) return;
+            renderFrame(dt, false);
+          }
         });
       }
     };
@@ -559,6 +564,10 @@ export const HeroVisualBackground: React.FC = () => {
       if (motionQuery.matches) renderFrame(0, true);
     });
 
+    const unsubscribeFastScroll = fastScrollTracker.subscribe((fast) => {
+      isFastScrolling = fast;
+    });
+
     resize();
     intersectionObserver.observe(container);
     resizeObserver.observe(container);
@@ -572,6 +581,7 @@ export const HeroVisualBackground: React.FC = () => {
 
     return () => {
       stopLoop();
+      unsubscribeFastScroll();
       motionQuery.removeEventListener('change', onMotionChange);
       motionQuery.removeEventListener('change', handleMotionPreferenceChange);
       intersectionObserver.disconnect();
@@ -608,6 +618,9 @@ export const HeroVisualBackground: React.FC = () => {
         ref={watermarkRef}
         src={LAUMED_LOGO_SRC}
         alt=""
+        width={256}
+        height={256}
+        decoding="async"
         aria-hidden="true"
         style={{ opacity: HERO_BG_CONFIG.watermarkOpacity }}
         className={`absolute z-[1] w-36 h-36 sm:w-56 sm:h-56 lg:w-64 lg:h-64 rounded-3xl object-contain transition-opacity ${

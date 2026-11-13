@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { LaumedLogo } from './LaumedLogo';
 import { Menu, X, UserPlus } from 'lucide-react';
 
-export type PageId = 
-  | 'home' 
-  | 'journal-club' 
-  | 'journal' 
+export type PageId =
+  | 'home'
+  | 'journal-club'
+  | 'journal'
   | 'journal-issue-abstracts'
-  | 'events' 
-  | 'membership' 
-  | 'about' 
-  | 'resources' 
+  | 'events'
+  | 'membership'
+  | 'about'
+  | 'resources'
   | 'contact';
 
 interface NavbarProps {
@@ -25,6 +25,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   openSubmitModal
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isNavVisible, setIsNavVisible] = useState(true);
+  const progressRef = useRef<HTMLDivElement | null>(null);
+  const lastScrollYRef = useRef(0);
+  const mobileMenuOpenRef = useRef(false);
+
+  mobileMenuOpenRef.current = mobileMenuOpen;
 
   const navItems: { id: PageId; label: string }[] = [
     { id: 'home', label: 'Home' },
@@ -37,124 +43,218 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'contact', label: 'Contact' }
   ];
 
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      '--nav-sticky-top',
+      isNavVisible || mobileMenuOpen ? '5.25rem' : '0.5rem'
+    );
+  }, [isNavVisible, mobileMenuOpen]);
+
+  useEffect(() => {
+    let rafId: number | null = null;
+
+    const updateOnScroll = () => {
+      rafId = null;
+      const currentY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? Math.min(1, Math.max(0, currentY / docHeight)) : 0;
+
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${progress.toFixed(4)})`;
+      }
+
+      if (mobileMenuOpenRef.current || currentY <= 48) {
+        setIsNavVisible(true);
+      } else {
+        const delta = currentY - lastScrollYRef.current;
+        if (delta > 8 && currentY > 88) {
+          setIsNavVisible(false);
+        } else if (delta < -6) {
+          setIsNavVisible(true);
+        }
+      }
+
+      lastScrollYRef.current = currentY;
+    };
+
+    const handleScroll = () => {
+      if (rafId === null) {
+        rafId = window.requestAnimationFrame(updateOnScroll);
+      }
+    };
+
+    lastScrollYRef.current = window.scrollY;
+    updateOnScroll();
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll, { passive: true });
+
+    return () => {
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
+  }, []);
+
   const handleNav = (id: PageId) => {
-    setCurrentPage(id);
     setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsNavVisible(true);
+    setCurrentPage(id);
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#080402]/92 backdrop-blur-md border-b border-[#ea580c]/20 transition-all">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-4">
-          {/* Logo brand mark from initial design */}
-          <button
-            onClick={() => handleNav('home')}
-            className="flex items-center text-left hover:opacity-95 transition-opacity shrink-0"
-            aria-label="LAUMED Journal Club Homepage"
-          >
-            <LaumedLogo size="navbar" showMotto={true} />
-          </button>
+    <>
+      {/* Accessible Skip Link */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-3 focus:z-[70] focus:px-4 focus:py-2.5 focus:rounded-xl focus:bg-[#ea580c] focus:text-white focus:text-xs focus:font-bold focus:shadow-lg"
+      >
+        Skip to content
+      </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2 text-xs font-semibold">
-            {navItems.map((item) => {
-              const isActive =
-                currentPage === item.id ||
-                (item.id === 'journal' && currentPage === 'journal-issue-abstracts');
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleNav(item.id)}
-                  className={`relative px-3 py-2 rounded-lg transition-colors whitespace-nowrap ${
-                    isActive
-                      ? 'text-[#f97316] font-bold bg-[#1a0c06]'
-                      : 'text-[#d6cebe] hover:text-white hover:bg-[#140a05]'
-                  }`}
-                >
-                  {item.label}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#ea580c] rounded-full shadow-[0_0_8px_#ea580c]" />
-                  )}
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Primary Action Button (Desktop) */}
-          <div className="hidden sm:flex items-center gap-3 shrink-0">
-            <button
-              onClick={() => handleNav('membership')}
-              className="btn-flame px-4 py-2 flex items-center gap-1.5"
-            >
-              <UserPlus className="w-3.5 h-3.5" />
-              <span>Join Club</span>
-            </button>
-          </div>
-
-          {/* Mobile buttons */}
-          <div className="flex lg:hidden items-center gap-2">
-            <button
-              onClick={() => handleNav('membership')}
-              className="px-3 py-1.5 text-xs font-semibold text-white bg-[#ea580c] rounded-lg"
-            >
-              Join Club
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-[#d6cebe] hover:text-white rounded-lg hover:bg-[#140a05] focus:outline-none"
-              aria-label="Toggle navigation menu"
-              aria-expanded={mobileMenuOpen}
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6 text-[#ea580c]" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
+      {/* Thin orange GPU-composited scroll progress bar */}
+      <div
+        aria-hidden="true"
+        className="fixed top-0 left-0 right-0 h-[2px] z-[60] pointer-events-none bg-transparent"
+      >
+        <div
+          ref={progressRef}
+          style={{ transform: 'scaleX(0)' }}
+          className="h-full w-full origin-left bg-gradient-to-r from-[#ea580c] via-[#f97316] to-[#fed7aa]"
+        />
       </div>
 
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#0d0704] border-b border-[#ea580c]/30 px-4 pt-3 pb-6 space-y-2 animate-in slide-in-from-top-2 duration-200">
-          <div className="grid grid-cols-1 gap-1">
-            {navItems.map((item) => {
-              const isActive =
-                currentPage === item.id ||
-                (item.id === 'journal' && currentPage === 'journal-issue-abstracts');
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleNav(item.id)}
-                  className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'bg-[#220f07] text-[#f97316] font-bold border-l-2 border-[#ea580c]'
-                      : 'text-[#d6cebe] hover:text-white hover:bg-[#150a05]'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </div>
+      <header
+        className={`sticky top-0 z-50 bg-[#080402]/95 backdrop-blur-md border-b border-[#ea580c]/20 transition-transform duration-200 ${
+          isNavVisible || mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20 gap-4">
+            {/* Logo brand mark */}
+            <button
+              type="button"
+              onClick={() => handleNav('home')}
+              className="flex items-center text-left hover:opacity-95 transition-opacity shrink-0 min-h-[44px]"
+              aria-label="LAUMED Journal Club Homepage"
+            >
+              <LaumedLogo size="navbar" showMotto={true} />
+            </button>
 
-          <div className="pt-3 border-t border-[#2a1309] flex flex-col gap-2">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                openSubmitModal();
-              }}
-              className="w-full py-2.5 text-xs font-semibold uppercase tracking-wider text-[#fed7aa] bg-[#1a0c06] border border-[#ea580c]/30 rounded-xl"
-            >
-              Submit a Manuscript
-            </button>
-            <button
-              onClick={() => handleNav('membership')}
-              className="btn-flame w-full py-2.5 text-center"
-            >
-              Become a Member
-            </button>
+            {/* Desktop Navigation */}
+            <nav aria-label="Main navigation" className="hidden lg:flex items-center gap-1 xl:gap-2 text-xs font-semibold">
+              {navItems.map((item) => {
+                const isActive =
+                  currentPage === item.id ||
+                  (item.id === 'journal' && currentPage === 'journal-issue-abstracts');
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => handleNav(item.id)}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`relative px-3 py-2 min-h-[44px] rounded-lg transition-colors whitespace-nowrap ${
+                      isActive
+                        ? 'text-[#f97316] font-bold bg-[#1a0c06]'
+                        : 'text-[#d6cebe] hover:text-white hover:bg-[#140a05]'
+                    }`}
+                  >
+                    {item.label}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-[#ea580c] rounded-full shadow-[0_0_8px_#ea580c]" />
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+
+            {/* Primary Action Button (Desktop) */}
+            <div className="hidden sm:flex items-center gap-3 shrink-0">
+              <button
+                type="button"
+                onClick={() => handleNav('membership')}
+                className="btn-flame px-4 py-2 flex items-center gap-1.5"
+              >
+                <UserPlus className="w-3.5 h-3.5" />
+                <span>Join Club</span>
+              </button>
+            </div>
+
+            {/* Mobile buttons (>= 44px tap target) */}
+            <div className="flex lg:hidden items-center gap-2">
+              <button
+                type="button"
+                onClick={() => handleNav('membership')}
+                className="min-h-[44px] px-3.5 py-2 text-xs font-semibold text-white bg-[#c2410c] hover:bg-[#ea580c] rounded-lg transition-colors"
+              >
+                Join Club
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="min-w-[44px] min-h-[44px] inline-flex items-center justify-center p-2 text-[#d6cebe] hover:text-white rounded-lg hover:bg-[#140a05]"
+                aria-label="Toggle navigation menu"
+                aria-expanded={mobileMenuOpen}
+                aria-controls="mobile-nav-drawer"
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6 text-[#ea580c]" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
         </div>
-      )}
-    </header>
+
+        {/* Mobile Drawer with overscroll-behavior: contain */}
+        {mobileMenuOpen && (
+          <nav
+            id="mobile-nav-drawer"
+            aria-label="Mobile navigation"
+            className="lg:hidden bg-[#0d0704] border-b border-[#ea580c]/30 px-4 pt-3 pb-6 space-y-2 max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain"
+          >
+            <div className="grid grid-cols-1 gap-1">
+              {navItems.map((item) => {
+                const isActive =
+                  currentPage === item.id ||
+                  (item.id === 'journal' && currentPage === 'journal-issue-abstracts');
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => handleNav(item.id)}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`w-full text-left px-3.5 py-2.5 min-h-[44px] rounded-xl text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'bg-[#220f07] text-[#f97316] font-bold border-l-2 border-[#ea580c]'
+                        : 'text-[#d6cebe] hover:text-white hover:bg-[#150a05]'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="pt-3 border-t border-[#2a1309] flex flex-col gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openSubmitModal();
+                }}
+                className="w-full min-h-[44px] py-2.5 text-xs font-semibold uppercase tracking-wider text-[#fed7aa] bg-[#1a0c06] border border-[#ea580c]/30 rounded-xl"
+              >
+                Submit a Manuscript
+              </button>
+              <button
+                type="button"
+                onClick={() => handleNav('membership')}
+                className="btn-flame w-full py-2.5 text-center"
+              >
+                Become a Member
+              </button>
+            </div>
+          </nav>
+        )}
+      </header>
+    </>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MEMBERSHIP_INFO } from '../data/clubData';
 import { UserPlus, CheckCircle2, ShieldCheck, Award, Users, BookOpen, ExternalLink, ArrowRight } from 'lucide-react';
+import { RevealBlock } from '../components/RevealBlock';
 
 export const MembershipView: React.FC = () => {
   const [fullName, setFullName] = useState('');
@@ -48,9 +49,9 @@ export const MembershipView: React.FC = () => {
       </div>
 
       {/* Benefits Grid */}
-      <div className="space-y-6">
+      <section className="cv-auto space-y-6">
         <div className="border-b border-[#ea580c]/20 pb-4">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
             Member Privileges
           </span>
           <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
@@ -60,25 +61,27 @@ export const MembershipView: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {MEMBERSHIP_INFO.benefits.map((benefit, i) => (
-            <div key={i} className="initial-card p-6 space-y-3">
-              <div className="w-8 h-8 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#ea580c] text-xs font-mono font-bold flex items-center justify-center">
-                0{i + 1}
+            <RevealBlock key={i}>
+              <div className="initial-card p-6 h-full space-y-3">
+                <div className="w-8 h-8 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#fb923c] text-xs font-mono font-bold flex items-center justify-center">
+                  0{i + 1}
+                </div>
+                <h3 className="text-base font-serif font-bold text-white">
+                  {benefit.title}
+                </h3>
+                <p className="text-xs text-[#d6cebe] leading-relaxed">
+                  {benefit.desc}
+                </p>
               </div>
-              <h3 className="text-base font-serif font-bold text-white">
-                {benefit.title}
-              </h3>
-              <p className="text-xs text-[#d6cebe] leading-relaxed">
-                {benefit.desc}
-              </p>
-            </div>
+            </RevealBlock>
           ))}
         </div>
-      </div>
+      </section>
 
       {/* How to Join Steps */}
-      <div className="space-y-6">
+      <section className="cv-auto space-y-6">
         <div className="border-b border-[#ea580c]/20 pb-4">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
             Induction Process
           </span>
           <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
@@ -88,18 +91,20 @@ export const MembershipView: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {MEMBERSHIP_INFO.howToJoin.map((step, idx) => (
-            <div key={idx} className="initial-card p-5 space-y-2 bg-[#2A120B]">
-              <span className="text-[10px] font-mono text-[#ea580c] font-bold">STAGE 0{idx + 1}</span>
-              <p className="text-xs text-white leading-relaxed font-medium">
-                {step.replace(/^Step 0\d:\s*/, '')}
-              </p>
-            </div>
+            <RevealBlock key={idx}>
+              <div className="initial-card p-5 h-full space-y-2 bg-[#2A120B]">
+                <span className="text-[10px] font-mono text-[#fb923c] font-bold">STAGE 0{idx + 1}</span>
+                <p className="text-xs text-white leading-relaxed font-medium">
+                  {step.replace(/^Step 0\d:\s*/, '')}
+                </p>
+              </div>
+            </RevealBlock>
           ))}
         </div>
-      </div>
+      </section>
 
       {/* Online Membership Form in Initial UI Style */}
-      <div className="initial-card p-6 sm:p-10 space-y-6 max-w-2xl mx-auto border-2 border-[#ea580c]/30">
+      <div className="cv-auto initial-card p-6 sm:p-10 space-y-6 max-w-2xl mx-auto border-2 border-[#ea580c]/30">
         <div className="border-b border-[#ea580c]/20 pb-4 text-center space-y-1">
           <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
             Official Application Form
@@ -136,7 +141,7 @@ export const MembershipView: React.FC = () => {
               <div className="text-white">Matric: {matricNumber}</div>
               <div className="text-white">Level: {level}</div>
               <div className="text-[#fed7aa] text-[11px] pt-1">
-                You will be contacted via WhatsApp/Email before the next monthly journal club session.
+                You will be contacted via WhatsApp/Email before the next biweekly journal club session.
               </div>
             </div>
 

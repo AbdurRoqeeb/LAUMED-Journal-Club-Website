@@ -1,14 +1,17 @@
 import React from 'react';
 import { PageId } from '../components/Navbar';
 import { CLUB_INFO, JOURNAL_SESSIONS, CLUB_EVENTS, JOURNAL_INFO, JournalSession } from '../data/clubData';
-import { 
-  ArrowRight, 
-  BookOpen, 
-  UserPlus, 
+import {
+  ArrowRight,
+  BookOpen,
+  UserPlus,
   ChevronRight,
+  ExternalLink,
   MapPin
 } from 'lucide-react';
 import { HeroVisualBackground } from '../components/HeroVisualBackground';
+import { LazyImage } from '../components/LazyImage';
+import { RevealBlock } from '../components/RevealBlock';
 
 interface HomeViewProps {
   setCurrentPage: (page: PageId) => void;
@@ -149,7 +152,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   </span>
                   <button
                     onClick={() => setCurrentPage('events')}
-                    className="text-[#ea580c] hover:text-[#f97316] font-semibold flex items-center gap-1 hover:underline"
+                    className="text-[#fb923c] hover:text-[#fed7aa] font-semibold inline-flex items-center gap-1 hover:underline min-h-[44px]"
                   >
                     <span>
                       {featuredEvent.status === 'upcoming' ? 'View Upcoming Event & Flyer' : 'View Event Details & Recap'}
@@ -164,13 +167,14 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   <button
                     type="button"
                     onClick={() => setCurrentPage('events')}
-                    className="group relative rounded-xl overflow-hidden border border-[#ea580c]/40 bg-[#080402] hover:border-[#f97316] transition-colors"
+                    className="group relative rounded-xl overflow-hidden border border-[#ea580c]/40 bg-[#080402] hover:border-[#f97316] transition-colors w-44 sm:w-48 lg:w-full"
                     aria-label={`View ${featuredEvent.title} flyer`}
                   >
-                    <img
+                    <LazyImage
                       src={featuredEvent.flyerUrl}
                       alt={`${featuredEvent.title} flyer`}
-                      className="w-44 sm:w-48 lg:w-full max-h-52 object-cover group-hover:scale-[1.03] transition-transform duration-300"
+                      aspectRatioClassName="aspect-[4/5]"
+                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
                     />
                   </button>
                 </div>
@@ -181,9 +185,9 @@ export const HomeView: React.FC<HomeViewProps> = ({
       )}
 
       {/* 3. "WHAT WE DO": FOUR NUMBERED CARDS (Research, Critical Appraisal, Scientific Communication, Collaboration) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <section className="cv-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="border-b border-[#ea580c]/20 pb-4">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
             Pillars of Scholarly Rigor
           </span>
           <h2 className="text-3xl sm:text-4xl font-serif font-bold text-white mt-1">
@@ -196,34 +200,33 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {whatWeDoCards.map((card) => (
-            <div
-              key={card.num}
-              className="initial-card p-6 flex flex-col justify-between space-y-4 group"
-            >
-              <div className="space-y-3">
-                {/* Numbered badge in orange circle */}
-                <div className="w-10 h-10 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#ea580c] text-xs font-mono font-bold flex items-center justify-center shadow-[0_0_12px_rgba(234,88,12,0.25)] group-hover:bg-[#ea580c] group-hover:text-white transition-colors">
-                  {card.num}
+            <RevealBlock key={card.num}>
+              <div className="initial-card p-6 h-full flex flex-col justify-between space-y-4 group">
+                <div className="space-y-3">
+                  {/* Numbered badge in orange circle */}
+                  <div className="w-10 h-10 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#fb923c] text-xs font-mono font-bold flex items-center justify-center shadow-[0_0_12px_rgba(234,88,12,0.25)] group-hover:bg-[#ea580c] group-hover:text-white transition-colors">
+                    {card.num}
+                  </div>
+
+                  <h3 className="text-lg font-serif font-bold text-white group-hover:text-[#fb923c] transition-colors">
+                    {card.title}
+                  </h3>
+
+                  <p className="text-xs text-[#d6cebe] leading-relaxed">
+                    {card.desc}
+                  </p>
                 </div>
-
-                <h3 className="text-lg font-serif font-bold text-white group-hover:text-[#f97316] transition-colors">
-                  {card.title}
-                </h3>
-
-                <p className="text-xs text-[#d6cebe] leading-relaxed">
-                  {card.desc}
-                </p>
               </div>
-            </div>
+            </RevealBlock>
           ))}
         </div>
       </section>
 
       {/* 4. "RECENT JOURNAL CLUB WEEKLY ARTICLES": LIST OF THREE */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <section className="cv-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#ea580c]/20 pb-4">
           <div>
-            <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
               Student-Authored Weekly Reviews
             </span>
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
@@ -236,7 +239,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
 
           <button
             onClick={() => setCurrentPage('journal-club')}
-            className="text-xs font-semibold text-[#ea580c] hover:text-[#f97316] flex items-center gap-1 shrink-0 hover:underline"
+            className="text-xs font-semibold text-[#fb923c] hover:text-[#fed7aa] inline-flex items-center gap-1 shrink-0 hover:underline min-h-[44px]"
           >
             <span>View All Articles</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -244,7 +247,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {recentSessions.map((article) => (
+          {recentSessions.map((article, idx) => (
             <div
               key={article.id}
               onClick={() => onOpenSessionModal(article)}
@@ -252,10 +255,17 @@ export const HomeView: React.FC<HomeViewProps> = ({
             >
               <div className="space-y-3">
                 {/* Date & Topic Tag */}
-                <div className="flex items-center justify-between text-xs text-[#a89f91]">
-                  <span className="font-mono text-[#ea580c] font-bold">
-                    {article.date}
-                  </span>
+                <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[#a89f91]">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-[#ea580c] font-bold">
+                      {article.date}
+                    </span>
+                    {idx === 0 && (
+                      <span className="px-2 py-0.5 rounded-full bg-[#c2410c] text-white text-[10px] font-mono font-bold uppercase tracking-wider">
+                        Latest
+                      </span>
+                    )}
+                  </div>
                   <span className="px-2.5 py-0.5 rounded-full bg-[#1e0e06] border border-[#ea580c]/30 text-[#fed7aa] text-[10px] font-mono">
                     {article.topicTag}
                   </span>
@@ -271,14 +281,28 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 </p>
               </div>
 
-              {/* Author */}
+              {/* Author & Actions */}
               <div className="pt-3 border-t border-[#ea580c]/15 text-xs">
                 <div className="text-[11px] text-[#8c7e72] truncate">
                   <span className="text-white font-medium">Author:</span> {article.author}
                 </div>
-                <div className="mt-2 text-xs font-semibold text-[#ea580c] flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  <span>Read Full Article</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                <div className="mt-2 flex items-center justify-between gap-3">
+                  <div className="text-xs font-semibold text-[#fb923c] inline-flex items-center gap-1 min-h-[44px] group-hover:translate-x-1 transition-transform">
+                    <span>Read Full Article</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </div>
+                  {article.link && (
+                    <a
+                      href={article.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold text-[#fed7aa] hover:text-white underline decoration-[#ea580c]/60 underline-offset-4 min-h-[44px] px-1"
+                    >
+                      <span>Read on Medium</span>
+                      <ExternalLink className="w-3 h-3" aria-hidden="true" />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
@@ -286,18 +310,27 @@ export const HomeView: React.FC<HomeViewProps> = ({
         </div>
       </section>
 
-      {/* 5. JOURNAL SPOTLIGHT: "Medificial Intelligence" JOURNAL BANNER */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 5. JOURNAL SPOTLIGHT: MEDIFICIAL INTELLIGENCE ANNUAL JOURNAL BANNER */}
+      <section className="cv-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <RevealBlock>
         <div className="relative rounded-3xl bg-[#1E0C08] border border-[#ea580c]/40 p-8 sm:p-12 overflow-hidden shadow-2xl">
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-4">
               <span className="px-3 py-1 bg-[#ea580c] text-white text-xs font-mono font-bold uppercase tracking-wider rounded-md">
-                Official Peer-Reviewed Journal
+                Official Annual Journal · {JOURNAL_INFO.frequency}
               </span>
 
-              <h2 className="text-3xl sm:text-5xl font-serif font-bold text-white leading-tight">
-                Medificial <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fed7aa] via-[#f97316] to-[#ea580c]">Intelligence</span>
-              </h2>
+              <div className="space-y-1">
+                <h2 className="text-3xl sm:text-5xl font-serif font-bold text-white leading-tight">
+                  Medificial{' '}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fed7aa] via-[#f97316] to-[#ea580c]">
+                    Intelligence
+                  </span>
+                </h2>
+                <p className="text-xs sm:text-sm font-serif italic text-[#fed7aa]">
+                  {JOURNAL_INFO.subtitle}
+                </p>
+              </div>
 
               <p className="text-xs sm:text-sm text-[#d6cebe] leading-relaxed max-w-2xl">
                 {JOURNAL_INFO.description}
@@ -326,23 +359,27 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   M
                 </div>
                 <div>
-                  <div className="text-xs font-mono uppercase text-[#ea580c] font-bold">Inaugural Launch Issue</div>
-                  <div className="text-sm font-serif font-bold text-white">Volume 1, Issue 1</div>
-                  <div className="text-xs text-[#8c7e72] font-mono">{JOURNAL_INFO.currentIssue.publicationDate}</div>
+                  <div className="text-xs font-mono uppercase text-[#ea580c] font-bold">Annual Publication</div>
+                  <div className="text-sm font-serif font-bold text-white">Medificial Intelligence</div>
+                  <div className="text-xs text-[#8c7e72] font-mono">
+                    2020 Archive: LAUMED Vol. {JOURNAL_INFO.currentIssue.volume}, No. {JOURNAL_INFO.currentIssue.issue}
+                  </div>
                 </div>
                 <div className="text-[11px] text-[#fed7aa] italic font-serif">
-                  "{JOURNAL_INFO.currentIssue.title}"
+                  "{JOURNAL_INFO.currentIssue.title}" ({JOURNAL_INFO.currentIssue.publicationDate})
                 </div>
               </div>
             </div>
           </div>
         </div>
+        </RevealBlock>
       </section>
 
       {/* 6. CALL-TO-ACTION BAND: "BECOME A MEMBER" */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="cv-auto max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <RevealBlock>
         <div className="initial-card p-8 sm:p-12 text-center space-y-4 bg-[#1E0C08]">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
             Join the Scholarly Movement
           </span>
           <h2 className="text-3xl sm:text-4xl font-serif font-bold text-white">
@@ -360,6 +397,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
             </button>
           </div>
         </div>
+        </RevealBlock>
       </section>
     </div>
   );

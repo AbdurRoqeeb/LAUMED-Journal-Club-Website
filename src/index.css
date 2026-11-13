@@ -36,20 +36,39 @@
   --border-amber-hover: rgba(249, 115, 22, 0.6);
   --flame-primary: #ea580c;
   --flame-bright: #f97316;
+  --nav-sticky-top: 5.5rem;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
   background-color: var(--bg-deep);
+  overflow-x: clip;
 }
 
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-deep);
   color: #FFF4EC;
-  min-height: 100vh;
-  overflow-x: hidden;
+  min-height: 100dvh;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: rgba(234, 88, 12, 0.25);
+}
+
+/* Prevent accidental double-tap zoom and ensure crisp mobile taps */
+a,
+button,
+input,
+select,
+textarea,
+[role="button"] {
+  touch-action: manipulation;
+}
+
+/* Improve contrast on dark burnt-brown surfaces for muted secondary text */
+.text-\[\#8c7e72\] {
+  color: #b5a89c;
 }
 
 /* Solid surface cards (#1E0C08) ensuring WCAG AA readability over site-wide background */
@@ -57,7 +76,9 @@ body {
   background: #1E0C08;
   border: 1px solid rgba(234, 88, 12, 0.25);
   border-radius: 1rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
 }
 
 .initial-card:hover {
@@ -75,8 +96,9 @@ body {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-size: 0.75rem;
+  min-height: 44px;
   box-shadow: 0 0 20px rgba(234, 88, 12, 0.35);
-  transition: all 0.2s ease;
+  transition: transform 0.16s ease, box-shadow 0.2s ease, opacity 0.16s ease;
 }
 
 .btn-flame:hover {
@@ -85,27 +107,68 @@ body {
   transform: translateY(-1px);
 }
 
+.btn-flame:active {
+  transform: scale(0.98);
+}
+
 .btn-outline-amber {
   background: #2A120B;
-  border: 1px solid rgba(234, 88, 12, 0.35);
+  border: 1px solid rgba(234, 88, 12, 0.4);
   color: #fed7aa;
   border-radius: 0.75rem;
   font-weight: 600;
   font-size: 0.75rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  transition: all 0.2s ease;
+  min-height: 44px;
+  transition: transform 0.16s ease, border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
 }
 
 .btn-outline-amber:hover {
-  border-color: #ea580c;
+  border-color: #f97316;
   color: #ffffff;
   background: #36170E;
 }
 
+.btn-outline-amber:active {
+  transform: scale(0.98);
+}
+
+/* Skip render work for below-the-fold sections on mobile Android devices */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 480px;
+}
+
+/* Subtle single-shot reveal animation (safe if JS or IntersectionObserver is unavailable) */
+.reveal-block {
+  transition: opacity 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-block[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.reveal-block[data-reveal="visible"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hide scrollbars cleanly for horizontal chip bars while preserving swipe */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Subtle circuit background pattern */
 .circuit-pattern {
-  background-image: 
+  background-image:
     radial-gradient(circle at 50% 0%, rgba(234, 88, 12, 0.15) 0%, transparent 65%),
     linear-gradient(rgba(234, 88, 12, 0.08) 1px, transparent 1px),
     linear-gradient(90deg, rgba(234, 88, 12, 0.08) 1px, transparent 1px);
@@ -118,9 +181,45 @@ a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid #ea580c;
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #fb923c;
   outline-offset: 3px;
+}
+
+/* Respect prefers-reduced-motion globally */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .reveal-block,
+  .reveal-block[data-reveal="hidden"],
+  .reveal-block[data-reveal="visible"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .initial-card,
+  .initial-card:hover,
+  .btn-flame,
+  .btn-flame:hover,
+  .btn-flame:active,
+  .btn-outline-amber,
+  .btn-outline-amber:hover,
+  .btn-outline-amber:active {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Custom scrollbar */

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Publication } from '../types';
 import { X, Download, Share2, Bookmark, Check, Copy, Quote, MessageSquare, ShieldCheck, ExternalLink } from 'lucide-react';
 
@@ -17,8 +17,6 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
   onToggleBookmark,
   onDownloadPdf
 }) => {
-  if (!publication) return null;
-
   const [activeTab, setActiveTab] = useState<'text' | 'citations' | 'discussion'>('text');
   const [citationFormat, setCitationFormat] = useState<'vancouver' | 'apa' | 'harvard' | 'bibtex'>('vancouver');
   const [copiedCitation, setCopiedCitation] = useState(false);
@@ -40,6 +38,17 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
   const [newCommentRole, setNewCommentRole] = useState('');
   const [newCommentText, setNewCommentText] = useState('');
   const [commentSubmitted, setCommentSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (!publication) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [publication, onClose]);
+
+  if (!publication) return null;
 
   const getCitationString = () => {
     const authors = publication.authors.map(a => a.name).join(', ');
@@ -82,12 +91,21 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6">
-      <div className="relative w-full max-w-4xl bg-[#0d0704] border border-[#ea580c]/30 rounded-2xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col my-auto">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-label={publication.title}
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-4xl bg-[#0d0704] border border-[#ea580c]/30 rounded-2xl shadow-2xl overflow-hidden max-h-[92dvh] flex flex-col my-auto overscroll-contain"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Modal Top Bar */}
-        <div className="px-6 py-4 border-b border-[#ea580c]/20 bg-[#140a05] flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
+        <div className="px-6 py-3.5 border-b border-[#ea580c]/20 bg-[#140a05] flex items-center justify-between shrink-0 gap-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
               LAUMED Medical Journal · Vol. {publication.volume}, No. {publication.issue}
             </span>
             <span className="text-[#8c7e72]">·</span>
@@ -96,8 +114,10 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
 
           <div className="flex items-center gap-2">
             <button
+              type="button"
               onClick={() => onToggleBookmark(publication.id)}
-              className={`p-2 rounded-lg border transition-colors ${
+              aria-label={isBookmarked ? 'Remove from reading list' : 'Save to reading list'}
+              className={`min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg border transition-colors ${
                 isBookmarked
                   ? 'bg-[#ea580c] border-[#ea580c] text-white'
                   : 'bg-[#1e0e06] border-[#ea580c]/30 text-[#d6cebe] hover:text-white hover:border-[#ea580c]'
@@ -107,15 +127,18 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
               <Bookmark className="w-4 h-4" />
             </button>
             <button
+              type="button"
               onClick={() => onDownloadPdf(publication)}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#ea580c] hover:bg-[#f97316] text-white text-xs font-semibold uppercase tracking-wider rounded-lg transition-colors"
+              className="flex items-center gap-1.5 px-3.5 min-h-[44px] bg-[#ea580c] hover:bg-[#f97316] text-white text-xs font-semibold uppercase tracking-wider rounded-lg transition-colors"
             >
               <Download className="w-3.5 h-3.5" />
-              Download PDF
+              <span className="hidden sm:inline">Download PDF</span>
             </button>
             <button
+              type="button"
               onClick={onClose}
-              className="p-2 text-[#a89f91] hover:text-white rounded-lg hover:bg-[#200e06] transition-colors"
+              aria-label="Close modal"
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-[#a89f91] hover:text-white rounded-lg hover:bg-[#200e06] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -123,20 +146,22 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
         </div>
 
         {/* Modal Sub-tabs */}
-        <div className="px-6 py-2.5 bg-[#100703] border-b border-[#ea580c]/15 flex items-center gap-6 text-xs font-medium shrink-0">
+        <div className="px-6 py-1 bg-[#100703] border-b border-[#ea580c]/15 flex items-center gap-4 sm:gap-6 text-xs font-medium shrink-0 overflow-x-auto no-scrollbar">
           <button
+            type="button"
             onClick={() => setActiveTab('text')}
-            className={`py-1 relative transition-colors ${
-              activeTab === 'text' ? 'text-[#f97316] font-semibold' : 'text-[#a89f91] hover:text-white'
+            className={`min-h-[44px] px-1 relative whitespace-nowrap transition-colors ${
+              activeTab === 'text' ? 'text-[#fb923c] font-semibold' : 'text-[#a89f91] hover:text-white'
             }`}
           >
             Full Article Text
             {activeTab === 'text' && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#ea580c]" />}
           </button>
           <button
+            type="button"
             onClick={() => setActiveTab('citations')}
-            className={`py-1 relative transition-colors flex items-center gap-1.5 ${
-              activeTab === 'citations' ? 'text-[#f97316] font-semibold' : 'text-[#a89f91] hover:text-white'
+            className={`min-h-[44px] px-1 relative whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              activeTab === 'citations' ? 'text-[#fb923c] font-semibold' : 'text-[#a89f91] hover:text-white'
             }`}
           >
             <Quote className="w-3 h-3" />
@@ -144,9 +169,10 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
             {activeTab === 'citations' && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#ea580c]" />}
           </button>
           <button
+            type="button"
             onClick={() => setActiveTab('discussion')}
-            className={`py-1 relative transition-colors flex items-center gap-1.5 ${
-              activeTab === 'discussion' ? 'text-[#f97316] font-semibold' : 'text-[#a89f91] hover:text-white'
+            className={`min-h-[44px] px-1 relative whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              activeTab === 'discussion' ? 'text-[#fb923c] font-semibold' : 'text-[#a89f91] hover:text-white'
             }`}
           >
             <MessageSquare className="w-3 h-3" />
@@ -156,7 +182,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({
         </div>
 
         {/* Modal Scrollable Content */}
-        <div className="overflow-y-auto px-6 py-6 space-y-8 flex-1">
+        <div className="overflow-y-auto overscroll-contain px-6 py-6 space-y-8 flex-1">
           {activeTab === 'text' && (
             <article className="max-w-3xl mx-auto space-y-8">
               {/* Header Details */}

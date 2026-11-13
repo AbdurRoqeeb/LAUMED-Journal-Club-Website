@@ -3,10 +3,17 @@ import { LaumedLogo } from './LaumedLogo';
 import { PageId } from './Navbar';
 import { Mail, Phone, MapPin, ArrowUp } from 'lucide-react';
 import { CLUB_INFO } from '../data/clubData';
+import { prefersReducedMotion } from '../utils/scrollPerformance';
 
 const XLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="currentColor">
     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
+
+const MediumLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="currentColor">
+    <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
   </svg>
 );
 
@@ -18,11 +25,13 @@ interface FooterProps {
 export const Footer: React.FC<FooterProps> = ({ setCurrentPage, openSubmitModal }) => {
   const navigate = (page: PageId) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion() ? 'auto' : 'smooth'
+    });
   };
 
   return (
@@ -39,22 +48,31 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentPage, openSubmitModal 
               <a
                 href={CLUB_INFO.contact.xUrl}
                 target="_blank"
-                rel="noreferrer"
-                className="w-9 h-9 rounded-xl bg-[#1e0e06] border border-[#ea580c]/40 flex items-center justify-center text-[#ea580c] hover:bg-[#ea580c] hover:text-white transition-colors"
+                rel="noopener noreferrer"
+                className="w-11 h-11 rounded-xl bg-[#1e0e06] border border-[#ea580c]/40 flex items-center justify-center text-[#fb923c] hover:bg-[#ea580c] hover:text-white transition-colors"
                 aria-label="LAUMED Journal Club on X"
               >
                 <XLogoIcon className="w-4 h-4" />
               </a>
               <a
+                href={CLUB_INFO.contact.mediumUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-11 h-11 rounded-xl bg-[#1e0e06] border border-[#ea580c]/40 flex items-center justify-center text-[#fb923c] hover:bg-[#ea580c] hover:text-white transition-colors"
+                aria-label="LAUMED Journal Club on Medium"
+              >
+                <MediumLogoIcon className="w-4 h-4" />
+              </a>
+              <a
                 href={`mailto:${CLUB_INFO.contact.email}`}
-                className="w-9 h-9 rounded-xl bg-[#1e0e06] border border-[#ea580c]/40 flex items-center justify-center text-[#ea580c] hover:bg-[#ea580c] hover:text-white transition-colors"
+                className="w-11 h-11 rounded-xl bg-[#1e0e06] border border-[#ea580c]/40 flex items-center justify-center text-[#fb923c] hover:bg-[#ea580c] hover:text-white transition-colors"
                 aria-label="Email LAUMED Journal Club"
               >
                 <Mail className="w-4 h-4" />
               </a>
               <a
                 href={`tel:${CLUB_INFO.contact.phone}`}
-                className="w-9 h-9 rounded-xl bg-[#1e0e06] border border-[#ea580c]/40 flex items-center justify-center text-[#ea580c] hover:bg-[#ea580c] hover:text-white transition-colors"
+                className="w-11 h-11 rounded-xl bg-[#1e0e06] border border-[#ea580c]/40 flex items-center justify-center text-[#fb923c] hover:bg-[#ea580c] hover:text-white transition-colors"
                 aria-label="Call LAUMED Journal Club"
               >
                 <Phone className="w-4 h-4" />
@@ -64,47 +82,47 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentPage, openSubmitModal 
 
           {/* Quick Page Links */}
           <div className="md:col-span-3 space-y-3">
-            <h4 className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-bold">
+            <h4 className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-bold">
               Directory
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-1 text-xs">
               <li>
-                <button onClick={() => navigate('home')} className="hover:text-white transition-colors">
+                <button onClick={() => navigate('home')} className="hover:text-white transition-colors min-h-[44px] md:min-h-[32px] inline-flex items-center">
                   Home
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('journal-club')} className="hover:text-white transition-colors">
+                <button onClick={() => navigate('journal-club')} className="hover:text-white transition-colors min-h-[44px] md:min-h-[32px] inline-flex items-center">
                   Journal Club
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('journal')} className="hover:text-white transition-colors">
+                <button onClick={() => navigate('journal')} className="hover:text-white transition-colors min-h-[44px] md:min-h-[32px] inline-flex items-center">
                   Journal
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('events')} className="hover:text-white transition-colors">
+                <button onClick={() => navigate('events')} className="hover:text-white transition-colors min-h-[44px] md:min-h-[32px] inline-flex items-center">
                   Conferences & Events
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('membership')} className="hover:text-white transition-colors">
+                <button onClick={() => navigate('membership')} className="hover:text-white transition-colors min-h-[44px] md:min-h-[32px] inline-flex items-center">
                   Membership & Benefits
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('about')} className="hover:text-white transition-colors">
+                <button onClick={() => navigate('about')} className="hover:text-white transition-colors min-h-[44px] md:min-h-[32px] inline-flex items-center">
                   About & Governance
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('resources')} className="hover:text-white transition-colors">
+                <button onClick={() => navigate('resources')} className="hover:text-white transition-colors min-h-[44px] md:min-h-[32px] inline-flex items-center">
                   Checklists & Resources
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('contact')} className="hover:text-white transition-colors">
+                <button onClick={() => navigate('contact')} className="hover:text-white transition-colors min-h-[44px] md:min-h-[32px] inline-flex items-center">
                   Contact & Collaboration
                 </button>
               </li>
@@ -131,8 +149,14 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentPage, openSubmitModal 
               </div>
               <div className="flex items-center gap-2.5">
                 <XLogoIcon className="w-4 h-4 text-[#ea580c] shrink-0" />
-                <a href={CLUB_INFO.contact.xUrl} target="_blank" rel="noreferrer" className="text-[#fed7aa] hover:underline">
+                <a href={CLUB_INFO.contact.xUrl} target="_blank" rel="noopener noreferrer" className="text-[#fed7aa] hover:underline">
                   {CLUB_INFO.contact.xHandle}
+                </a>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <MediumLogoIcon className="w-4 h-4 text-[#ea580c] shrink-0" />
+                <a href={CLUB_INFO.contact.mediumUrl} target="_blank" rel="noopener noreferrer" className="text-[#fed7aa] hover:underline">
+                  Medium ({CLUB_INFO.contact.mediumHandle})
                 </a>
               </div>
               <div className="flex items-start gap-2.5 pt-1 text-[11px] text-[#8c7e72]">
@@ -163,7 +187,7 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentPage, openSubmitModal 
             </span>
             <button
               onClick={scrollToTop}
-              className="flex items-center gap-1 text-[#ea580c] hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 text-[#fb923c] hover:text-white transition-colors min-h-[44px] px-2"
             >
               Back to top
               <ArrowUp className="w-3.5 h-3.5" />

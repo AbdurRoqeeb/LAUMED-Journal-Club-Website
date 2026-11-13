@@ -13,6 +13,8 @@ import {
   Video,
   X
 } from 'lucide-react';
+import { LazyImage } from '../components/LazyImage';
+import { RevealBlock } from '../components/RevealBlock';
 
 export const EventsView: React.FC = () => {
   const [interestModalOpen, setInterestModalOpen] = useState(false);
@@ -64,8 +66,19 @@ export const EventsView: React.FC = () => {
     };
 
     updateTimer();
-    const interval = setInterval(updateTimer, 1000);
-    return () => clearInterval(interval);
+    const interval = setInterval(() => {
+      if (!document.hidden) {
+        updateTimer();
+      }
+    }, 1000);
+    const onVisibility = () => {
+      if (!document.hidden) updateTimer();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
   }, [primaryUpcoming]);
 
   const handleInterestSubmit = (e: React.FormEvent) => {
@@ -275,23 +288,27 @@ export const EventsView: React.FC = () => {
 
                 {/* JJCC Official Flyer Preview */}
                 <div className="lg:col-span-5">
-                  <div
+                  <button
+                    type="button"
                     onClick={() =>
                       setActiveFlyer({ url: event.flyerUrl, title: event.title })
                     }
-                    className="group relative cursor-pointer rounded-2xl overflow-hidden border-2 border-[#ea580c]/50 shadow-2xl bg-[#080402] max-w-sm mx-auto"
+                    className="group relative block w-full cursor-pointer rounded-2xl overflow-hidden border-2 border-[#ea580c]/50 shadow-2xl bg-[#080402] max-w-sm mx-auto"
+                    aria-label={`Enlarge ${event.title} announcement flyer`}
                   >
-                    <img
+                    <LazyImage
                       src={event.flyerUrl}
                       alt="LAUMED Journal Club Joint Journal Club Conference (JJCC) Announcement Flyer"
-                      className="w-full h-auto object-contain group-hover:scale-[1.03] transition-transform duration-500"
+                      aspectRatioClassName="aspect-[4/5]"
+                      priority
+                      className="w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <span className="px-4 py-2 bg-[#ea580c] text-white text-xs font-bold uppercase rounded-lg shadow-lg">
                         Enlarge JJCC Flyer
                       </span>
                     </div>
-                  </div>
+                  </button>
                 </div>
               </div>
             </div>
@@ -301,10 +318,10 @@ export const EventsView: React.FC = () => {
 
       {/* 2. PAST EVENTS & ARCHIVED RECAPS */}
       {pastEvents.length > 0 && (
-        <section className="space-y-12">
+        <section className="cv-auto space-y-12">
           <div className="border-b border-[#ea580c]/20 pb-4 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
                 Completed Programmes
               </span>
               <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
@@ -318,8 +335,8 @@ export const EventsView: React.FC = () => {
 
           <div className="space-y-12">
             {pastEvents.map((event) => (
+              <RevealBlock key={event.id}>
               <div
-                key={event.id}
                 className="initial-card p-6 sm:p-8 lg:p-10 space-y-8 bg-[#1E0C08]"
               >
                 {/* Header & Meta */}
@@ -498,29 +515,33 @@ export const EventsView: React.FC = () => {
 
                   {/* Flyer Thumbnail Preview */}
                   <div className="lg:col-span-4 space-y-3">
-                    <div
+                    <button
+                      type="button"
                       onClick={() =>
                         setActiveFlyer({ url: event.flyerUrl, title: event.title })
                       }
-                      className="group relative cursor-pointer rounded-2xl overflow-hidden border-2 border-[#ea580c]/45 shadow-xl bg-[#080402] max-w-xs mx-auto"
+                      className="group relative block w-full cursor-pointer rounded-2xl overflow-hidden border-2 border-[#ea580c]/45 shadow-xl bg-[#080402] max-w-xs mx-auto"
+                      aria-label={`Enlarge ${event.title} flyer`}
                     >
-                      <img
+                      <LazyImage
                         src={event.flyerUrl}
                         alt={`${event.title} Official Flyer`}
-                        className="w-full h-auto object-contain group-hover:scale-[1.03] transition-transform duration-500"
+                        aspectRatioClassName="aspect-[4/5]"
+                        className="w-full h-full object-contain group-hover:scale-[1.03] transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <span className="px-4 py-2 bg-[#ea580c] text-white text-xs font-bold uppercase rounded-lg shadow-lg">
                           Enlarge Flyer
                         </span>
                       </div>
-                    </div>
+                    </button>
                     <div className="text-center">
                       <button
+                        type="button"
                         onClick={() =>
                           setActiveFlyer({ url: event.flyerUrl, title: event.title })
                         }
-                        className="text-xs font-semibold text-[#ea580c] hover:text-[#f97316] inline-flex items-center gap-1 hover:underline"
+                        className="text-xs font-semibold text-[#fb923c] hover:text-[#fed7aa] inline-flex items-center gap-1.5 hover:underline min-h-[44px] px-3"
                       >
                         <ExternalLink className="w-3.5 h-3.5" />
                         <span>View Full Flyer</span>
@@ -583,6 +604,7 @@ export const EventsView: React.FC = () => {
                   </div>
                 )}
               </div>
+              </RevealBlock>
             ))}
           </div>
         </section>
@@ -591,28 +613,33 @@ export const EventsView: React.FC = () => {
       {/* High-Resolution Flyer Lightbox Modal */}
       {activeFlyer && (
         <div
-          className="fixed inset-0 z-50 overflow-y-auto bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${activeFlyer.title} Flyer Preview`}
           onClick={() => setActiveFlyer(null)}
         >
           <div
             className="relative max-w-2xl w-full bg-[#0d0704] border border-[#ea580c]/40 rounded-2xl overflow-hidden p-2"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between px-4 py-2.5 border-b border-[#ea580c]/20 text-xs">
+            <div className="flex items-center justify-between px-4 py-2 border-b border-[#ea580c]/20 text-xs">
               <span className="font-semibold text-white">{activeFlyer.title} — Official Flyer</span>
               <button
+                type="button"
                 onClick={() => setActiveFlyer(null)}
-                className="text-[#a89f91] hover:text-white p-1"
+                className="text-[#a89f91] hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-[#1e0e06]"
                 aria-label="Close flyer preview"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="p-3 max-h-[82vh] overflow-y-auto flex justify-center bg-[#080402]">
+            <div className="p-3 max-h-[82dvh] overflow-y-auto overscroll-contain flex justify-center bg-[#080402]">
               <img
                 src={activeFlyer.url}
                 alt={`${activeFlyer.title} Flyer`}
-                className="max-w-full max-h-[76vh] w-auto rounded-xl object-contain"
+                decoding="async"
+                className="max-w-full max-h-[76dvh] w-auto rounded-xl object-contain"
               />
             </div>
           </div>
@@ -622,19 +649,22 @@ export const EventsView: React.FC = () => {
       {/* Express Interest / Updates Modal for Provisional JJCC Event */}
       {interestModalOpen && selectedEventForInterest && (
         <div
-          className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-black/85 backdrop-blur-sm flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label={selectedEventForInterest.title}
           onClick={() => {
             setInterestModalOpen(false);
             setInterestSubmitted(false);
           }}
         >
           <div
-            className="relative max-w-md w-full bg-[#0e0704] border border-[#ea580c]/40 rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl my-auto animate-in fade-in duration-200"
+            className="relative max-w-md w-full bg-[#0e0704] border border-[#ea580c]/40 rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl my-auto max-h-[92dvh] overflow-y-auto overscroll-contain"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between border-b border-[#ea580c]/20 pb-3 gap-3">
               <div>
-                <span className="text-xs font-mono uppercase text-[#ea580c] font-bold">
+                <span className="text-xs font-mono uppercase text-[#fb923c] font-bold">
                   Provisional Event Updates
                 </span>
                 <h3 className="text-lg font-serif font-bold text-white">
@@ -645,14 +675,15 @@ export const EventsView: React.FC = () => {
                 </p>
               </div>
               <button
+                type="button"
                 onClick={() => {
                   setInterestModalOpen(false);
                   setInterestSubmitted(false);
                 }}
-                className="text-[#a89f91] hover:text-white p-1"
+                className="text-[#a89f91] hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-[#1e0e06]"
                 aria-label="Close modal"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 

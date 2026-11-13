@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { sharedAnimationLoop } from '../utils/animationLoop';
+import { fastScrollTracker, isLowEndOrMobileDevice } from '../utils/scrollPerformance';
 
 /**
  * Tunable configuration for the calm, ultra-dark site-wide medical background.
@@ -101,9 +102,10 @@ export const SiteWideBackground: React.FC = () => {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     let width = window.innerWidth;
     let height = window.innerHeight;
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let dpr = Math.min(window.devicePixelRatio || 1, isLowEndOrMobileDevice() ? 1.5 : 2);
     let isMobile = width < 700;
     let elapsed = 0;
+    let isFastScrolling = false;
 
     const clampedBrightness = Math.max(0, Math.min(1.5, SITE_WIDE_BG_CONFIG.brightness));
     const speedMult = SITE_WIDE_BG_CONFIG.speed;
@@ -175,7 +177,7 @@ export const SiteWideBackground: React.FC = () => {
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, isLowEndOrMobileDevice() ? 1.5 : 2);
       isMobile = width < 700;
 
       canvas.width = Math.floor(width * dpr);
@@ -471,7 +473,10 @@ export const SiteWideBackground: React.FC = () => {
         unsubscribe = sharedAnimationLoop.subscribe({
           id: 'site-wide-background',
           targetFps: SITE_WIDE_BG_CONFIG.maxFps,
-          onFrame: (_ts, dt) => renderFrame(dt, false)
+          onFrame: (_ts, dt) => {
+            if (isFastScrolling) return;
+            renderFrame(dt, false);
+          }
         });
       }
     };
@@ -490,11 +495,16 @@ export const SiteWideBackground: React.FC = () => {
     resize();
     startOrRenderStatic();
 
-    window.addEventListener('resize', handleResize);
+    const unsubscribeFastScroll = fastScrollTracker.subscribe((fast) => {
+      isFastScrolling = fast;
+    });
+
+    window.addEventListener('resize', handleResize, { passive: true });
     motionQuery.addEventListener('change', handleMotionChange);
 
     return () => {
       if (unsubscribe) unsubscribe();
+      unsubscribeFastScroll();
       window.removeEventListener('resize', handleResize);
       motionQuery.removeEventListener('change', handleMotionChange);
     };

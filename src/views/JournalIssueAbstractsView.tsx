@@ -10,6 +10,8 @@ import {
   List,
   X
 } from 'lucide-react';
+import { LazyImage } from '../components/LazyImage';
+import { prefersReducedMotion } from '../utils/scrollPerformance';
 
 interface JournalIssueAbstractsViewProps {
   issueId: string;
@@ -46,7 +48,10 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
   const scrollToSection = (elementId: string) => {
     const el = document.getElementById(elementId);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.scrollIntoView({
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+        block: 'start'
+      });
     }
   };
 
@@ -154,7 +159,7 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
         <button
           type="button"
           onClick={() => scrollToSection('abstracts-toc')}
-          className="inline-flex items-center gap-1 font-mono text-[#fed7aa] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa] rounded px-1.5 py-0.5"
+          className="inline-flex items-center gap-1 font-mono text-[#fed7aa] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa] rounded px-2 min-h-[44px]"
         >
           <ArrowUp className="w-3.5 h-3.5 text-[#ea580c]" aria-hidden="true" />
           <span>Back to contents</span>
@@ -198,13 +203,14 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
       <header className="rounded-3xl bg-[#1E0C08] border border-[#ea580c]/40 p-6 sm:p-10 shadow-2xl">
         <div className="flex flex-col md:flex-row gap-6 lg:gap-8 items-start">
           <div className="w-40 sm:w-44 mx-auto md:mx-0 shrink-0">
-            <div className="aspect-[520/735] rounded-xl overflow-hidden border border-[#ea580c]/35 bg-white shadow-lg">
-              <img
-                src={issue.cover}
-                alt={`Cover of ${issue.journal} — ${issue.title}, Volume ${issue.volume}, Number ${issue.number}, ${issue.date}`}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <LazyImage
+              src={issue.cover}
+              alt={`Cover of ${issue.journal} — ${issue.title}, Volume ${issue.volume}, Number ${issue.number}, ${issue.date}`}
+              aspectRatioClassName="aspect-[520/735]"
+              wrapperClassName="rounded-xl border border-[#ea580c]/35 bg-white shadow-lg"
+              priority
+              className="w-full h-full object-cover"
+            />
           </div>
 
           <div className="flex-1 min-w-0 space-y-4">
@@ -290,7 +296,8 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
         <aside
           id="abstracts-toc"
           aria-label="Issue Table of Contents"
-          className="lg:col-span-4 lg:sticky lg:top-24 rounded-2xl bg-[#1E0C08] border border-[#ea580c]/30 p-5 sm:p-6 space-y-5 shadow-xl scroll-mt-24"
+          style={{ top: 'var(--nav-sticky-top)' }}
+          className="lg:col-span-4 lg:sticky rounded-2xl bg-[#1E0C08] border border-[#ea580c]/30 p-5 sm:p-6 space-y-5 shadow-xl scroll-mt-24 transition-[top] duration-200"
         >
           <div className="border-b border-[#ea580c]/20 pb-3 flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
@@ -319,10 +326,10 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
                   <button
                     type="button"
                     onClick={() => scrollToSection(`article-${article.id}`)}
-                    className="w-full text-left px-3 py-2 rounded-lg bg-[#140a05] hover:bg-[#2A120B] border border-[#ea580c]/15 hover:border-[#ea580c]/45 transition-colors flex items-start justify-between gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
+                    className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg bg-[#140a05] hover:bg-[#2A120B] border border-[#ea580c]/15 hover:border-[#ea580c]/45 transition-colors flex items-start justify-between gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
                   >
                     <span className="text-xs text-[#f5ebe0] group-hover:text-white leading-snug">
-                      <span className="font-mono text-[#ea580c] mr-1.5">
+                      <span className="font-mono text-[#fb923c] mr-1.5">
                         {String(idx + 1).padStart(2, '0')}.
                       </span>
                       {article.title}
@@ -341,7 +348,7 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
             <button
               type="button"
               onClick={() => scrollToSection('section-guest-editorial-articles')}
-              className="text-xs font-mono uppercase tracking-wider text-[#ea580c] font-bold hover:underline"
+              className="text-xs font-mono uppercase tracking-wider text-[#fb923c] font-bold hover:underline min-h-[44px] inline-flex items-center"
             >
               Guest Editorial Articles ({guestEditorialArticles.length})
             </button>
@@ -351,10 +358,10 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
                   <button
                     type="button"
                     onClick={() => scrollToSection(`article-${article.id}`)}
-                    className="w-full text-left px-3 py-2 rounded-lg bg-[#140a05] hover:bg-[#2A120B] border border-[#ea580c]/15 hover:border-[#ea580c]/45 transition-colors flex items-start justify-between gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
+                    className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg bg-[#140a05] hover:bg-[#2A120B] border border-[#ea580c]/15 hover:border-[#ea580c]/45 transition-colors flex items-start justify-between gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
                   >
                     <span className="text-xs text-[#f5ebe0] group-hover:text-white leading-snug">
-                      <span className="font-mono text-[#ea580c] mr-1.5">
+                      <span className="font-mono text-[#fb923c] mr-1.5">
                         {String(editorialArticles.length + idx + 1).padStart(2, '0')}.
                       </span>
                       {article.title}
@@ -373,7 +380,7 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
               <button
                 type="button"
                 onClick={() => scrollToSection('section-non-editorial-contents')}
-                className="w-full text-left px-3 py-2 rounded-lg bg-[#140a05] hover:bg-[#2A120B] border border-[#ea580c]/20 text-xs font-mono text-[#fed7aa] hover:text-white transition-colors flex items-center justify-between"
+                className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg bg-[#140a05] hover:bg-[#2A120B] border border-[#ea580c]/20 text-xs font-mono text-[#fed7aa] hover:text-white transition-colors flex items-center justify-between"
               >
                 <span>Non-Editorial Articles ({issue.nonEditorialContents.length})</span>
                 <span>pp. 63–80</span>
@@ -418,11 +425,11 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
           <section
             id="section-guest-editorial-articles"
             aria-labelledby="heading-guest-editorial-articles"
-            className="space-y-6 scroll-mt-24"
+            className="cv-auto space-y-6 scroll-mt-24"
           >
             <div className="border-b border-[#ea580c]/25 pb-3 flex flex-wrap items-end justify-between gap-2">
               <div>
-                <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
+                <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
                   Section 02 · Pages 50–62
                 </span>
                 <h2
@@ -449,7 +456,7 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
             <section
               id="section-non-editorial-contents"
               aria-labelledby="heading-non-editorial-contents"
-              className="rounded-2xl bg-[#1E0C08] border border-[#ea580c]/25 p-6 sm:p-7 space-y-4 scroll-mt-24"
+              className="cv-auto rounded-2xl bg-[#1E0C08] border border-[#ea580c]/25 p-6 sm:p-7 space-y-4 scroll-mt-24"
             >
               <div className="border-b border-[#ea580c]/20 pb-3 flex flex-wrap items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
@@ -518,14 +525,14 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
       {/* Desktop In-Page PDF Reader Modal */}
       {isPdfViewerOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 sm:p-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 sm:p-6 overscroll-contain"
           role="dialog"
           aria-modal="true"
           aria-labelledby="abstracts-pdf-viewer-title"
           onClick={() => setIsPdfViewerOpen(false)}
         >
           <div
-            className="w-full max-w-5xl h-[86vh] rounded-2xl bg-[#1E0C08] border border-[#ea580c]/50 shadow-2xl flex flex-col overflow-hidden"
+            className="w-full max-w-5xl h-[86dvh] rounded-2xl bg-[#1E0C08] border border-[#ea580c]/50 shadow-2xl flex flex-col overflow-hidden overscroll-contain"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="px-5 py-3.5 border-b border-[#ea580c]/25 flex flex-wrap items-center justify-between gap-3 bg-[#140a05]">
@@ -545,7 +552,7 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
                   href={issue.file}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#2A120B] hover:bg-[#36170E] border border-[#ea580c]/40 text-xs font-semibold text-[#fed7aa] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[44px] rounded-full bg-[#2A120B] hover:bg-[#36170E] border border-[#ea580c]/40 text-xs font-semibold text-[#fed7aa] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
                 >
                   <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
                   <span>Open in new tab</span>
@@ -554,7 +561,7 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
                   href={issue.file}
                   download={issue.downloadFilename}
                   aria-label={`Download LAUMED Volume ${issue.volume} Number ${issue.number}, ${issue.title.replace(/&/g, 'and')}, ${issue.format}, ${issue.size}`}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#c2410c] hover:bg-[#ea580c] text-xs font-semibold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[44px] rounded-full bg-[#c2410c] hover:bg-[#ea580c] text-xs font-semibold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
                 >
                   <Download className="w-3.5 h-3.5" aria-hidden="true" />
                   <span>Download PDF</span>
@@ -563,7 +570,7 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
                   type="button"
                   onClick={() => setIsPdfViewerOpen(false)}
                   aria-label="Close PDF viewer"
-                  className="p-2 rounded-full bg-[#2A120B] hover:bg-[#ea580c] text-[#fed7aa] hover:text-white border border-[#ea580c]/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-[#2A120B] hover:bg-[#ea580c] text-[#fed7aa] hover:text-white border border-[#ea580c]/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
                 >
                   <X className="w-4 h-4" aria-hidden="true" />
                 </button>

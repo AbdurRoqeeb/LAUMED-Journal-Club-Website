@@ -28,7 +28,7 @@ export const LoadingOverlay: React.FC = () => {
   return (
     <div
       aria-hidden="true"
-      className={`fixed inset-0 z-[100] bg-[#120605] flex flex-col items-center justify-center transition-opacity duration-300 pointer-events-none ${
+      className={`fixed inset-0 h-[100dvh] z-[100] bg-[#120605] flex flex-col items-center justify-center transition-opacity duration-300 pointer-events-none ${
         fadingOut ? 'opacity-0' : 'opacity-100'
       }`}
     >
@@ -36,6 +36,9 @@ export const LoadingOverlay: React.FC = () => {
         <img
           src={LAUMED_LOGO_SRC}
           alt={LAUMED_LOGO_ALT}
+          width={64}
+          height={64}
+          decoding="async"
           className="h-16 w-16 rounded-2xl object-contain animate-pulse shadow-[0_0_28px_rgba(242,106,33,0.45)]"
         />
         <span className="text-xs font-mono tracking-widest uppercase text-[#FFB27A]">

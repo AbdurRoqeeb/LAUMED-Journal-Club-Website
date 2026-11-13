@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Send, CheckCircle2, Upload, FileText } from 'lucide-react';
 import { JOURNAL_INFO } from '../data/clubData';
 
@@ -8,8 +8,6 @@ interface ManuscriptSubmitModalProps {
 }
 
 export const ManuscriptSubmitModal: React.FC<ManuscriptSubmitModalProps> = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
   const [title, setTitle] = useState('');
   const [articleType, setArticleType] = useState('Original Research');
   const [authorName, setAuthorName] = useState('');
@@ -19,6 +17,17 @@ export const ManuscriptSubmitModal: React.FC<ManuscriptSubmitModalProps> = ({ is
   const [fileName, setFileName] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [trackingNumber, setTrackingNumber] = useState('');
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,8 +48,17 @@ export const ManuscriptSubmitModal: React.FC<ManuscriptSubmitModalProps> = ({ is
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="relative max-w-xl w-full bg-[var(--surface)] border border-[var(--rust)] rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl my-auto animate-in fade-in zoom-in-95 duration-200">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-black/85 backdrop-blur-sm flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Submit a Manuscript to Medificial Intelligence Journal"
+      onClick={onClose}
+    >
+      <div
+        className="relative max-w-xl w-full bg-[var(--surface)] border border-[var(--rust)] rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl my-auto max-h-[92dvh] overflow-y-auto overscroll-contain"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex items-start justify-between border-b border-[var(--rust)]/40 pb-4 gap-4">
           <div>
             <span className="text-xs font-mono uppercase tracking-widest text-[var(--orange)] font-bold">
@@ -51,8 +69,10 @@ export const ManuscriptSubmitModal: React.FC<ManuscriptSubmitModalProps> = ({ is
             </h3>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="p-1.5 text-[var(--muted)] hover:text-white rounded-lg hover:bg-[var(--surface-2)] transition-colors"
+            aria-label="Close submission modal"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-[var(--muted)] hover:text-white rounded-lg hover:bg-[var(--surface-2)] transition-colors"
           >
             <X className="w-5 h-5" />
           </button>

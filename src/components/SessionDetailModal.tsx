@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { JournalSession } from '../data/clubData';
-import { X, Download, Calendar, User, BookOpen, Image as ImageIcon, FileText } from 'lucide-react';
+import { X, Download, Calendar, User, BookOpen, Image as ImageIcon, FileText, ExternalLink } from 'lucide-react';
+import { LazyImage } from './LazyImage';
 
 interface SessionDetailModalProps {
   session: JournalSession | null;
@@ -13,6 +14,15 @@ export const SessionDetailModal: React.FC<SessionDetailModalProps> = ({ session,
   useEffect(() => {
     setViewMode('text');
   }, [session?.id]);
+
+  useEffect(() => {
+    if (!session) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [session, onClose]);
 
   if (!session) return null;
 
@@ -47,16 +57,19 @@ export const SessionDetailModal: React.FC<SessionDetailModalProps> = ({ session,
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6"
+      className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6"
+      role="dialog"
+      aria-modal="true"
+      aria-label={session.title}
       onClick={onClose}
     >
       <div
-        className="relative max-w-3xl w-full bg-[#0d0704] border border-[#ea580c]/30 rounded-2xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col my-auto animate-in fade-in zoom-in-95 duration-200"
+        className="relative max-w-3xl w-full bg-[#0d0704] border border-[#ea580c]/30 rounded-2xl shadow-2xl overflow-hidden max-h-[92dvh] flex flex-col my-auto overscroll-contain"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Modal Header Bar */}
-        <div className="px-6 py-4 border-b border-[#ea580c]/20 bg-[#140a05] flex items-center justify-between gap-4 shrink-0">
-          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#ea580c] font-bold">
+        <div className="px-6 py-3.5 border-b border-[#ea580c]/20 bg-[#140a05] flex items-center justify-between gap-4 shrink-0">
+          <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-[#fb923c] font-bold">
             <span>WEEKLY ARTICLE</span>
             <span className="text-[#8c7e72]">·</span>
             <span className="text-[#fed7aa]">{session.monthYear}</span>
@@ -64,8 +77,9 @@ export const SessionDetailModal: React.FC<SessionDetailModalProps> = ({ session,
             <span className="text-[#a89f91]">{session.topicTag}</span>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="p-1.5 text-[#a89f91] hover:text-white rounded-lg hover:bg-[#1e0e06] transition-colors shrink-0"
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center text-[#a89f91] hover:text-white rounded-lg hover:bg-[#1e0e06] transition-colors shrink-0"
             aria-label="Close article modal"
           >
             <X className="w-5 h-5" />
@@ -73,7 +87,7 @@ export const SessionDetailModal: React.FC<SessionDetailModalProps> = ({ session,
         </div>
 
         {/* Scrollable Content */}
-        <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
+        <div className="p-6 sm:p-8 overflow-y-auto overscroll-contain space-y-6">
           {/* Article Title */}
           <div className="space-y-4">
             <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white leading-tight">
@@ -112,46 +126,52 @@ export const SessionDetailModal: React.FC<SessionDetailModalProps> = ({ session,
             </div>
           </div>
 
-          {/* Toggle between Formatted Article Text and Original Weekly Sheet */}
-          <div className="flex items-center gap-2 border-b border-[#ea580c]/20 pb-3">
-            <button
-              onClick={() => setViewMode('text')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors ${
-                viewMode === 'text'
-                  ? 'bg-[#ea580c] text-white'
-                  : 'bg-[#180a05] text-[#d6cebe] border border-[#ea580c]/25 hover:text-white'
-              }`}
-            >
-              <FileText className="w-3.5 h-3.5" />
-              <span>Article Text</span>
-            </button>
-            <button
-              onClick={() => setViewMode('image')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors ${
-                viewMode === 'image'
-                  ? 'bg-[#ea580c] text-white'
-                  : 'bg-[#180a05] text-[#d6cebe] border border-[#ea580c]/25 hover:text-white'
-              }`}
-            >
-              <ImageIcon className="w-3.5 h-3.5" />
-              <span>Original Article Sheet</span>
-            </button>
-          </div>
+          {/* Toggle between Formatted Article Text and Original Weekly Sheet (if image provided) */}
+          {session.imageUrl && (
+            <div className="flex items-center gap-2 border-b border-[#ea580c]/20 pb-3">
+              <button
+                type="button"
+                onClick={() => setViewMode('text')}
+                className={`px-3.5 py-2 min-h-[44px] rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors ${
+                  viewMode === 'text'
+                    ? 'bg-[#ea580c] text-white'
+                    : 'bg-[#180a05] text-[#d6cebe] border border-[#ea580c]/25 hover:text-white'
+                }`}
+              >
+                <FileText className="w-3.5 h-3.5" />
+                <span>Article Text</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('image')}
+                className={`px-3.5 py-2 min-h-[44px] rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors ${
+                  viewMode === 'image'
+                    ? 'bg-[#ea580c] text-white'
+                    : 'bg-[#180a05] text-[#d6cebe] border border-[#ea580c]/25 hover:text-white'
+                }`}
+              >
+                <ImageIcon className="w-3.5 h-3.5" />
+                <span>Original Article Sheet</span>
+              </button>
+            </div>
+          )}
 
           {/* Body Content */}
-          {viewMode === 'text' ? (
+          {viewMode === 'image' && session.imageUrl ? (
+            <div className="rounded-xl overflow-hidden border border-[#ea580c]/30 bg-[#080402] p-2 sm:p-4 flex justify-center">
+              <LazyImage
+                src={session.imageUrl}
+                alt={`${session.title} by ${session.author} (${session.date})`}
+                aspectRatioClassName="aspect-[4/5]"
+                wrapperClassName="w-full max-w-md rounded-lg"
+                className="w-full h-full object-contain rounded-lg"
+              />
+            </div>
+          ) : (
             <div className="space-y-4 text-sm sm:text-[15px] text-[#e6ddd4] leading-relaxed font-sans">
               {session.paragraphs.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
-            </div>
-          ) : (
-            <div className="rounded-xl overflow-hidden border border-[#ea580c]/30 bg-[#080402] p-2 sm:p-4 flex justify-center">
-              <img
-                src={session.imageUrl}
-                alt={`${session.title} by ${session.author} (${session.date})`}
-                className="max-h-[70vh] w-auto rounded-lg object-contain"
-              />
             </div>
           )}
         </div>
@@ -162,13 +182,26 @@ export const SessionDetailModal: React.FC<SessionDetailModalProps> = ({ session,
             LAUMED Journal Club · Ladoke Akintola University of Technology
           </div>
 
-          <button
-            onClick={handleDownloadArticle}
-            className="btn-flame px-4 py-2 flex items-center gap-2"
-          >
-            <Download className="w-3.5 h-3.5" />
-            <span>Download Article</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-3">
+            {session.link && (
+              <a
+                href={session.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline-amber px-4 py-2 flex items-center gap-2"
+              >
+                <span>Read on Medium</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            )}
+            <button
+              onClick={handleDownloadArticle}
+              className="btn-flame px-4 py-2 flex items-center gap-2"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Download Summary</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

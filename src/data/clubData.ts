@@ -15,7 +15,8 @@ export interface JournalSession {
   date: string;
   excerpt: string;
   paragraphs: string[];
-  imageUrl: string;
+  imageUrl?: string;
+  link?: string;
 }
 
 export interface JournalIssue {
@@ -128,7 +129,7 @@ export interface ClubEvent {
 export interface TeamMember {
   name: string;
   role: string;
-  academicLevel: string;
+  academicLevel?: string;
   photoPlaceholder: string;
   bio?: string;
 }
@@ -161,13 +162,15 @@ export const CLUB_INFO = {
     email: "laumedjc@gmail.com",
     phone: "08118908705",
     xHandle: "@LaumedC",
-    xUrl: "https://x.com/LaumedC"
+    xUrl: "https://x.com/LaumedC",
+    mediumHandle: "@laumedjc",
+    mediumUrl: "https://medium.com/@laumedjc"
   },
   stats: [
-    { label: "Sessions Held", value: "48+", description: "Monthly critical deliberations" },
-    { label: "Members", value: "250+", description: "Across clinical & pre-clinical classes" },
-    { label: "Published Articles", value: "32+", description: "In Medificial Intelligence & indexed repositories" },
-    { label: "Events", value: "12+", description: "Conferences, launches & research symposia" }
+    { label: "Sessions Held", value: "[To be updated]", description: "Biweekly critical deliberations" },
+    { label: "Members", value: "[To be updated]", description: "LAUTECH medical students" },
+    { label: "Weekly Articles", value: "22+", description: "Published every Thursday on Medium" },
+    { label: "Annual Journal", value: "Annual", description: "Medificial Intelligence (est. 2020 as LAUMED)" }
   ]
 };
 
@@ -175,6 +178,22 @@ export const CLUB_INFO = {
    2. JOURNAL CLUB WEEKLY ARTICLES
    ========================================================================= */
 export const JOURNAL_SESSIONS: JournalSession[] = [
+  {
+    id: "article-2026-09-10-glp1-obesity",
+    monthYear: "September 2026",
+    year: 2026,
+    title: "A New Era in Obesity Management: Can GLP-1 Agonists Deliver on Their Promise?",
+    topicTag: "Endocrinology",
+    author: "LAUMED Journal Club",
+    institution: "LAUMED Journal Club · Ladoke Akintola University of Technology",
+    date: "10th September, 2026",
+    excerpt:
+      "This review examines the role of GLP-1 receptor agonists in modern obesity care, highlighting clinical trial outcomes alongside common gastrointestinal side effects, weight regain after stopping therapy and global affordability barriers. It concludes that lasting weight management requires integrating pharmacotherapy with structured nutritional, behavioural and lifestyle support rather than relying on medication alone.",
+    paragraphs: [
+      "This review examines the role of GLP-1 receptor agonists in modern obesity care, highlighting clinical trial outcomes alongside common gastrointestinal side effects, weight regain after stopping therapy and global affordability barriers. It concludes that lasting weight management requires integrating pharmacotherapy with structured nutritional, behavioural and lifestyle support rather than relying on medication alone."
+    ],
+    link: "https://medium.com/@laumedjc/a-new-era-in-obesity-management-can-glp-1-agonists-deliver-on-their-promise-07a7ada43ed7"
+  },
   {
     id: "article-2026-09-04-adhd",
     monthYear: "September 2026",
@@ -410,93 +429,358 @@ export const JOURNAL_SESSIONS: JournalSession[] = [
       "Finally, phytotherapy has a significant role in mental health, and the goal of achieving stable mental health can be accomplished by encouraging the use of phytotherapy in various health systems."
     ],
     imageUrl: "/assets/aistudio/photo_2026-11-12_23-47-37_92fe02ab.jpg"
+  },
+  {
+    id: "article-2024-08-01-natural-history-rare-diseases",
+    monthYear: "August 2024",
+    year: 2024,
+    title: "Exploring the Potential of Natural History Studies in Africa: Unveiling Insights for Innovative Therapies and Interventions for Rare Diseases",
+    topicTag: "Public Health & Policy",
+    author: "Abdulbasit Muili",
+    institution: "LAUMED Journal Club · Ladoke Akintola University of Technology",
+    date: "1st August, 2024",
+    excerpt:
+      "This article discusses how natural history studies across Africa can strengthen evidence on genetically linked rare diseases and guide targeted interventions. It highlights the need for coordinated multi-faceted strategies to overcome the challenges posed by low condition prevalence.",
+    paragraphs: [
+      "This article discusses how natural history studies across Africa can strengthen evidence on genetically linked rare diseases and guide targeted interventions. It highlights the need for coordinated multi-faceted strategies to overcome the challenges posed by low condition prevalence."
+    ],
+    link: "https://medium.com/@laumedjc/exploring-the-potential-of-natural-history-studies-in-africa-unveiling-insights-for-innovative-75e25ca3b85f"
+  },
+  {
+    id: "article-2024-07-18-maternal-vaccination",
+    monthYear: "July 2024",
+    year: 2024,
+    title: "Maternal Vaccination: Protecting Both Mother and Baby",
+    topicTag: "Obstetrics & Paediatrics",
+    author: "Zainab Akindele",
+    institution: "LAUMED Journal Club · Ladoke Akintola University of Technology",
+    date: "18th July, 2024",
+    excerpt:
+      "Maternal immunisation shields both expectant mothers and newborns from severe vaccine-preventable infections through the vertical transfer of protective antibodies. The piece traces the clinical rationale behind routine pregnancy vaccines such as tetanus, influenza and pertussis alongside broader household protection.",
+    paragraphs: [
+      "Maternal immunisation shields both expectant mothers and newborns from severe vaccine-preventable infections through the vertical transfer of protective antibodies. The piece traces the clinical rationale behind routine pregnancy vaccines such as tetanus, influenza and pertussis alongside broader household protection."
+    ],
+    link: "https://medium.com/@laumedjc/maternal-vaccination-protecting-both-mother-and-baby-97f813839b73"
+  },
+  {
+    id: "article-2024-07-04-cholera-lagos",
+    monthYear: "July 2024",
+    year: 2024,
+    title: "Recent Cholera Outbreak in Lagos",
+    topicTag: "Public Health & Policy",
+    author: "Abdulrahmon Moradeyo",
+    institution: "LAUMED Journal Club · Ladoke Akintola University of Technology",
+    date: "4th July, 2024",
+    excerpt:
+      "Examining the June 2024 Vibrio cholerae O1 outbreak in Lagos State, this report outlines confirmed local case counts, epicentre patterns and wider national surveillance figures. It reviews the transmission mechanisms and underlying environmental drivers behind the public health emergency.",
+    paragraphs: [
+      "Examining the June 2024 Vibrio cholerae O1 outbreak in Lagos State, this report outlines confirmed local case counts, epicentre patterns and wider national surveillance figures. It reviews the transmission mechanisms and underlying environmental drivers behind the public health emergency."
+    ],
+    link: "https://medium.com/@laumedjc/recent-cholera-outbreak-in-lagos-0a3440617a18"
+  },
+  {
+    id: "article-2024-06-20-antimicrobial-resistance",
+    monthYear: "June 2024",
+    year: 2024,
+    title: "Combating Antimicrobial Resistance",
+    topicTag: "Public Health & Policy",
+    author: "Oluwafemi Amusa",
+    institution: "LAUMED Journal Club · Ladoke Akintola University of Technology",
+    date: "20th June, 2024",
+    excerpt:
+      "This piece explores how inappropriate use and over-prescription of antibiotics, antivirals and antifungals accelerate pathogen resistance worldwide. It outlines practical steps individuals and healthcare systems can take to preserve antimicrobial effectiveness.",
+    paragraphs: [
+      "This piece explores how inappropriate use and over-prescription of antibiotics, antivirals and antifungals accelerate pathogen resistance worldwide. It outlines practical steps individuals and healthcare systems can take to preserve antimicrobial effectiveness."
+    ],
+    link: "https://medium.com/@laumedjc/combating-antimicrobial-resistance-caf06d1a9b60"
+  },
+  {
+    id: "article-2024-05-30-pig-to-human-heart-transplant",
+    monthYear: "May 2024",
+    year: 2024,
+    title: "Pig-to-Human Heart Transplant",
+    topicTag: "Cardiology",
+    author: "Bright Oguntola",
+    institution: "LAUMED Journal Club · Ladoke Akintola University of Technology",
+    date: "30th May, 2024",
+    excerpt:
+      "Addressing the persistent global shortage of donor organs, this article examines the milestone porcine-to-human heart xenotransplant performed under compassionate-use approval. It considers the immunological challenges of organ rejection and what early clinical cases mean for future transplant trials.",
+    paragraphs: [
+      "Addressing the persistent global shortage of donor organs, this article examines the milestone porcine-to-human heart xenotransplant performed under compassionate-use approval. It considers the immunological challenges of organ rejection and what early clinical cases mean for future transplant trials."
+    ],
+    link: "https://medium.com/@laumedjc/pig-to-human-heart-transplant-1f39d6905410"
+  },
+  {
+    id: "article-2024-05-23-personalised-medicine",
+    monthYear: "May 2024",
+    year: 2024,
+    title: "Personalised Medicine and Healthcare",
+    topicTag: "Public Health & Policy",
+    author: "Oluwatosin Afolayan",
+    institution: "LAUMED Journal Club · Ladoke Akintola University of Technology",
+    date: "23rd May, 2024",
+    excerpt:
+      "This review explores how genomic and epigenetic profiling is shifting clinical practice away from uniform treatment protocols toward care tailored to each patient. Alongside applications in precision oncology and cardiology, it reflects on the ethical, legal and data-privacy questions raised by personalised healthcare.",
+    paragraphs: [
+      "This review explores how genomic and epigenetic profiling is shifting clinical practice away from uniform treatment protocols toward care tailored to each patient. Alongside applications in precision oncology and cardiology, it reflects on the ethical, legal and data-privacy questions raised by personalised healthcare."
+    ],
+    link: "https://medium.com/@laumedjc/personalised-medicine-and-healthcare-2cbc35d21188"
+  },
+  {
+    id: "article-2024-05-09-art-therapy-cancer",
+    monthYear: "May 2024",
+    year: 2024,
+    title: "Art Therapy: A Creative Approach to Cancer Treatment",
+    topicTag: "Mental Health & Psychiatry",
+    author: "Ofure Alfred",
+    institution: "LAUMED Journal Club · Ladoke Akintola University of Technology",
+    date: "9th May, 2024",
+    excerpt:
+      "This article looks at how visual art therapy complements conventional oncology care by easing cancer-related fatigue, anxiety and emotional distress. It explains the distinct therapeutic approaches used to support patients' psychological resilience during treatment.",
+    paragraphs: [
+      "This article looks at how visual art therapy complements conventional oncology care by easing cancer-related fatigue, anxiety and emotional distress. It explains the distinct therapeutic approaches used to support patients' psychological resilience during treatment."
+    ],
+    link: "https://medium.com/@laumedjc/art-therapy-a-creative-approach-to-cancer-treatment-87830ccf5089"
+  },
+  {
+    id: "article-2024-05-02-acupuncture-surgery",
+    monthYear: "May 2024",
+    year: 2024,
+    title: "Benefits of Acupuncture in Surgery",
+    topicTag: "Emergency & Critical Care",
+    author: "Muntaqim Opabode",
+    institution: "LAUMED Journal Club · Ladoke Akintola University of Technology",
+    date: "2nd May, 2024",
+    excerpt:
+      "Drawing on principles of Traditional Chinese Medicine, this review evaluates how perioperative acupuncture may help relieve preoperative anxiety and reduce intraoperative anaesthetic and opioid requirements. It considers evidence for integrating acupuncture alongside standard surgical care.",
+    paragraphs: [
+      "Drawing on principles of Traditional Chinese Medicine, this review evaluates how perioperative acupuncture may help relieve preoperative anxiety and reduce intraoperative anaesthetic and opioid requirements. It considers evidence for integrating acupuncture alongside standard surgical care."
+    ],
+    link: "https://medium.com/@laumedjc/benefits-of-acupuncture-in-surgery-103c508161f6"
+  },
+  {
+    id: "article-2024-04-18-acute-leukemia-psychological",
+    monthYear: "April 2024",
+    year: 2024,
+    title: "Psychological Effects of Acute Leukemia and Chemotherapy on Patients and Caregivers",
+    topicTag: "Mental Health & Psychiatry",
+    author: "Felix Ajibade",
+    institution: "LAUMED Journal Club · Ladoke Akintola University of Technology",
+    date: "18th April, 2024",
+    excerpt:
+      "This article highlights the often-overlooked burden of anxiety and depression experienced by acute leukaemia patients, survivors and their families during chemotherapy. It emphasises the importance of assessing quality of life and providing psychosocial support, particularly for children and adolescents.",
+    paragraphs: [
+      "This article highlights the often-overlooked burden of anxiety and depression experienced by acute leukaemia patients, survivors and their families during chemotherapy. It emphasises the importance of assessing quality of life and providing psychosocial support, particularly for children and adolescents."
+    ],
+    link: "https://medium.com/@laumedjc/psychological-effects-of-acute-leukemia-and-chemotherapy-on-patients-and-caregivers-f474eb3945e0"
   }
 ];
 
 /* =========================================================================
-   3. "MEDIFICIAL INTELLIGENCE" JOURNAL
+   3. "MEDIFICIAL INTELLIGENCE" JOURNAL & SUBMISSION GUIDELINES (STYLE GUIDE JUNE 2020)
    ========================================================================= */
 export const JOURNAL_INFO = {
   name: "Medificial Intelligence",
-  issn: "e-ISSN: [Pending Assignment]",
-  frequency: "Biannual (Two issues per year)",
-  description: "Medificial Intelligence is the official scholarly, peer-reviewed medical journal published by the LAUMED Journal Club at the College of Health Sciences, LAUTECH. The journal provides a rigorous editorial home for undergraduate, postgraduate, and faculty research interrogating the intersection of medical practice, clinical critical appraisal, and artificial intelligence in healthcare.",
+  subtitle: "Official Annual Journal of LAUMED Journal Club · First launched in 2020 as LAUMED",
+  issn: "ISSN: 2705-3709 (2020 Archive)",
+  frequency: "Annual publication",
+  description:
+    "Medificial Intelligence is the official annual peer-reviewed journal of LAUMED Journal Club at the College of Health Sciences, LAUTECH, Ogbomoso. First launched in 2020 under the title LAUMED (Journal of the Ladoke Akintola University Medical Students' Association), the annual publication provides a platform for members to contribute to academic writing, collaborative research, literature reviews, creative work and the dissemination of knowledge.",
   aimsAndScope: [
-    "Machine learning and deep neural networks in diagnostic imaging, laboratory pathology, and clinical risk prediction.",
-    "Critical appraisals, systematic reviews, and meta-analyses of global clinical trials.",
-    "Health informatics, electronic health record (EHR) innovations, and digital health infrastructure in resource-constrained environments.",
-    "Ethical, legal, and sociotechnical dimensions of AI in Sub-Saharan healthcare systems.",
-    "High-yield clinical case reports and multidisciplinary surgical audit papers."
+    "Medical review articles and original research authored collaboratively by medical students and faculty.",
+    "Literature reviews, critical appraisal of clinical evidence and public health commentary.",
+    "Biographical explorations of influential individuals whose discoveries have positively impacted humanity.",
+    "Non-fiction commentary on healthcare, medical education and relevant societal matters.",
+    "Poetry and short fiction aligned with each forthcoming issue's editorial theme."
   ],
   articleTypes: [
-    { type: "Original Research", wordCount: "Up to 3,500 words", description: "Empirical prospective, retrospective, or diagnostic studies with full methodological detail." },
-    { type: "Systematic Review & Meta-Analysis", wordCount: "Up to 4,500 words", description: "PRISMA-compliant reviews synthesizing clinical evidence on diagnostics, therapy, or epidemiology." },
-    { type: "Clinical Case Report", wordCount: "Up to 1,500 words", description: "Unique clinical presentations, diagnostic dilemmas, or novel therapeutic approaches following CARE guidelines." },
-    { type: "Journal Club Critical Appraisal", wordCount: "Up to 2,000 words", description: "Rigorous methodological appraisal of landmark trials using validated CASP/CONSORT checklists." },
-    { type: "Short Communication / Perspective", wordCount: "Up to 1,200 words", description: "Brief scientific commentaries on digital health policies, medical education, or emerging technology." }
+    { type: "Original Research", wordCount: "Abstract ≤ 200 words", description: "Original research articles with a compulsory abstract (up to 200 words) and at least three keywords." },
+    { type: "Medical Review Article", wordCount: "Flexible length", description: "Scholarly medical reviews examining clinical topics; an abstract may or may not be included." },
+    { type: "Non-Fiction", wordCount: "No set minimum or maximum", description: "Essays, commentaries and perspectives on medical and societal issues with no length restriction." },
+    { type: "Fiction", wordCount: "300–2,000 words", description: "Original unpublished creative fiction between 300 and 2,000 words." },
+    { type: "Poetry", wordCount: "10–40 lines", description: "Unpublished poetry between ten and forty lines, with priority given to pieces matching the forthcoming issue theme." }
   ],
   submissionGuidelines: [
-    "Manuscripts must be submitted in English with a structured abstract (Background, Methods, Results, Conclusion) not exceeding 250 words.",
-    "References must strictly follow Vancouver citation style.",
-    "Human subject research must cite Health Research Ethics Committee (HREC) approval number and informed consent procedures.",
-    "Authors must disclose all funding sources and declare any conflicts of interest.",
-    "Submissions undergo double-blind peer review by qualified student editors and consultant faculty reviewers."
+    "Forward all manuscript submissions to Laumedjc@gmail.com.",
+    "Write in a clear, active style using British English unless otherwise specified; any other language cancels the submission.",
+    "Submissions must be unpublished, original (not translated or adapted), formatted in Times New Roman size 12 with single spacing.",
+    "Include an author biography in the third person (maximum 100 words), stating any executive position, accompanied by a photograph.",
+    "Follow the APA Referencing Guide with in-text citations (author surname and year) and an alphabetical reference list."
   ],
+  styleGuide: {
+    versionLabel: "Style Guide as at June 2020",
+    submissionEmail: "Laumedjc@gmail.com",
+    pdfUrl: "/files/LAUMED-JC-Style-Guide-June-2020.pdf",
+    pdfFilename: "LAUMED-JC-Style-Guide-June-2020.pdf",
+    groups: [
+      {
+        id: "general-style",
+        letter: "a",
+        title: "General Writing Style",
+        summary: "Clear active prose, British English, originality and manuscript formatting.",
+        points: [
+          "Write in a clear and active style; preferred dictionaries are Merriam-Webster Dictionary for general usage and Stedman's Medical Dictionary for medical terms.",
+          "Always use British English unless specified. Any other language will cancel the submission.",
+          "All entries must be unpublished, not translated or adapted; the author must be the rightful owner of the text submitted.",
+          "Include an author biography with all submissions.",
+          "Prepare submissions with single spacing in Times New Roman, font size 12."
+        ]
+      },
+      {
+        id: "poetry",
+        letter: "b",
+        title: "Poetry",
+        summary: "Unpublished poetry between 10 and 40 lines.",
+        points: [
+          "Submit unpublished poetry between 10 and 40 lines (ten to forty lines).",
+          "Priority and greater consideration are given to entries aligned with the theme of a forthcoming issue."
+        ]
+      },
+      {
+        id: "fiction",
+        letter: "c",
+        title: "Fiction",
+        summary: "300 to 2,000 words.",
+        points: [
+          "All fiction submissions must be at least 300 words and no more than 2,000 words."
+        ]
+      },
+      {
+        id: "non-fiction",
+        letter: "d",
+        title: "Non-Fiction",
+        summary: "No minimum or maximum length.",
+        points: [
+          "There is no set minimum length or maximum length for non-fiction submissions."
+        ]
+      },
+      {
+        id: "medical-articles",
+        letter: "e",
+        title: "Medical Review & Original Articles",
+        summary: "Title placement, 200-word abstract limit, 3+ keywords and section order.",
+        points: [
+          "The title must be centred at the top of the first page and should not be italicised or underlined.",
+          "Abstract of no more than 200 words with at least three keywords for original articles (compulsory for every original research work without exception; optional for review articles).",
+          "Organise manuscripts strictly in the following sequence:"
+        ],
+        orderedSequence: [
+          "Title",
+          "Name(s) of author(s)",
+          "Email of corresponding author",
+          "Complete correspondence address",
+          "Abstract",
+          "Keywords",
+          "Body",
+          "References"
+        ]
+      },
+      {
+        id: "formatting-conventions",
+        letter: "f",
+        title: "Formatting Conventions",
+        summary: "Names, abbreviations, acronyms, dates, numerals, quotations, capitalisation & vernacular.",
+        points: [
+          "Names: arrange as First Name, Middle Name (if any) and Last Name/Surname (e.g. Tammy Donald Reuben).",
+          "Abbreviations & contractions: abbreviations take a full point, contractions do not (Mr; Dr; p.; the Hon. Boring vs. the Rt Hon. Boring). 'No.' (as in number) takes a full point.",
+          "Initials & acronyms: all caps with no full points (UN, EU, NEPAD, UNHCR, ASEAN; never Nato or Gatt). Spell out unfamiliar organisations on first use with the acronym in parentheses; if mentioned only once, use the full name without an acronym.",
+          "Capitalisation: capitalise the first letter of names of people, places and organisations; never capitalise words for emphasis.",
+          "Dates and numerals: write dates as '6 January 2001' (abbreviate months in footnotes: Jan. Feb. March April May June July Aug. Sept. Oct. Dec.); write '1990s' with no apostrophe (not 'the nineties'). Use en-dashes in year/page ranges and elide except for teens and after a zero (1946–7, 1900–1907, 1999–2001, 11–12, 60–61, 100–108, 107–27). Write '13 per cent' in text and '13%' in tables and footnotes. Spell out numbers from one to twelve and ordinals (except century names such as nineteenth century, or nineteenth-century as adjective), using figures thereafter; spell out units (kilometres, kilograms) in text; use commas in thousands (3,569); hyphenate adjectival measurements (an 18,000-tonne ship); set CE/BCE or AD/BC in small caps.",
+          "Quotations: use double quotation marks at all times, reserving single quotation marks solely for a quote within a quote.",
+          "Vernacular: italicise words from languages besides English (e.g. Gracias), and provide translations in references if not translated in the body text."
+        ]
+      },
+      {
+        id: "author-bio",
+        letter: "g",
+        title: "Author Bio",
+        summary: "Third person, maximum 100 words, state any executive position and include a photograph.",
+        points: [
+          "Provide a short biography of the author with every published work.",
+          "Write the biography in the third person, not exceeding 100 words at most.",
+          "If the author holds an executive position, that position must be stated in the bio.",
+          "Include an author photograph alongside the biography."
+        ]
+      },
+      {
+        id: "references",
+        letter: "h",
+        title: "References (APA Style)",
+        summary: "In-text citation rules, 'et al.' usage, alphabetical ordering and the four example formats.",
+        points: [
+          "Follow the APA Referencing Guide and check that author spellings and dates match exactly between in-text citations and the reference list.",
+          "In-text citations use author surname (without initials) and year, plus page numbers where needed: e.g. 'Since Peterson (1988) has shown that...' or '(Kramer, 1989, pp. 12–16)'.",
+          "For works by more than two authors, use the first author's surname followed by 'et al.' in the text, but list every author in full in the reference list.",
+          "Arrange multiple in-text citations chronologically. Arrange the reference list alphabetically by author and chronologically per author (single-author works first, then one co-author, then multiple co-authors; same-year works labelled 1994a, 1994b, etc.)."
+        ],
+        referenceExamples: [
+          {
+            label: "a. For periodicals",
+            example:
+              "Sauter, R.W., Williams, C., Meyer, E.A., Celnik, B., Banks, J.L., Leith D.A., (1987). A study of bacteria present within unfertilized salmon eggs at the time of spawning and their possible relation to early lifestage disease, Journal of Fish Diseases, 10(3): 193-203. doi:10.1111/j.1365-2761.1987.tb01061.x"
+          },
+          {
+            label: "b. For edited symposia, special issues, etc. published in a periodical",
+            example:
+              "Roberts, R.J., (1993). Ulcerative dermal necrosis (UDN) in wild salmonids. In: Bruno, D.W. (Ed.), Pathological conditions of wild salmonids, Fisheries Research, 17(2): 3-14."
+          },
+          {
+            label: "c. For books",
+            example:
+              "Gaugh, Jr., H.G., (1992). Statistical Analysis of Regional Yield Trials. Elsevier, Amsterdam."
+          },
+          {
+            label: "d. For multi-author books",
+            example:
+              "Bucke, D., (1989). Histology. In: Austin, B., Austin, D.A. (Eds.), Methods for the Microbiological Examination of Fish and Shellfish. Wiley, New York, pp. 69-97."
+          }
+        ]
+      },
+      {
+        id: "footnotes-copyright",
+        letter: "i",
+        title: "Footnotes & Copyright",
+        summary: "Minimal superscript footnotes, third-party permissions and acknowledgements.",
+        points: [
+          "Use footnotes only if absolutely essential; wherever possible incorporate details into normal body text.",
+          "When used, number footnotes sequentially in the text using superscript numerals and keep them as brief as possible.",
+          "Ensure quotations, tables or illustrations do not infringe copyright: obtain permission from the copyright holder (and the original author where different) for substantial extracts, tables, plates or illustrations.",
+          "Material from unpublished letters and manuscripts is protected and must not be published without permission; always make a suitable acknowledgement of any borrowed material."
+        ]
+      }
+    ],
+    checklist: [
+      "Written in clear, active British English checked against Merriam-Webster and Stedman's Medical Dictionary.",
+      "Unpublished original work owned by the author (neither translated nor adapted).",
+      "Formatted in Times New Roman, font size 12, with single line spacing.",
+      "Matches category length rules: Poetry (10–40 lines), Fiction (300–2,000 words), or Non-fiction (unrestricted).",
+      "Medical/Original article title centred at top of page 1 (not italicised or underlined) and follows the 8-part sequence.",
+      "Original research manuscript includes a compulsory abstract (≤ 200 words) and at least three keywords.",
+      "Numbers 1–12 spelled out, thousands comma-separated (3,569), en-dashes used in ranges, double quotes used for citations.",
+      "References formatted in APA style alphabetically by author, with full co-author names listed and verified against in-text citations.",
+      "Third-person author biography (≤ 100 words, stating any executive role) and photograph attached.",
+      "Copyright permissions secured for borrowed tables/illustrations and manuscript sent to Laumedjc@gmail.com."
+    ]
+  },
   editorialBoard: [
-    { name: "Oluwaseun D. Adeleke", role: "Editor-in-Chief", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_eic" },
-    { name: "[Name Placeholder: Deputy Editor]", role: "Deputy Editor-in-Chief", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_deic" },
-    { name: "[Name Placeholder: Managing Editor]", role: "Managing Editor", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_me" },
-    { name: "[Name Placeholder: Section Editor]", role: "Section Editor: Digital Health & AI", affiliation: "College of Health Sciences, LAUTECH", photoPlaceholder: "avatar_se1" },
-    { name: "[Name Placeholder: Section Editor]", role: "Section Editor: Clinical Medicine & Surgery", affiliation: "College of Health Sciences, LAUTECH", photoPlaceholder: "avatar_se2" }
+    { name: "Kaothar Oyeniran", role: "Editor-in-Chief", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_eic" },
+    { name: "Zainab Akindele", role: "Deputy Editor-in-Chief", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_deic" },
+    { name: "Ofure Alfred", role: "Board Secretary", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_sec" },
+    { name: "Habiblah Jagunmolu", role: "Associate Editor", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_ae" },
+    { name: "Peter Olaniyi", role: "Managing Editor", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_me" },
+    { name: "Taiwo Oluwafemi", role: "Graphics Editor", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_ge" }
   ],
   currentIssue: {
     volume: 1,
-    issue: 1,
-    title: "Inaugural Launch Edition: Revolutionizing Healthcare with Technology",
-    publicationDate: "February 2025",
-    coverImagePlaceholder: "journal_cover_vol1",
-    editorialNote: "The maiden edition of Medificial Intelligence commemorates the official Scientific Conference and Journal Launch at LAUTECH, bringing together clinical researchers and technologists.",
-    articles: [
-      {
-        id: "art-101",
-        title: "The Trajectory of Artificial Intelligence in Nigeria's Healthcare System: Exploring Options and Opportunities",
-        authors: ["Prof. Oluwadiya Kehinde Sunday"],
-        type: "Keynote Review Article",
-        pages: "1–14",
-        doi: "10.5281/medificial.2025.0101",
-        abstract: "A comprehensive analysis examining algorithmic governance, infrastructural bottlenecks, and the translational pathway for AI-enabled decision support systems in Nigerian teaching hospitals."
-      },
-      {
-        id: "art-102",
-        title: "Diagnostic Concordance of Lightweight Convolutional Neural Networks for Diabetic Retinopathy in Southwestern Nigeria",
-        authors: ["Prof. Michael Olamoyegun", "[Student Co-Author: Name]"],
-        type: "Original Research",
-        pages: "15–26",
-        doi: "10.5281/medificial.2025.0102",
-        abstract: "Evaluation of mobile-optimized deep learning inference on smartphone fundus adapters across a cohort of diabetic outpatients in Ogbomoso."
-      },
-      {
-        id: "art-103",
-        title: "Predictive Modeling of Target Organ Damage in Essential Hypertension: An Ensemble Machine Learning Approach",
-        authors: ["Prof. Adeseye Akintunde", "[Student Co-Author: Name]"],
-        type: "Original Research",
-        pages: "27–38",
-        doi: "10.5281/medificial.2025.0103",
-        abstract: "Evaluating gradient boosted trees against traditional Framingham risk scores in identifying early left ventricular hypertrophy."
-      }
-    ]
+    issue: 2,
+    title: "Health & Lifestyle",
+    publicationDate: "December 2020",
+    coverImagePlaceholder: "journal_cover_vol1_no2",
+    editorialNote:
+      "First published in 2020 as LAUMED, Journal of the Ladoke Akintola University Medical Students' Association, Volume 1, Number 2 explores Health & Lifestyle across 81 pages of editorial, guest editorial, creative and club report features.",
+    articles: []
   },
-  pastIssues: [
-    {
-      volume: 1,
-      issue: 1,
-      title: "Volume 1, Issue 1 (Launch Edition)",
-      publicationDate: "February 2025",
-      coverImagePlaceholder: "journal_cover_vol1",
-      editorialNote: "Inaugural launch edition unveiled at the Medificial Intelligence Scientific Conference.",
-      articles: []
-    }
-  ]
+  pastIssues: []
 };
 
 /* =========================================================================
@@ -638,37 +922,174 @@ export const CLUB_EVENTS: ClubEvent[] = [
    ========================================================================= */
 export const MEMBERSHIP_INFO = {
   benefits: [
-    { title: "Monthly Critical Appraisal Training", desc: "Hands-on workshops mastering CASP, CONSORT, PRISMA, and STROBE appraisal checklists." },
+    { title: "Biweekly Critical Appraisal Training", desc: "Hands-on biweekly sessions mastering CASP, CONSORT, PRISMA, and STROBE appraisal checklists." },
     { title: "Mentorship on Publishing", desc: "Direct pairing with consultant faculty and senior student editors to draft and publish clinical papers." },
-    { title: "Access to Medificial Intelligence Editorial Desk", desc: "Opportunities to serve on peer-review panels, section editing, and journal curation." },
+    { title: "Access to Medificial Intelligence Editorial Desk", desc: "Opportunities to collaborate on the annual Medificial Intelligence journal publication, peer learning, and manuscript review." },
     { title: "Priority Accreditation for Annual Conferences", desc: "Reserved delegate seating, abstract presentation opportunities, and research grant notifications." },
-    { title: "Research Working Groups", desc: "Join collaborative multi-author research teams investigating clinical AI, cardiology, and public health." }
+    { title: "Research Working Groups", desc: "Join interest-based groups investigating clinical medicine, public health, and biomedical research." }
   ],
   eligibility: "Open to all medical students (Pre-clinical and Clinical levels), resident doctors, and health sciences scholars at LAUTECH.",
   howToJoin: [
     "Step 01: Complete the online membership intake form below.",
-    "Step 02: Attend the next scheduled monthly Journal Club session.",
-    "Step 03: Complete our short introductory Critical Appraisal orientation module.",
+    "Step 02: Attend the next scheduled biweekly Journal Club session.",
+    "Step 03: Complete our baseline topic assignment and critical appraisal orientation.",
     "Step 04: Receive your official LAUMED Journal Club membership accreditation."
   ],
-  noteOnLaunchConference: "Membership forms were originally distributed physically at our flagship Medificial Intelligence Launch Conference on 27 February 2025. Registration is now permanently open online for all aspiring student researchers."
+  noteOnLaunchConference: "Membership forms were originally distributed physically at our 2025 Scientific Conference and Journal Launch on 27 February 2025. Registration is open online for all aspiring LAUTECH medical student researchers."
 };
 
 /* =========================================================================
    6. ABOUT US & GOVERNANCE
    ========================================================================= */
 export const ABOUT_INFO = {
-  mission: "To cultivate a community of scientifically rigorous medical students and clinicians equipped to critically appraise biomedical evidence, conduct reproducible clinical research, and harness technological innovations in patient care.",
-  vision: "To be the foremost student-led biomedical scholarly society and digital health research hub in West Africa.",
-  story: "Founded by passionate medical students at the College of Health Sciences, Ladoke Akintola University of Technology (LAUTECH) in Ogbomoso, the LAUMED Journal Club was created to bridge the critical divide between textbook medical learning and contemporary clinical trials. Guided by the motto 'more is definitely better…', the club has grown from informal seminar deliberations into a respected academic society publishing its own peer-reviewed journal, Medificial Intelligence, and hosting state-level scientific conferences.",
-  executiveTeam: [
-    { name: "[Name Placeholder: President / EIC]", role: "President & Editor-in-Chief", academicLevel: "600L MB;BS", photoPlaceholder: "team_pres" },
-    { name: "[Name Placeholder: Vice President]", role: "Vice President (Academic & Research)", academicLevel: "500L MB;BS", photoPlaceholder: "team_vp" },
-    { name: "[Name Placeholder: General Secretary]", role: "General Secretary", academicLevel: "500L MB;BS", photoPlaceholder: "team_sec" },
-    { name: "[Name Placeholder: Journal Director]", role: "Director of Journal & Publications", academicLevel: "500L MB;BS", photoPlaceholder: "team_dir" },
-    { name: "[Name Placeholder: Programs Lead]", role: "Director of Programs & Scientific Sessions", academicLevel: "400L MB;BS", photoPlaceholder: "team_prog" },
-    { name: "[Name Placeholder: Public Relations]", role: "Public Relations Officer & Media", academicLevel: "400L MB;BS", photoPlaceholder: "team_pro" }
+  intro:
+    "LAUMED Journal Club is a student-led organisation at Ladoke Akintola University of Technology (LAUTECH). It gives medical students a platform to understand research, appreciate academic contributions and engage in meaningful intellectual discussion.",
+  focusIntro: "Our meetings are held biweekly, with a focus on:",
+  focusAreas: [
+    "Understanding the fundamentals of medical research.",
+    "Discussing research articles and publications.",
+    "Exploring the biographies and contributions of influential individuals.",
+    "Engaging in general discussions on relevant medical and societal matters.",
+    "Developing critical thinking and academic reasoning."
   ],
+  missionParagraphs: [
+    "To develop members on essential research skills, appreciate and learn from the stories of individuals whose contributions have made significant impacts on humanity and hands-on practice on skills acquired.",
+    "We also aim to create an intellectually stimulating environment that encourages curiosity, meaningful conversations and critical thinking."
+  ],
+  approachIntro:
+    "We achieve our mission through regular, interactive and engaging meetings where members have the opportunity to:",
+  approachPillars: [
+    {
+      num: "01",
+      title: "Learn",
+      description: "Understand the fundamentals and principles of research."
+    },
+    {
+      num: "02",
+      title: "Explore",
+      description: "Examine research publications, biographies and the works of influential individuals."
+    },
+    {
+      num: "03",
+      title: "Discuss",
+      description: "Participate in intellectual conversations on relevant topics and issues."
+    },
+    {
+      num: "04",
+      title: "Appreciate",
+      description: "Recognise the contributions of individuals who have positively impacted humanity."
+    },
+    {
+      num: "05",
+      title: "Think critically",
+      description: "Develop the ability to question, analyse, interpret and evaluate information."
+    }
+  ],
+  meetingStructure: {
+    frequency: "Biweekly",
+    format: "Interactive, discussion-based sessions",
+    focus: "Research, intellectual exploration, biographies and general discussion"
+  },
+  howClubWorksIntro:
+    "The LAUMED Journal Club operates through a structured, interactive and participatory approach designed to promote continuous learning, knowledge sharing and intellectual development among members.",
+  howClubWorksSteps: [
+    {
+      step: 1,
+      title: "Membership and Baseline Assessment",
+      bullets: [
+        "Members are assigned specific topics to research and explore based on their existing knowledge and understanding.",
+        "This process helps establish a baseline understanding of members' knowledge and identifies areas that require further learning."
+      ]
+    },
+    {
+      step: 2,
+      title: "Topic Presentations and Discussions",
+      bullets: [
+        "Assigned topics are presented during our regular meetings.",
+        "Presentations are followed by interactive discussions and question-and-answer sessions.",
+        "These discussions allow members to share their perspectives, clarify difficult concepts and reinforce the knowledge gained from each presentation."
+      ]
+    },
+    {
+      step: 3,
+      title: "Knowledge Assessment",
+      scheduleNote: "Periodic quizzes",
+      bullets: [
+        "Periodic quiz sessions are organised to assess members' understanding of previously discussed topics.",
+        "These assessments help reinforce learning, evaluate knowledge retention and identify areas that need improvement."
+      ]
+    },
+    {
+      step: 4,
+      title: "Biographical Discussions",
+      bullets: [
+        "We explore the biographies, achievements and contributions of influential individuals.",
+        "Discussions focus on the work of people whose ideas, discoveries and innovations have made positive contributions to humanity.",
+        "This provides members with opportunities to learn from their experiences, perspectives and legacies."
+      ]
+    },
+    {
+      step: 5,
+      title: "General Discussion Sessions",
+      scheduleNote: "About once every four meetings",
+      bullets: [
+        "General discussion sessions are organised periodically, approximately once every four meetings.",
+        "These sessions provide an opportunity for members to explore diverse perspectives on relevant subjects and issues.",
+        "They encourage open-mindedness, intellectual exchange, critical thinking and a broader understanding of different viewpoints."
+      ]
+    },
+    {
+      step: 6,
+      title: "Weekly Articles",
+      scheduleNote: "Published every Thursday",
+      bullets: [
+        "Weekly articles are published every Thursday as part of our commitment to continuous learning and personal development.",
+        "These publications serve as a means of reinforcing the club's values, encouraging self-improvement and fostering a culture of intellectual curiosity."
+      ]
+    }
+  ],
+  annualJournal: {
+    intro:
+      "The annual journal publication is one of the flagship projects of LAUMED Journal Club. It provides a platform for members to contribute to academic writing, collaborative research and the dissemination of knowledge.",
+    points: [
+      {
+        title: "Annual publication",
+        description:
+          "The club works towards producing and publishing a journal annually, featuring articles and scholarly contributions from its members."
+      },
+      {
+        title: "Interest-based groups",
+        description:
+          "Members are organised into groups based on their individual interests and areas of academic curiosity. This allows them to explore topics they are passionate about while contributing meaningfully to the journal."
+      },
+      {
+        title: "Collaborative authorship",
+        description:
+          "Members work together in researching, developing, writing and reviewing articles for publication. This encourages teamwork, peer learning and collaboration among aspiring researchers."
+      },
+      {
+        title: "Publication opportunities",
+        description:
+          "Members who actively participate in the journal production process have the opportunity to contribute articles that are featured in the club's annual journal."
+      },
+      {
+        title: "Research and writing development",
+        description:
+          "The process exposes members to academic writing, literature review, critical appraisal, referencing and the fundamentals of scholarly publication."
+      }
+    ]
+  },
+  executiveTeam: [
+    { name: "Kaothar Oyeniran", role: "Editor-in-Chief", photoPlaceholder: "team_kaothar" },
+    { name: "Zainab Akindele", role: "Deputy Editor-in-Chief", photoPlaceholder: "team_zainab" },
+    { name: "Ofure Alfred", role: "Board Secretary", photoPlaceholder: "team_ofure" },
+    { name: "Habiblah Jagunmolu", role: "Associate Editor", photoPlaceholder: "team_habiblah" },
+    { name: "Peter Olaniyi", role: "Managing Editor", photoPlaceholder: "team_peter" },
+    { name: "Rebecca Adeyemo", role: "Financial Secretary", photoPlaceholder: "team_rebecca" },
+    { name: "Muntaqim Opabode", role: "Public Relations Officer", photoPlaceholder: "team_muntaqim" },
+    { name: "Taiwo Oluwafemi", role: "Graphics Editor", photoPlaceholder: "team_taiwo" }
+  ] as TeamMember[],
+  historyPlaceholder: "[History of the club: to be added]",
   facultyAdvisors: [
     {
       name: "Professor Adeseye Akintunde",
@@ -681,18 +1102,6 @@ export const ABOUT_INFO = {
       title: "Senior Editorial Advisor & Consultant Endocrinologist",
       department: "Founder, South West Diabetes Investigation Research Group (SWEDIG)",
       bio: "Leading authority in diabetes epidemiology, metabolic syndrome profiling, and rural endocrinological health outcomes in Nigeria."
-    },
-    {
-      name: "Professor Oluwadiya Kehinde Sunday",
-      title: "Distinguished Academic Advisor & Orthopaedic Surgeon",
-      department: "Acting Chief Medical Director, University of Sierra Leone Teaching Hospitals Complex",
-      bio: "Prominent scholar in trauma epidemiology, research methodology, and biomedical computational readiness."
-    },
-    {
-      name: "Dr Mrs Oluyinka Titilayo Adedeji",
-      title: "Faculty Advisor & Consultant Clinical Microbiologist",
-      department: "Department of Medical Microbiology, LAUTECH",
-      bio: "Investigator on antimicrobial resistance surveillance, healthcare-associated infection audits, and laboratory diagnostic quality."
     }
   ]
 };

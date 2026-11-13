@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, CheckCircle2, UserCheck, Shield, Sparkles } from 'lucide-react';
 
 interface MembershipModalProps {
@@ -7,8 +7,6 @@ interface MembershipModalProps {
 }
 
 export const MembershipModal: React.FC<MembershipModalProps> = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
   const [formData, setFormData] = useState({
     fullName: '',
     matricNumber: '',
@@ -21,6 +19,17 @@ export const MembershipModal: React.FC<MembershipModalProps> = ({ isOpen, onClos
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [membershipId, setMembershipId] = useState('');
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const id = `LAUMED-MBR-${Math.floor(1000 + Math.random() * 9000)}`;
@@ -29,11 +38,20 @@ export const MembershipModal: React.FC<MembershipModalProps> = ({ isOpen, onClos
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="relative max-w-lg w-full bg-[#0d0704] border border-[#ea580c]/40 rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl my-auto">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-black/85 backdrop-blur-sm flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label="LAUMED Journal Club Membership Application"
+      onClick={onClose}
+    >
+      <div
+        className="relative max-w-lg w-full bg-[#0d0704] border border-[#ea580c]/40 rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl my-auto max-h-[92dvh] overflow-y-auto overscroll-contain"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex items-center justify-between border-b border-[#ea580c]/20 pb-4">
           <div>
-            <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
               College of Health Sciences · LAUTECH
             </span>
             <h3 className="text-xl sm:text-2xl font-serif font-bold text-white mt-0.5">
@@ -41,8 +59,10 @@ export const MembershipModal: React.FC<MembershipModalProps> = ({ isOpen, onClos
             </h3>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="text-[#a89f91] hover:text-white p-1"
+            aria-label="Close membership modal"
+            className="text-[#a89f91] hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg hover:bg-[#1e0e06]"
           >
             <X className="w-5 h-5" />
           </button>

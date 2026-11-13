@@ -1,141 +1,327 @@
 import React from 'react';
 import { ABOUT_INFO } from '../data/clubData';
-import { Award, Users, BookOpen, Shield, Target, Compass, Sparkles } from 'lucide-react';
+import { RevealBlock } from '../components/RevealBlock';
+import { Target, BookOpen, Calendar, CheckCircle2, FileText } from 'lucide-react';
+
+const getInitials = (name: string) =>
+  name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || '')
+    .join('');
 
 export const AboutView: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
-      {/* Header */}
-      <div className="border-b border-[#ea580c]/20 pb-6 space-y-2">
-        <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
+      {/* Header & Intro */}
+      <div id="about-overview" className="scroll-mt-24 border-b border-[#ea580c]/20 pb-6 space-y-3">
+        <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
           Foundational Heritage & Leadership
         </span>
         <h1 className="text-3xl sm:text-5xl font-serif font-bold text-white">
-          About <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fed7aa] via-[#f97316] to-[#ea580c]">LAUMED</span> Journal Club
+          About{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fed7aa] via-[#f97316] to-[#ea580c]">
+            LAUMED
+          </span>{' '}
+          Journal Club
         </h1>
-        <p className="text-xs sm:text-sm text-[#d6cebe] max-w-2xl leading-relaxed">
-          The history, mission, governance structure, and faculty advisory behind our student-led scholarly society at LAUTECH, Ogbomoso.
+        <p className="text-xs sm:text-sm text-[#d6cebe] max-w-3xl leading-relaxed">
+          {ABOUT_INFO.intro}
         </p>
       </div>
 
-      {/* Mission & Vision Split */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="initial-card p-6 sm:p-8 space-y-4">
-          <div className="w-10 h-10 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#ea580c] flex items-center justify-center">
-            <Target className="w-5 h-5" />
-          </div>
-          <h2 className="text-2xl font-serif font-bold text-white">
-            Our Mission
-          </h2>
-          <p className="text-xs sm:text-sm text-[#d6cebe] leading-relaxed">
-            {ABOUT_INFO.mission}
-          </p>
-        </div>
-
-        <div className="initial-card p-6 sm:p-8 space-y-4">
-          <div className="w-10 h-10 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#ea580c] flex items-center justify-center">
-            <Compass className="w-5 h-5" />
-          </div>
-          <h2 className="text-2xl font-serif font-bold text-white">
-            Our Vision
-          </h2>
-          <p className="text-xs sm:text-sm text-[#d6cebe] leading-relaxed">
-            {ABOUT_INFO.vision}
-          </p>
-        </div>
-      </div>
-
-      {/* Our Story */}
-      <div className="initial-card p-6 sm:p-10 space-y-4">
-        <div className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
-          Origins & Evolution
-        </div>
-        <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">
-          Our Story
-        </h2>
-        <p className="text-xs sm:text-sm text-[#d6cebe] leading-relaxed font-sans">
-          {ABOUT_INFO.story}
-        </p>
-        <div className="pt-2 text-xs font-serif italic text-[#fed7aa]">
-          "more is definitely better…" — An ethos of relentlessly pursuing academic depth, higher evidence quality, and broader collaboration.
-        </div>
-      </div>
-
-      {/* Executive Team Grid */}
-      <div className="space-y-6">
-        <div className="border-b border-[#ea580c]/20 pb-4">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
-            Student Leadership
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
-            Executive Committee (2025–2026)
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {ABOUT_INFO.executiveTeam.map((member, i) => (
-            <div key={i} className="initial-card p-6 space-y-4 text-center">
-              <div className="w-20 h-20 rounded-2xl bg-[#1e0e06] border-2 border-[#ea580c] mx-auto flex items-center justify-center text-[#ea580c] font-serif font-bold text-xl shadow-[0_0_15px_rgba(234,88,12,0.25)]">
-                {member.role.split(' ')[0][0]}{member.name.split(' ')[1]?.[0] || 'L'}
-              </div>
-
-              <div className="space-y-1">
-                <h3 className="text-base font-serif font-bold text-white">
-                  {member.name}
-                </h3>
-                <div className="text-xs font-semibold text-[#ea580c]">
-                  {member.role}
+      {/* Mission & Biweekly Focus Areas Split */}
+      <section id="about-mission" className="scroll-mt-24 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="initial-card p-6 sm:p-8 space-y-4">
+                <div className="w-10 h-10 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#fb923c] flex items-center justify-center">
+                  <Target className="w-5 h-5" aria-hidden="true" />
                 </div>
-                <div className="text-[11px] font-mono text-[#8c7e72]">
-                  {member.academicLevel}
+                <h2 className="text-2xl font-serif font-bold text-white">
+                  Our Mission
+                </h2>
+                <div className="space-y-3">
+                  {ABOUT_INFO.missionParagraphs.map((paragraph, index) => (
+                    <p key={index} className="text-xs sm:text-sm text-[#d6cebe] leading-relaxed">
+                      {paragraph}
+                    </p>
+                  ))}
                 </div>
               </div>
 
-              <div className="text-[10px] font-mono text-[#fed7aa] pt-2 border-t border-[#ea580c]/15">
-                [Photo: {member.photoPlaceholder}]
+              <div className="initial-card p-6 sm:p-8 space-y-4">
+                <div className="w-10 h-10 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#fb923c] flex items-center justify-center">
+                  <Calendar className="w-5 h-5" aria-hidden="true" />
+                </div>
+                <h2 className="text-2xl font-serif font-bold text-white">
+                  Biweekly Meetings & Focus
+                </h2>
+                <p className="text-xs sm:text-sm text-[#fed7aa] font-medium">
+                  {ABOUT_INFO.focusIntro}
+                </p>
+                <ul className="space-y-2 text-xs sm:text-sm text-[#d6cebe]">
+                  {ABOUT_INFO.focusAreas.map((area, idx) => (
+                    <li key={idx} className="flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 text-[#ea580c] shrink-0 mt-0.5" aria-hidden="true" />
+                      <span className="leading-relaxed">{area}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Faculty Advisors */}
-      <div className="space-y-6">
-        <div className="border-b border-[#ea580c]/20 pb-4">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
-            Academic Mentorship
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
-            Faculty Advisors & Patrons
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {ABOUT_INFO.facultyAdvisors.map((advisor, i) => (
-            <div key={i} className="initial-card p-6 space-y-3">
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#ea580c] flex items-center justify-center font-bold text-sm shrink-0">
-                  {advisor.name.split(' ').slice(-1)[0].slice(0, 2).toUpperCase()}
-                </div>
-                <div className="space-y-0.5">
-                  <h3 className="text-base font-serif font-bold text-white">
-                    {advisor.name}
-                  </h3>
-                  <div className="text-xs text-[#ea580c] font-medium">
-                    {advisor.title}
+            {/* Meeting Structure Strip */}
+            <div className="rounded-2xl bg-[#1E0C08] border border-[#ea580c]/40 p-5 sm:p-6 shadow-xl">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 divide-y md:divide-y-0 md:divide-x divide-[#ea580c]/20">
+                <div className="pt-2 md:pt-0 md:pr-4">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#fb923c] font-bold">
+                    Frequency
+                  </span>
+                  <div className="text-sm sm:text-base font-serif font-bold text-white mt-1">
+                    {ABOUT_INFO.meetingStructure.frequency}
                   </div>
-                  <div className="text-[11px] text-[#8c7e72]">
-                    {advisor.department}
+                </div>
+                <div className="pt-3 md:pt-0 md:px-4">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#fb923c] font-bold">
+                    Format
+                  </span>
+                  <div className="text-sm sm:text-base font-serif font-bold text-white mt-1">
+                    {ABOUT_INFO.meetingStructure.format}
+                  </div>
+                </div>
+                <div className="pt-3 md:pt-0 md:pl-4">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#fb923c] font-bold">
+                    Focus
+                  </span>
+                  <div className="text-sm sm:text-base font-serif font-bold text-white mt-1">
+                    {ABOUT_INFO.meetingStructure.focus}
                   </div>
                 </div>
               </div>
-              <p className="text-xs text-[#d6cebe] leading-relaxed pt-2 border-t border-[#ea580c]/15">
-                {advisor.bio}
+            </div>
+          </section>
+
+          {/* Our Approach: 5 Numbered Cards */}
+          <section id="about-approach" className="scroll-mt-24 cv-auto space-y-6">
+            <div className="border-b border-[#ea580c]/20 pb-4 space-y-1">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
+                Core Methodology
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">
+                Our Approach
+              </h2>
+              <p className="text-xs sm:text-sm text-[#d6cebe] max-w-2xl">
+                {ABOUT_INFO.approachIntro}
               </p>
             </div>
-          ))}
-        </div>
-      </div>
+
+            <RevealBlock>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                {ABOUT_INFO.approachPillars.map((pillar) => (
+                  <div key={pillar.num} className="initial-card p-5 space-y-3 group">
+                    <div className="w-9 h-9 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#fb923c] text-xs font-mono font-bold flex items-center justify-center group-hover:bg-[#ea580c] group-hover:text-white transition-colors">
+                      {pillar.num}
+                    </div>
+                    <h3 className="text-base font-serif font-bold text-white group-hover:text-[#f97316] transition-colors">
+                      {pillar.title}
+                    </h3>
+                    <p className="text-xs text-[#d6cebe] leading-relaxed">
+                      {pillar.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </RevealBlock>
+          </section>
+
+          {/* How the Club Works: 6-Step Vertical Timeline */}
+          <section id="about-how-it-works" className="scroll-mt-24 cv-auto space-y-6">
+            <div className="border-b border-[#ea580c]/20 pb-4 space-y-1">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
+                Participatory Framework
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">
+                How the Club Works
+              </h2>
+              <p className="text-xs sm:text-sm text-[#d6cebe] max-w-3xl leading-relaxed">
+                {ABOUT_INFO.howClubWorksIntro}
+              </p>
+            </div>
+
+            <RevealBlock>
+              <div className="relative pl-6 sm:pl-8 space-y-6 before:content-[''] before:absolute before:left-2.5 sm:before:left-3.5 before:top-3 before:bottom-3 before:w-px before:bg-[#ea580c]/35">
+                {ABOUT_INFO.howClubWorksSteps.map((item) => (
+                  <div key={item.step} className="relative initial-card p-5 sm:p-6 space-y-3">
+                    <div
+                      aria-hidden="true"
+                      className="absolute -left-[25px] sm:-left-[29px] top-6 w-5 h-5 rounded-full bg-[#1e0e06] border-2 border-[#ea580c] text-[#fb923c] text-[10px] font-mono font-bold flex items-center justify-center"
+                    >
+                      {item.step}
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <h3 className="text-base sm:text-lg font-serif font-bold text-white">
+                        {item.step}. {item.title}
+                      </h3>
+                      {item.scheduleNote && (
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#2A120B] border border-[#ea580c]/35 text-[#fed7aa] text-[11px] font-mono">
+                          {item.scheduleNote}
+                        </span>
+                      )}
+                    </div>
+
+                    <ul className="space-y-1.5 text-xs sm:text-sm text-[#d6cebe] list-disc pl-5 marker:text-[#ea580c]">
+                      {item.bullets.map((bullet, bIdx) => (
+                        <li key={bIdx} className="leading-relaxed">
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </RevealBlock>
+          </section>
+
+          {/* Annual Journal Publication: Featured Card */}
+          <section
+            id="about-journal"
+            className="scroll-mt-24 cv-auto rounded-3xl bg-[#1E0C08] border border-[#ea580c]/40 p-6 sm:p-10 space-y-6 shadow-2xl"
+          >
+            <div className="space-y-3 border-b border-[#ea580c]/20 pb-5">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
+                <BookOpen className="w-4 h-4" aria-hidden="true" />
+                <span>Flagship Initiative</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">
+                Annual Journal Publication
+              </h2>
+              <p className="text-xs sm:text-sm text-[#d6cebe] max-w-3xl leading-relaxed">
+                {ABOUT_INFO.annualJournal.intro}
+              </p>
+            </div>
+
+            <RevealBlock>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {ABOUT_INFO.annualJournal.points.map((point, idx) => (
+                  <div key={idx} className="rounded-2xl bg-[#140a05] border border-[#ea580c]/25 p-5 space-y-2">
+                    <div className="text-[11px] font-mono text-[#fb923c] font-bold">
+                      0{idx + 1} · {point.title}
+                    </div>
+                    <p className="text-xs text-[#d6cebe] leading-relaxed">
+                      {point.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </RevealBlock>
+          </section>
+
+          {/* Executive and Editorial Team Grid */}
+          <section id="about-team" className="scroll-mt-24 cv-auto space-y-6">
+            <div className="border-b border-[#ea580c]/20 pb-4">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
+                The Club Leadership
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
+                Executive and Editorial Team
+              </h2>
+            </div>
+
+            <RevealBlock>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {ABOUT_INFO.executiveTeam.map((member, i) => (
+                  <div key={i} className="initial-card p-6 space-y-4 text-center">
+                    <div
+                      aria-hidden="true"
+                      className="w-20 h-20 rounded-2xl bg-[#1e0e06] border-2 border-[#ea580c] mx-auto flex items-center justify-center text-[#fb923c] font-serif font-bold text-xl shadow-[0_0_15px_rgba(234,88,12,0.25)]"
+                    >
+                      {getInitials(member.name)}
+                    </div>
+
+                    <div className="space-y-1">
+                      <h3 className="text-base font-serif font-bold text-white">
+                        {member.name}
+                      </h3>
+                      <div className="text-xs font-semibold text-[#fb923c]">
+                        {member.role}
+                      </div>
+                      {member.academicLevel && (
+                        <div className="text-[11px] font-mono text-[#b5a89c]">
+                          {member.academicLevel}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="text-[10px] font-mono text-[#fed7aa] pt-2 border-t border-[#ea580c]/15">
+                      [Photo: {member.photoPlaceholder}]
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </RevealBlock>
+          </section>
+
+          {/* History of the Club (Styled Placeholder) */}
+          <section
+            id="about-history"
+            className="scroll-mt-24 cv-auto initial-card p-6 sm:p-10 space-y-4 border-dashed border-[#ea580c]/35"
+          >
+            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
+              <FileText className="w-4 h-4" aria-hidden="true" />
+              <span>Archives & Milestones</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">
+              History of the Club
+            </h2>
+            <div className="rounded-xl bg-[#140a05] border border-dashed border-[#ea580c]/30 p-5 text-xs sm:text-sm font-mono text-[#fed7aa]">
+              {ABOUT_INFO.historyPlaceholder}
+            </div>
+            <div className="pt-1 text-xs font-serif italic text-[#d6cebe]">
+              &ldquo;more is definitely better…&rdquo;
+            </div>
+          </section>
+
+          {/* Faculty Advisors */}
+          <section id="about-advisors" className="scroll-mt-24 cv-auto space-y-6">
+            <div className="border-b border-[#ea580c]/20 pb-4">
+              <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
+                Academic Mentorship
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
+                Faculty Advisors & Patrons
+              </h2>
+            </div>
+
+            <RevealBlock>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {ABOUT_INFO.facultyAdvisors.map((advisor, i) => (
+                  <div key={i} className="initial-card p-6 space-y-3">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#fb923c] flex items-center justify-center font-bold text-sm shrink-0">
+                        {advisor.name.split(' ').slice(-1)[0].slice(0, 2).toUpperCase()}
+                      </div>
+                      <div className="space-y-0.5">
+                        <h3 className="text-base font-serif font-bold text-white">
+                          {advisor.name}
+                        </h3>
+                        <div className="text-xs text-[#fb923c] font-medium">
+                          {advisor.title}
+                        </div>
+                        <div className="text-[11px] text-[#b5a89c]">
+                          {advisor.department}
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-xs text-[#d6cebe] leading-relaxed pt-2 border-t border-[#ea580c]/15">
+                      {advisor.bio}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </RevealBlock>
+          </section>
     </div>
   );
 };

@@ -8,6 +8,12 @@ const XLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) 
   </svg>
 );
 
+const MediumLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="currentColor">
+    <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z" />
+  </svg>
+);
+
 export const ContactView: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -49,43 +55,55 @@ export const ContactView: React.FC = () => {
                   <Mail className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-[10px] font-mono uppercase text-[#8c7e72]">Email Secretariat</div>
-                  <a href={`mailto:${CLUB_INFO.contact.email}`} className="text-sm font-semibold text-white hover:text-[#f97316] transition-colors">
+                  <div className="text-[10px] font-mono uppercase text-[#b5a89c]">Email Secretariat</div>
+                  <a href={`mailto:${CLUB_INFO.contact.email}`} className="text-sm font-semibold text-white hover:text-[#fb923c] transition-colors inline-flex items-center min-h-[44px] sm:min-h-0">
                     {CLUB_INFO.contact.email}
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#ea580c] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#fb923c] flex items-center justify-center shrink-0">
                   <Phone className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-[10px] font-mono uppercase text-[#8c7e72]">Phone / WhatsApp Support</div>
-                  <a href={`tel:${CLUB_INFO.contact.phone}`} className="text-sm font-semibold text-white hover:text-[#f97316] transition-colors">
+                  <div className="text-[10px] font-mono uppercase text-[#b5a89c]">Phone / WhatsApp Support</div>
+                  <a href={`tel:${CLUB_INFO.contact.phone}`} className="text-sm font-semibold text-white hover:text-[#fb923c] transition-colors inline-flex items-center min-h-[44px] sm:min-h-0">
                     {CLUB_INFO.contact.phone}
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#ea580c] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#fb923c] flex items-center justify-center shrink-0">
                   <XLogoIcon className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-[10px] font-mono uppercase text-[#8c7e72]">X (Twitter)</div>
-                  <a href={CLUB_INFO.contact.xUrl} target="_blank" rel="noreferrer" className="text-sm font-semibold text-[#fed7aa] hover:underline">
+                  <div className="text-[10px] font-mono uppercase text-[#b5a89c]">X (Twitter)</div>
+                  <a href={CLUB_INFO.contact.xUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-[#fed7aa] hover:underline inline-flex items-center min-h-[44px] sm:min-h-0">
                     {CLUB_INFO.contact.xHandle}
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#ea580c] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#fb923c] flex items-center justify-center shrink-0">
+                  <MediumLogoIcon className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="text-[10px] font-mono uppercase text-[#b5a89c]">Medium Weekly Articles</div>
+                  <a href={CLUB_INFO.contact.mediumUrl} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-[#fed7aa] hover:underline inline-flex items-center min-h-[44px] sm:min-h-0">
+                    medium.com/{CLUB_INFO.contact.mediumHandle}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#fb923c] flex items-center justify-center shrink-0">
                   <MapPin className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="text-[10px] font-mono uppercase text-[#8c7e72]">Physical Secretariat</div>
+                  <div className="text-[10px] font-mono uppercase text-[#b5a89c]">Physical Secretariat</div>
                   <div className="text-xs text-white leading-snug">
                     {CLUB_INFO.location}
                   </div>
@@ -95,8 +113,8 @@ export const ContactView: React.FC = () => {
           </div>
 
           {/* Collaborate with Us Section */}
-          <div className="initial-card p-6 space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#ea580c] font-bold">
+          <div className="cv-auto initial-card p-6 space-y-3">
+            <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#fb923c] font-bold">
               <Handshake className="w-4 h-4" />
               <span>Collaborate With Us</span>
             </div>
