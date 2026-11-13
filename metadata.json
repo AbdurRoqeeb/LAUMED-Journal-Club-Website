@@ -1,0 +1,6 @@
+{
+  "name": "LAUMED Journal Club | Medical Research & Publications",
+  "description": "Official academic research portal and publication archive for LAUMED Journal Club, College of Health Sciences, LAUTECH. Features recent publication archives, critical appraisals, conference portal, and student researcher dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-heading: "Plus Jakarta Sans", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --color-flame-50: #fff7ed;
+  --color-flame-100: #ffedd5;
+  --color-flame-200: #fed7aa;
+  --color-flame-300: #fdba74;
+  --color-flame-400: #fb923c;
+  --color-flame-500: #f97316;
+  --color-flame-600: #ea580c;
+  --color-flame-700: #c2410c;
+  --color-flame-800: #9a3412;
+  --color-flame-900: #7c2d12;
+}
+
+:root {
+  color-scheme: dark;
+  --bg-deep: #0A0302;
+  --bg-deep-2: #160805;
+  --line-dim: rgba(242, 106, 33, 0.10);
+  --line-faint: rgba(122, 46, 18, 0.18);
+  --glow-dim: rgba(242, 106, 33, 0.06);
+  --surface: #1E0C08;
+  --surface-2: #2A120B;
+  --bg-dark: #0A0302;
+  --surface-dark: #1E0C08;
+  --surface-raised: #2A120B;
+  --border-amber: rgba(234, 88, 12, 0.25);
+  --border-amber-hover: rgba(249, 115, 22, 0.6);
+  --flame-primary: #ea580c;
+  --flame-bright: #f97316;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-deep);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-deep);
+  color: #FFF4EC;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Solid surface cards (#1E0C08) ensuring WCAG AA readability over site-wide background */
+.initial-card {
+  background: #1E0C08;
+  border: 1px solid rgba(234, 88, 12, 0.25);
+  border-radius: 1rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.initial-card:hover {
+  border-color: rgba(249, 115, 22, 0.55);
+  box-shadow: 0 10px 30px rgba(8, 4, 2, 0.8), 0 0 20px rgba(234, 88, 12, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Initial design primary flame button */
+.btn-flame {
+  background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%);
+  color: #ffffff;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  box-shadow: 0 0 20px rgba(234, 88, 12, 0.35);
+  transition: all 0.2s ease;
+}
+
+.btn-flame:hover {
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+  box-shadow: 0 0 25px rgba(249, 115, 22, 0.55);
+  transform: translateY(-1px);
+}
+
+.btn-outline-amber {
+  background: #2A120B;
+  border: 1px solid rgba(234, 88, 12, 0.35);
+  color: #fed7aa;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-amber:hover {
+  border-color: #ea580c;
+  color: #ffffff;
+  background: #36170E;
+}
+
+/* Subtle circuit background pattern */
+.circuit-pattern {
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(234, 88, 12, 0.15) 0%, transparent 65%),
+    linear-gradient(rgba(234, 88, 12, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(234, 88, 12, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 48px 48px, 48px 48px;
+  background-position: 0 0, -1px -1px, -1px -1px;
+}
+
+/* Accessible visible focus states */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #ea580c;
+  outline-offset: 3px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #080402;
+}
+::-webkit-scrollbar-thumb {
+  background: #291206;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ea580c;
+}
