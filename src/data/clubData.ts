@@ -177,7 +177,7 @@ export const CLUB_INFO = {
     { label: "Sessions Held", value: "[To be updated]", description: "Biweekly critical deliberations" },
     { label: "Members", value: "[To be updated]", description: "LAUTECH medical students" },
     { label: "Weekly Articles", value: "22+", description: "Published every Thursday on Medium" },
-    { label: "Annual Journal", value: "Annual", description: "Medificial Intelligence (est. 2020 as LAUMED)" }
+    { label: "Annual Journal", value: "Annual", description: "LAUMED Journal (first launched in 2020)" }
   ]
 };
 
@@ -584,15 +584,15 @@ export const JOURNAL_SESSIONS: JournalSession[] = [
 ];
 
 /* =========================================================================
-   3. "MEDIFICIAL INTELLIGENCE" JOURNAL & SUBMISSION GUIDELINES (STYLE GUIDE JUNE 2020)
+   3. "LAUMED JOURNAL" & SUBMISSION GUIDELINES (STYLE GUIDE JUNE 2020)
    ========================================================================= */
 export const JOURNAL_INFO = {
-  name: "Medificial Intelligence",
-  subtitle: "Official Annual Journal of LAUMED Journal Club · First launched in 2020 as LAUMED",
-  issn: "ISSN: 2705-3709 (2020 Archive)",
+  name: "LAUMED Journal",
+  subtitle: "Official Annual Journal of LAUMED Journal Club · First launched in 2020",
+  issn: "ISSN: 2705-3709 (Print / 2020 Archive)",
   frequency: "Annual publication",
   description:
-    "Medificial Intelligence is the official annual peer-reviewed journal of LAUMED Journal Club at the College of Health Sciences, LAUTECH, Ogbomoso. First launched in 2020 under the title LAUMED (Journal of the Ladoke Akintola University Medical Students' Association), the annual publication provides a platform for members to contribute to academic writing, collaborative research, literature reviews, creative work and the dissemination of knowledge.",
+    "LAUMED Journal is the official annual peer-reviewed journal of LAUMED Journal Club at the College of Health Sciences, LAUTECH, Ogbomoso. First launched in 2020 as LAUMED (Journal of the Ladoke Akintola University Medical Students' Association), the annual publication provides a platform for members to contribute to academic writing, collaborative research, literature reviews, creative work and the dissemination of knowledge.",
   aimsAndScope: [
     "Medical review articles and original research authored collaboratively by medical students and faculty.",
     "Literature reviews, critical appraisal of clinical evidence and public health commentary.",
@@ -784,7 +784,7 @@ export const JOURNAL_INFO = {
     publicationDate: "February 2025",
     coverImagePlaceholder: "journal_cover_vol2_no1",
     editorialNote:
-      "The maiden edition of Medificial Intelligence (LAUMED Journal Club's 3rd journal edition), edited by Esther Adewuyi and featuring six peer-reviewed manuscripts on artificial intelligence, wearable diagnostics, robotic surgery, disaster response, radiogenomics, and non-invasive renal care, plus a crossword puzzle and poetry feature. The next edition of Medificial Intelligence is coming soon.",
+      "The February 2025 edition of LAUMED Journal (Volume 2, Number 1), themed Medificial Intelligence: Revolutionizing Healthcare with Technology, was edited by Esther Adewuyi and features six peer-reviewed manuscripts on artificial intelligence, wearable diagnostics, robotic surgery, disaster response, radiogenomics, and non-invasive renal care, plus a crossword puzzle and poetry feature. The next edition of LAUMED Journal is coming soon.",
     articles: []
   },
   pastIssues: []
@@ -891,11 +891,11 @@ export const CLUB_EVENTS: ClubEvent[] = [
     venue: "The Hall, LAUTECH, Ogbomoso, Nigeria",
     flyerUrl: "/assets/aistudio/photo_2026-11-13_00-03-13_438c8629.jpg",
     description:
-      "Our flagship scientific conference and official launch of the Medificial Intelligence journal at LAUTECH (100 slots capacity). Featured a keynote address on artificial intelligence in Nigeria's healthcare system, a four-member academic panel, and on-site distribution of LAUMED Journal membership forms.",
+      "Our flagship scientific conference and official launch of the Medificial Intelligence edition of LAUMED Journal at LAUTECH (100 slots capacity). Featured a keynote address on artificial intelligence in Nigeria's healthcare system, a four-member academic panel, and on-site distribution of LAUMED Journal membership forms.",
     registrationOpen: false,
     recap: {
       summary:
-        "Presented by LAUMED Journal Club ('more is definitely better…') and Medificial Intelligence at The Hall, LAUTECH, Ogbomoso. The conference centered on the theme 'Medificial Intelligence: Revolutionizing Healthcare with Technology' and marked the launch of the journal alongside membership form distribution.",
+        "Presented by LAUMED Journal Club ('more is definitely better…') at The Hall, LAUTECH, Ogbomoso. The conference centered on the theme 'Medificial Intelligence: Revolutionizing Healthcare with Technology' and marked the launch of the themed journal edition alongside membership form distribution.",
       keynoteSpeaker: {
         name: "Professor Oluwadiya Kehinde Sunday",
         title: "Acting Chief Medical Director of the University of Sierra Leone Teaching Hospitals Complex, Freetown",
@@ -931,7 +931,7 @@ export const MEMBERSHIP_INFO = {
   benefits: [
     { title: "Biweekly Critical Appraisal Training", desc: "Hands-on biweekly sessions mastering CASP, CONSORT, PRISMA, and STROBE appraisal checklists." },
     { title: "Mentorship on Publishing", desc: "Direct pairing with consultant faculty and senior student editors to draft and publish clinical papers." },
-    { title: "Access to Medificial Intelligence Editorial Desk", desc: "Opportunities to collaborate on the annual Medificial Intelligence journal publication, peer learning, and manuscript review." },
+    { title: "Access to LAUMED Journal Editorial Desk", desc: "Opportunities to collaborate on the annual LAUMED Journal publication, peer learning, and manuscript review." },
     { title: "Priority Accreditation for Annual Conferences", desc: "Reserved delegate seating, abstract presentation opportunities, and research grant notifications." },
     { title: "Research Working Groups", desc: "Join interest-based groups investigating clinical medicine, public health, and biomedical research." }
   ],
@@ -1201,8 +1201,8 @@ export const RESOURCES_LIST: AppraisalToolLink[] = [
 export const ISSUES: ArchiveJournalIssue[] = [
   {
     id: "medificial-vol2-no1-feb2025",
-    editionLabel: "Maiden Edition · Medificial Intelligence",
-    journal: "Medificial Intelligence · LAUMED Journal Club (Ladoke Akintola University Medical Journal Club)",
+    editionLabel: "2025 Edition Theme · Medificial Intelligence",
+    journal: "LAUMED Journal · LAUMED Journal Club (Ladoke Akintola University Medical Journal Club)",
     title: "Medificial Intelligence: Revolutionizing Healthcare with Technology",
     volume: 2,
     number: 1,

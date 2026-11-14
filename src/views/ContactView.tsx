@@ -37,7 +37,7 @@ export const ContactView: React.FC = () => {
           Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fed7aa] via-[#f97316] to-[#ea580c]">LAUMED</span> Journal Club
         </h1>
         <p className="text-xs sm:text-sm text-[#d6cebe] max-w-2xl leading-relaxed">
-          Inquiries regarding student membership, manuscript submissions for Medificial Intelligence, scientific conference partnerships, and guest speaking engagements.
+          Inquiries regarding student membership, manuscript submissions for LAUMED Journal, scientific conference partnerships, and guest speaking engagements.
         </p>
       </div>
 

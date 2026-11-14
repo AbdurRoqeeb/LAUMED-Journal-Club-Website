@@ -317,14 +317,14 @@ export const HomeView: React.FC<HomeViewProps> = ({
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-4">
               <span className="px-3 py-1 bg-[#ea580c] text-white text-xs font-mono font-bold uppercase tracking-wider rounded-md">
-                Official Annual Journal · {JOURNAL_INFO.frequency}
+                Official Annual Journal
               </span>
 
               <div className="space-y-1">
                 <h2 className="text-3xl sm:text-5xl font-serif font-bold text-white leading-tight">
-                  Medificial{' '}
+                  LAUMED{' '}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fed7aa] via-[#f97316] to-[#ea580c]">
-                    Intelligence
+                    Journal
                   </span>
                 </h2>
                 <p className="text-xs sm:text-sm font-serif italic text-[#fed7aa]">
@@ -356,20 +356,20 @@ export const HomeView: React.FC<HomeViewProps> = ({
             <div className="lg:col-span-4">
               <div className="rounded-2xl p-6 bg-[#2A120B] border border-[#ea580c]/30 text-center space-y-3">
                 <div className="w-16 h-16 rounded-2xl bg-[#261007] border-2 border-[#ea580c] mx-auto flex items-center justify-center text-[#ea580c] font-serif font-bold text-2xl shadow-[0_0_20px_rgba(234,88,12,0.3)]">
-                  M
+                  L
                 </div>
                 <div className="space-y-1">
-                  <div className="text-xs font-mono uppercase text-[#ea580c] font-bold">Maiden Edition</div>
-                  <div className="text-sm font-serif font-bold text-white">Medificial Intelligence</div>
+                  <div className="text-xs font-mono uppercase text-[#ea580c] font-bold">Latest Edition · 2025 Theme</div>
+                  <div className="text-sm font-serif font-bold text-white">LAUMED Journal</div>
                   <div className="text-xs text-[#fed7aa] font-mono">
                     Vol. {JOURNAL_INFO.currentIssue.volume}, No. {JOURNAL_INFO.currentIssue.issue} ({JOURNAL_INFO.currentIssue.publicationDate})
                   </div>
                 </div>
                 <div className="text-[11px] text-[#f5ebe0] italic font-serif">
-                  &ldquo;Revolutionizing Healthcare with Technology&rdquo;
+                  Theme: &ldquo;Medificial Intelligence: Revolutionizing Healthcare with Technology&rdquo;
                 </div>
                 <div className="pt-2 border-t border-[#ea580c]/20 text-[11px] font-mono text-[#fed7aa]">
-                  Next edition coming soon · 2020 LAUMED in archive
+                  Next edition coming soon · 2020 edition in archive
                 </div>
               </div>
             </div>

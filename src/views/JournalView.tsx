@@ -91,9 +91,9 @@ export const JournalView: React.FC<JournalViewProps> = ({
 
           <div className="space-y-1">
             <h1 className="text-3xl sm:text-5xl font-serif font-bold text-white leading-tight">
-              Medificial{' '}
+              LAUMED{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fed7aa] via-[#f97316] to-[#ea580c]">
-                Intelligence
+                Journal
               </span>
             </h1>
             <p className="text-sm sm:text-base font-serif italic text-[#fed7aa]">
@@ -106,16 +106,16 @@ export const JournalView: React.FC<JournalViewProps> = ({
           </p>
 
           <p className="text-xs sm:text-sm text-[#fed7aa] bg-[#140a05]/80 border border-[#ea580c]/30 rounded-xl px-4 py-3 leading-relaxed">
-            First launched in <strong className="text-white">2020</strong> under the name{' '}
-            <span className="italic">LAUMED, Journal of the Ladoke Akintola University Medical Students&apos; Association</span>,
-            our annual publication now carries the title <strong className="text-white">Medificial Intelligence</strong>. Read the{' '}
+            First launched in <strong className="text-white">2020</strong> as{' '}
+            <span className="italic">LAUMED, Journal of the Ladoke Akintola University Medical Students&apos; Association</span>,{' '}
+            <strong className="text-white">LAUMED Journal</strong> publishes annual themed editions. Read our{' '}
             <a
               href="#issues"
               className="underline decoration-[#ea580c] underline-offset-4 text-white hover:text-[#fed7aa] font-semibold"
             >
-              maiden edition of Medificial Intelligence (February 2025)
+              February 2025 edition themed Medificial Intelligence
             </a>{' '}
-            alongside earlier LAUMED editions in the archive below — <strong className="text-white">the next edition is coming soon</strong>.
+            alongside earlier editions in the archive below — <strong className="text-white">the next edition is coming soon</strong>.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
@@ -148,7 +148,7 @@ export const JournalView: React.FC<JournalViewProps> = ({
             <div className="border-b border-[#ea580c]/20 pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
-                  Maiden Edition · Current Issue
+                  Latest Edition · 2025 Theme: Medificial Intelligence
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
                   Volume {JOURNAL_INFO.currentIssue.volume}, Number {JOURNAL_INFO.currentIssue.issue}
@@ -179,7 +179,7 @@ export const JournalView: React.FC<JournalViewProps> = ({
                 </h2>
               </div>
               <span className="text-xs text-[#fed7aa] font-mono">
-                LAUMED (2020) · Medificial Intelligence (Annual)
+                LAUMED Journal · Annual Publication
               </span>
             </div>
 
@@ -360,10 +360,10 @@ export const JournalView: React.FC<JournalViewProps> = ({
                     Upcoming Edition
                   </span>
                   <p className="text-base font-serif font-semibold text-white">
-                    Medificial Intelligence — Next Edition Coming Soon
+                    LAUMED Journal — Next Edition Coming Soon
                   </p>
                   <p className="text-xs text-[#d6cebe]">
-                    Volume 2, Number 1 (February 2025) is the maiden edition of Medificial Intelligence. The next annual edition is in preparation and will be published here as a downloadable PDF.
+                    Volume 2, Number 1 (February 2025), themed Medificial Intelligence: Revolutionizing Healthcare with Technology, is the latest published edition. The next annual edition of LAUMED Journal is in preparation and will appear here as a downloadable PDF.
                   </p>
                 </div>
                 <span className="text-xs font-mono text-[#fed7aa] shrink-0">
@@ -456,7 +456,7 @@ export const JournalView: React.FC<JournalViewProps> = ({
             <div className="initial-card p-6 sm:p-7 bg-[#1E0C08] border border-[#ea580c]/40 flex flex-col lg:flex-row lg:items-center justify-between gap-5">
               <div className="space-y-1.5 max-w-2xl">
                 <p className="text-xs sm:text-sm text-[#f5ebe0] leading-relaxed">
-                  Manuscripts for <strong className="text-white">Medificial Intelligence</strong> must follow the official LAUMED Journal Club{' '}
+                  Manuscripts for <strong className="text-white">LAUMED Journal</strong> must follow the official LAUMED Journal Club{' '}
                   <span className="text-[#fed7aa] font-semibold">{JOURNAL_INFO.styleGuide.versionLabel}</span> and be submitted in British English, Times New Roman size 12, single spacing.
                 </p>
                 <p className="text-xs font-mono text-[#fed7aa]">

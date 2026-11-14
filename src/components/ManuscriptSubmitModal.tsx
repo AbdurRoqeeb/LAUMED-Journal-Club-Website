@@ -52,7 +52,7 @@ export const ManuscriptSubmitModal: React.FC<ManuscriptSubmitModalProps> = ({ is
       className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-black/85 backdrop-blur-sm flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
-      aria-label="Submit a Manuscript to Medificial Intelligence Journal"
+      aria-label="Submit a Manuscript to LAUMED Journal"
       onClick={onClose}
     >
       <div
@@ -62,7 +62,7 @@ export const ManuscriptSubmitModal: React.FC<ManuscriptSubmitModalProps> = ({ is
         <div className="flex items-start justify-between border-b border-[var(--rust)]/40 pb-4 gap-4">
           <div>
             <span className="text-xs font-mono uppercase tracking-widest text-[var(--orange)] font-bold">
-              Medificial Intelligence Journal
+              LAUMED Journal
             </span>
             <h3 className="text-xl sm:text-2xl font-heading font-extrabold text-[var(--text)] mt-0.5">
               Submit a Manuscript
@@ -89,7 +89,7 @@ export const ManuscriptSubmitModal: React.FC<ManuscriptSubmitModalProps> = ({ is
                 Manuscript Received for Editorial Review!
               </h4>
               <p className="text-xs text-[var(--muted)] max-w-sm mx-auto">
-                Your paper has entered initial desk triage with the editorial board of Medificial Intelligence.
+                Your paper has entered initial desk triage with the editorial board of LAUMED Journal.
               </p>
             </div>
 

@@ -156,7 +156,7 @@ export const Footer: React.FC<FooterProps> = ({ setCurrentPage, openSubmitModal 
               <div className="flex items-center gap-2.5">
                 <MediumLogoIcon className="w-4 h-4 text-[#ea580c] shrink-0" />
                 <a href={CLUB_INFO.contact.mediumUrl} target="_blank" rel="noopener noreferrer" className="text-[#fed7aa] hover:underline">
-                  Medium ({CLUB_INFO.contact.mediumHandle})
+                  {CLUB_INFO.contact.mediumHandle}
                 </a>
               </div>
               <div className="flex items-start gap-2.5 pt-1 text-[11px] text-[#8c7e72]">

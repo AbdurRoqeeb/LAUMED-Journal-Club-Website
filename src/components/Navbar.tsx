@@ -169,7 +169,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </nav>
 
             {/* Primary Action Button (Desktop) */}
-            <div className="hidden sm:flex items-center gap-3 shrink-0">
+            <div className="hidden lg:flex items-center gap-3 shrink-0">
               <button
                 type="button"
                 onClick={() => handleNav('membership')}
