@@ -358,15 +358,18 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 <div className="w-16 h-16 rounded-2xl bg-[#261007] border-2 border-[#ea580c] mx-auto flex items-center justify-center text-[#ea580c] font-serif font-bold text-2xl shadow-[0_0_20px_rgba(234,88,12,0.3)]">
                   M
                 </div>
-                <div>
-                  <div className="text-xs font-mono uppercase text-[#ea580c] font-bold">Annual Publication</div>
+                <div className="space-y-1">
+                  <div className="text-xs font-mono uppercase text-[#ea580c] font-bold">Maiden Edition</div>
                   <div className="text-sm font-serif font-bold text-white">Medificial Intelligence</div>
-                  <div className="text-xs text-[#8c7e72] font-mono">
-                    2020 Archive: LAUMED Vol. {JOURNAL_INFO.currentIssue.volume}, No. {JOURNAL_INFO.currentIssue.issue}
+                  <div className="text-xs text-[#fed7aa] font-mono">
+                    Vol. {JOURNAL_INFO.currentIssue.volume}, No. {JOURNAL_INFO.currentIssue.issue} ({JOURNAL_INFO.currentIssue.publicationDate})
                   </div>
                 </div>
-                <div className="text-[11px] text-[#fed7aa] italic font-serif">
-                  "{JOURNAL_INFO.currentIssue.title}" ({JOURNAL_INFO.currentIssue.publicationDate})
+                <div className="text-[11px] text-[#f5ebe0] italic font-serif">
+                  &ldquo;Revolutionizing Healthcare with Technology&rdquo;
+                </div>
+                <div className="pt-2 border-t border-[#ea580c]/20 text-[11px] font-mono text-[#fed7aa]">
+                  Next edition coming soon · 2020 LAUMED in archive
                 </div>
               </div>
             </div>

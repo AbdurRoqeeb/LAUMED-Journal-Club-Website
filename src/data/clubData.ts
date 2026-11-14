@@ -2,7 +2,7 @@
  * LAUMED JOURNAL CLUB - Centralized Content Repository
  * Edit any section below to update site content without modifying UI layouts.
  */
-import { LAUMED_VOL1_NO2_COVER } from './issueCovers';
+import { LAUMED_VOL1_NO2_COVER, MEDIFICIAL_VOL2_NO1_COVER } from './issueCovers';
 
 export interface JournalSession {
   id: string;
@@ -57,6 +57,7 @@ export interface ArchiveIssueNonEditorialItem {
 
 export interface ArchiveJournalIssue {
   id: string;
+  editionLabel?: string;
   journal: string;
   title: string;
   volume: number;
@@ -69,8 +70,14 @@ export interface ArchiveJournalIssue {
   format: string;
   tagline: string;
   cover: string;
+  coverWidth?: number;
+  coverHeight?: number;
   file: string;
   downloadFilename: string;
+  editorialPageRange?: string;
+  guestEditorialPageRange?: string;
+  nonEditorialPageRange?: string;
+  nonEditorialDescription?: string;
   articles: {
     title: string;
     page: number;
@@ -136,9 +143,9 @@ export interface TeamMember {
 
 export interface FacultyAdvisor {
   name: string;
-  title: string;
-  department: string;
-  bio: string;
+  title?: string;
+  department?: string;
+  bio?: string;
 }
 
 export interface AppraisalToolLink {
@@ -764,20 +771,20 @@ export const JOURNAL_INFO = {
   },
   editorialBoard: [
     { name: "Kaothar Oyeniran", role: "Editor-in-Chief", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_eic" },
-    { name: "Zainab Akindele", role: "Deputy Editor-in-Chief", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_deic" },
+    { name: "Zainab Akindele", role: "Deputy Editor", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_deic" },
     { name: "Ofure Alfred", role: "Board Secretary", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_sec" },
     { name: "Habiblah Jagunmolu", role: "Associate Editor", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_ae" },
     { name: "Peter Olaniyi", role: "Managing Editor", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_me" },
     { name: "Taiwo Oluwafemi", role: "Graphics Editor", affiliation: "LAUMED Journal Club, LAUTECH", photoPlaceholder: "avatar_ge" }
   ],
   currentIssue: {
-    volume: 1,
-    issue: 2,
-    title: "Health & Lifestyle",
-    publicationDate: "December 2020",
-    coverImagePlaceholder: "journal_cover_vol1_no2",
+    volume: 2,
+    issue: 1,
+    title: "Medificial Intelligence: Revolutionizing Healthcare with Technology",
+    publicationDate: "February 2025",
+    coverImagePlaceholder: "journal_cover_vol2_no1",
     editorialNote:
-      "First published in 2020 as LAUMED, Journal of the Ladoke Akintola University Medical Students' Association, Volume 1, Number 2 explores Health & Lifestyle across 81 pages of editorial, guest editorial, creative and club report features.",
+      "The maiden edition of Medificial Intelligence (LAUMED Journal Club's 3rd journal edition), edited by Esther Adewuyi and featuring six peer-reviewed manuscripts on artificial intelligence, wearable diagnostics, robotic surgery, disaster response, radiogenomics, and non-invasive renal care, plus a crossword puzzle and poetry feature. The next edition of Medificial Intelligence is coming soon.",
     articles: []
   },
   pastIssues: []
@@ -1081,7 +1088,7 @@ export const ABOUT_INFO = {
   },
   executiveTeam: [
     { name: "Kaothar Oyeniran", role: "Editor-in-Chief", photoPlaceholder: "team_kaothar" },
-    { name: "Zainab Akindele", role: "Deputy Editor-in-Chief", photoPlaceholder: "team_zainab" },
+    { name: "Zainab Akindele", role: "Deputy Editor", photoPlaceholder: "team_zainab" },
     { name: "Ofure Alfred", role: "Board Secretary", photoPlaceholder: "team_ofure" },
     { name: "Habiblah Jagunmolu", role: "Associate Editor", photoPlaceholder: "team_habiblah" },
     { name: "Peter Olaniyi", role: "Managing Editor", photoPlaceholder: "team_peter" },
@@ -1089,21 +1096,49 @@ export const ABOUT_INFO = {
     { name: "Muntaqim Opabode", role: "Public Relations Officer", photoPlaceholder: "team_muntaqim" },
     { name: "Taiwo Oluwafemi", role: "Graphics Editor", photoPlaceholder: "team_taiwo" }
   ] as TeamMember[],
-  historyPlaceholder: "[History of the club: to be added]",
-  facultyAdvisors: [
+  history: {
+    title: "History of LAUMED Journal Club",
+    inauguralDate: "Friday, August 26th, 2016",
+    founder: "Dr Ayotunde Ojo",
+    coFounders: ["Dr Sijuade Sanusi", "Dr Abimbola Olanrewaju"],
+    paragraphs: [
+      "The LAUMED JOURNAL CLUB is the journal club of the Ladoke Akintola University Medical Students. It is an integral yet independent arm of LAUMSA made of medical students who have deep-rooted interests in clinical research works, critical thinking and capacity building. On Friday, August the 26th 2016, we had our inaugural meeting which had in attendance the founder: Dr Ayotunde OJO and the co-founders: Dr Sijuade SANUSI, Dr Abimbola OLANREWAJU — all fifth (5th) year medical students then.",
+      "The idea that birthed the establishment of the LAUMED JOURNAL CLUB stemmed from the fact that the field of Medicine is growing on a daily basis. It then became important that we, doctors to be, be kept abreast of new innovations and findings in the field of Medicine. It is vital that we keep up with and discuss current literature in a bid to achieve a greater understanding of scientific concepts.",
+      "“Drink deep or taste not from the Pierian spring. For shallow draughts intoxicate the brain and drinking largely sobers us again.” — Alexander Pope. The saying goes true that a little learning is a dangerous thing. How would one feel to discover after medical school how a little learning here and there can leap us into invalid conclusions? Or what would the feeling be like to discover that we have for the most part succeeded in learning to read and pass examinations? More is definitely better. More in the place of critical appraisal skills, more in critical thinking, more in improved reading habits, more in communication skills, more in group participation and teamwork, more in professional identity, more in the development of research, writing and publishing skills. More, because more is definitely better.",
+      "Trousseau said, “The worst man is he who is never an artist, and the worst artist is he who is never a man of science.” Medicine itself is a science and an art. The art and the Science of Medicine are complementary. Nowadays, it is sad to see that the medical pendulum is swinging more from the art to the science side. So, the LAUMED JOURNAL CLUB, as we agreed on our inaugural meeting, sought to revive the dying art of Medicine by having a fusion of both science and art so as not to blunt our humanities with too much scientific medicine.",
+      "To conclude, Medical practice has over the years experienced and is still experiencing a constant change, the rate of which is accelerating to the point of throwing physicians and students alike off balance. What is accepted as scientific today is discarded by medical practitioners tomorrow in the light of newer evidence. We can learn about new information, new innovations and consequently decide how they modify our practice by promoting interest and capacity in research, providing a platform for the development of critical thinking skills needed to succeed in this practice. Through a peer-reviewed publication of scholarly journals both in print and electronic forms, the LAUMED JOURNAL CLUB looks forward to gaining academic prestige and notoriety on issues related to the science and art of Medicine.",
+      "Special mention and thanks to Dr Muyiwa Adeniran and Dr Joy Oluwaniyi (then Editors-in-Chief of IFEMED and DOKITA respectively). The extensive knowledge and collaboration I enjoyed from them were invaluable at the nascent stage of the LAUMED Journal Club. In the same vein, I remain grateful for the unwavering support and push by the leadership of the LAUMED Journal Club since its inception as led by my humble self, followed by Dr Abimbola Adeagbo, Dr Somtolise Ajufo, Dr Nicholas Aderinto, Dr Kehinde Alare and now the freshly minted Dr Esther Adewuyi, who have all contributed a part in the story that is LAUMED today. Ditto all of our teachers whose shoulders we leaned on for mentorship, guidance, moral and financial support, we are indeed very grateful. We have all played our parts very well in this great making of our club. Thank you all. More is definitely better."
+    ],
+    attributionName: "Ayotunde OJO, DR.",
+    attributionTitle: "Founder & Pioneer Editor-in-Chief, LAUMED Journal Club."
+  },
+  boardOfConsultants: [
     {
-      name: "Professor Adeseye Akintunde",
-      title: "Faculty Patron & Consultant Cardiologist",
-      department: "Department of Internal Medicine, LAUTECH / LAUTECH Teaching Hospital",
-      bio: "Member of the Editorial Board for Current Hypertension Review Journal. Internationally published researcher in cardiovascular ultrasound and hypertensive risk stratification."
+      name: "Professor Olawale Olakulehin",
+      title: "Member, LAUMED JC Board of Consultants · Chief Medical Director",
+      department: "LAUTECH Teaching Hospital, Ogbomoso"
     },
     {
       name: "Professor Michael Olamoyegun",
-      title: "Senior Editorial Advisor & Consultant Endocrinologist",
-      department: "Founder, South West Diabetes Investigation Research Group (SWEDIG)",
-      bio: "Leading authority in diabetes epidemiology, metabolic syndrome profiling, and rural endocrinological health outcomes in Nigeria."
+      title: "Patron & Consultant Endocrinologist",
+      department: "Founder, South West Diabetes Investigation Research Group (SWEDIG)"
+    },
+    {
+      name: "Professor Adeseye Akintunde",
+      title: "Member, LAUMED JC Board of Consultants · Consultant Cardiologist",
+      department: "Department of Internal Medicine, LAUTECH / LAUTECH Teaching Hospital"
+    },
+    {
+      name: "Dr. Adeoye Oyewole",
+      title: "Member, LAUMED JC Board of Consultants · Consultant Psychiatrist",
+      department: "LAUTECH Teaching Hospital"
+    },
+    {
+      name: "Dr. Olanike Oladibu",
+      title: "Member, LAUMED JC Board of Consultants · Consultant Paediatrician",
+      department: "LAUTECH Teaching Hospital, Ogbomoso"
     }
-  ]
+  ] as FacultyAdvisor[]
 };
 
 /* =========================================================================
@@ -1165,6 +1200,139 @@ export const RESOURCES_LIST: AppraisalToolLink[] = [
    ========================================================================= */
 export const ISSUES: ArchiveJournalIssue[] = [
   {
+    id: "medificial-vol2-no1-feb2025",
+    editionLabel: "Maiden Edition · Medificial Intelligence",
+    journal: "Medificial Intelligence · LAUMED Journal Club (Ladoke Akintola University Medical Journal Club)",
+    title: "Medificial Intelligence: Revolutionizing Healthcare with Technology",
+    volume: 2,
+    number: 1,
+    date: "February 2025",
+    publishedAt: "2025-02",
+    issn: "",
+    pages: 39,
+    size: "10.9 MB",
+    format: "PDF",
+    tagline: "Revolutionizing Healthcare with Technology",
+    cover: MEDIFICIAL_VOL2_NO1_COVER,
+    coverWidth: 520,
+    coverHeight: 673,
+    file: "/assets/aistudio/LAUMED_Journal_Book.pdf_compressed_a5e1acbf.pdf",
+    downloadFilename: "Medificial-Intelligence-Vol2-No1-Feb2025.pdf",
+    editorialPageRange: "Pages 1–30",
+    nonEditorialPageRange: "Pages 31–32",
+    nonEditorialDescription:
+      "The following crossword puzzle and poetry feature also appear in the published PDF edition (no standalone research abstracts printed in the PDF):",
+    articles: [
+      { title: "Exploring the Role of Artificial Intelligence in Stroke Treatment and Management", page: 1 },
+      { title: "Measuring Blood Cholesterol Levels Using Wearable Devices", page: 10 },
+      { title: "The Significance of Robotic Surgery for Developing Countries: A Focus on Nigeria", page: 14 },
+      { title: "Artificial Intelligence Guided Emergency Response and Disaster Management", page: 18 },
+      { title: "Artificial Intelligence in Radiogenomics for Cancer Risk Prediction", page: 23 },
+      { title: "Improving Non-Invasive Procedures in the Diagnosis of Renal Pathologies Using Artificial Intelligence", page: 27 }
+    ],
+    pdfArticles: [
+      {
+        id: "vol2-no1-ai-stroke",
+        title: "Exploring the Role of Artificial Intelligence in Stroke Treatment and Management",
+        authors: "¹Abdulbasit Opeyemi Muili, ²Oluwafemi Amusa, ³Mustapha Mubarak Jolayemi, ³Idris Abdulwahab",
+        affiliations: [
+          "1. Preclinical II, Faculty of Basic Medical Sciences, Ladoke Akintola University, Ogbomoso",
+          "2. Clinical I, Faculty of Basic Clinical Sciences, Ladoke Akintola University, Ogbomoso",
+          "3. Clinical I, Faculty of Basic Clinical Sciences, University Ilorin, Ilorin"
+        ],
+        category: "Editorial Article",
+        page: 1,
+        summaryLabel: "Abstract",
+        abstract:
+          "Stroke is one of the neurological diseases with the most common cause of mortality and disability in the world, significantly impacting individuals’ lives, due to its deleterious effect on the brain and nervous system. Due to the time-sensitive nature of stroke, there is a need for prompt and effective treatment methods. Various management strategies have been employed for the management of stroke and have been evaluated in multiple clinical trials. Moreover, the advent of emerging technologies has introduced the use of Artificial intelligence, telemedicine, stem cell therapy, virtual reality, and robotics in the management of stroke and they have shown to be a safe and efficient method of treatment.\n\nThis current study provides an outlook on the role of AI in stroke treatment and management through the evaluation of its current state of use in the management of stroke, challenges facing its usage in stroke management, and opportunities for future development in its implementation. We discovered the potential of AI in stroke diagnosis, treatment, and rehabilitation. However, it also presents significant challenges such as AI bias, data privacy, and ethical concerns. Despite these challenges, there are opportunities for growth and development through advancing AI techniques, collaborations between health professionals and AI developers, and identifying potential breakthroughs and research areas to enhance its implementation.",
+        keywords: ["Stroke", "Artificial Intelligence", "Technology"]
+      },
+      {
+        id: "vol2-no1-cholesterol-wearables",
+        title: "Measuring Blood Cholesterol Levels Using Wearable Devices",
+        authors: "¹Ridwan Olanipekun, ²Korede Amao",
+        affiliations: [
+          "1. Clinical I, Faculty of Basic Clinical Sciences, Ladoke Akintola University, Ogbomoso",
+          "2. Clinical II, Faculty of Clinical Sciences, Ladoke Akintola University, Ogbomoso"
+        ],
+        category: "Editorial Article",
+        page: 10,
+        summaryLabel: "Abstract",
+        abstract:
+          "The increasing prevalence of diseases associated with abnormal cholesterol levels, like cardiovascular diseases, has emphasized the need for routine monitoring of blood cholesterol levels. Wearable devices, emerging as a promising tool for self-monitoring, offer a convenient and noninvasive alternative to conventional methods of measuring blood cholesterol levels. This review aims to assess the current state of knowledge and recent technological advancements in measuring blood cholesterol levels using wearable devices, exploring their accuracy, reliability, accessibility, affordability, and potential applications. A comprehensive literature search was conducted across various databases, including PubMed and ResearchGate, to identify studies on noninvasive methods of cholesterol monitoring, like wearable devices. The review highlights technological advances in the use of wearable devices to measure blood cholesterol, such as smartwatches. Various technologies, including photoplethysmography, LipidPlus, and Accutrend Plus, have shown promising results in noninvasive methods of detecting changes in cholesterol levels. Wearable devices offer a promising pathway to reducing the risks of cardiovascular diseases. They provide a convenient, accessible and self-monitoring tool for individuals at risk of cardiovascular disease to keep track of their blood cholesterol levels. However, further research is needed to establish the clinical validity, accuracy, and reliability, as well as their cost-effectiveness and potential integration into healthcare systems.",
+        keywords: ["Wearable devices", "Cholesterol", "Cardiovascular disease", "Self-monitoring"]
+      },
+      {
+        id: "vol2-no1-robotic-surgery-nigeria",
+        title: "The Significance of Robotic Surgery for Developing Countries: A Focus on Nigeria",
+        authors: "¹Habiblah Ayomide, ¹Kaothar Oyeniran, ²Abdulrahmon Moradeyo, ³Benjamin Simiyu, ⁴Kabirat Aminu",
+        affiliations: [
+          "1. Clinical II, Faculty of Clinical Sciences, Ladoke Akintola University, Ogbomoso",
+          "2. Preclinical, Faculty of Basic Medical Sciences, Ladoke Akintola University, Ogbomoso",
+          "3. Clinical III, Faculty of Clinical Sciences, School of Medicine, Kisumu-Kenya",
+          "4. Clinical III, Faculty of Clinical Sciences, Ladoke Akintola University, Ogbomoso"
+        ],
+        category: "Editorial Article",
+        page: 14,
+        summaryLabel: "Abstract",
+        abstract:
+          "Robotic surgery represents a significant advancement in Medicine, especially in various surgical specialties. This study focuses on the relevance of robotics in surgical specialties. It involves the use of robots to assist surgeons in performing complex procedures, leading to an exponential rise in the degree of accuracy and precision. While robotic-assisted surgery has gained wide implementation in developed countries, developing countries are still way behind as its’ implementation into healthcare systems in LMICs (Low-and-Middle-Income Countries) remains limited due to constraints in terms of financial, infrastructural, and human resources. This review aims to assess the feasibility, challenges, and benefits of implementing robotic surgery in developing countries like Nigeria while also examining the current global state of robotic surgery. We also examine possible economic implications, including cost-effectiveness, scalability, and long-term sustainability. In addition, strategies to stimulate the widespread adoption of robotics in LMICs are also dissected, and they include international collaboration, government policies, public awareness, and NGO intervention. By dwelling on case studies and real-life applications, this study provides insights into how robotic surgery can promote global health equity and reduce morbidity, mortality, and physician burnout. Current barriers to implementation and how to overcome them are also discussed, in addition to prospects and recommendations across all societal levels in the quest towards ensuring global robotic-assisted surgery implementation.",
+        keywords: ["Robotic surgery", "Nigeria", "Surgical precision", "Minimally invasive", "Telemedicine"]
+      },
+      {
+        id: "vol2-no1-ai-emergency-disaster",
+        title: "Artificial Intelligence Guided Emergency Response and Disaster Management",
+        authors: "¹Ayomide Kayode, ²Peter Olaniyi, ³Mahmud Aruna",
+        affiliations: [
+          "1. Clinical III, Faculty of Clinical Sciences, Ladoke Akintola University, Ogbomoso",
+          "2. Clinical II, Faculty of Clinical Sciences, Ladoke Akintola University, Ogbomoso",
+          "3. Clinical I, Faculty of Basic Clinical Sciences, Ladoke Akintola University, Ogbomoso"
+        ],
+        category: "Editorial Article",
+        page: 18,
+        summaryLabel: "Abstract",
+        abstract:
+          "Emergency response involves a systematic approach to managing the responsibilities of disaster prevention, preparedness, response, and recovery. In 2020, the 389 reported global natural disasters caused over 15 000 deaths, 98 million infected people, and over US$171Bn losses and the COVID 19 pandemic also recently caused 6.5 million deaths, 623 million confirmed cases, and trillions of dollars in losses to date. Artificial Intelligence (AI), with its remarkable capabilities for visual perception, speech recognition, decision-making, and translation between languages is emerging as a potent tool in disaster prevention, early warning, and response efforts, and with increasing incidence of Emergencies, Crises and Disasters, AI is now more indispensable than ever. The use of AI in emergency response and disaster management developed from its initial use in predictive modelling, using algorithms to analyze historical data and identify patterns to forecast future events. AI now employs real time disaster response using tools such as drone surveillance and satellite imagery analysis to assess disaster impact and coordinate response efforts. The development of autonomous systems such as AI robots have been useful in search and rescue missions in hazardous environments. AI has also been used to model and simulate disaster scenarios to help countries in emergency preparedness and response.\n\nThe use of AI in disaster management offers a great advantage over human error and limited capacity while maintaining its precision and accuracy. However, the biggest challenge to the use of AI in emergency response and disaster management still lies with its ethical considerations.",
+        keywords: ["Artificial intelligence", "Emergency preparedness", "Emergency response", "Disaster management", "Crisis management"]
+      },
+      {
+        id: "vol2-no1-ai-radiogenomics",
+        title: "Artificial Intelligence in Radiogenomics for Cancer Risk Prediction",
+        authors: "¹Temitayo Odedele, ²Oluwatosin Afolayan",
+        affiliations: [
+          "1. Clinical III, Faculty of Clinical Sciences, Ladoke Akintola University, Ogbomoso",
+          "2. Clinical II, Faculty of Clinical Sciences, Ladoke Akintola University, Ogbomoso"
+        ],
+        category: "Editorial Article",
+        page: 23,
+        summaryLabel: "Abstract",
+        abstract:
+          "Cancer stands as a significant contributor to global mortality rates. A considerable number of individuals are diagnosed at an advanced stage, presenting significant challenges in effectively addressing tumour removal within this population. The utilization of radiogenomics in oncology showcases substantial potential for precision medicine. The interdisciplinary field of radiogenomics integrates genomics and radiological imaging to explore the molecular characteristics of tumours. Traditional cancer risk prediction has been the major prediction model that has been in place since the onset for the prediction of most cancers but a lot of limitations have been in place for this method and a lot of risk factors have emerged and are not included in the model. Radiogenomics is advancing cancer treatment by using genomics to provide individualized and personalised care. The predictive capacity of imaging-derived biomarkers in terms of their robustness, clinical implementability, and reliability. The image-based genomics predictive values yielded positive results, and they were able to predict the epidermal growth factor receptor (EGFR). This demonstrated the value of image-based radiogenomics, which is currently in use, and its capacity for cancer prediction correction. The rapid pace of AI technology development, characterized by innovations in machine learning algorithms, deep learning architectures, and computational power, is poised to revolutionize radiogenomics, thus advancements in AI explainability and interpretability will enhance the trustworthiness of AI-driven radiogenomic models, facilitating their integration into clinical practice.",
+        keywords: ["Radiogenomics", "Machine learning", "Imaging modalities"]
+      },
+      {
+        id: "vol2-no1-ai-renal-diagnosis",
+        title: "Improving Non-Invasive Procedures in the Diagnosis of Renal Pathologies Using Artificial Intelligence",
+        authors: "¹Esther Adewuyi, ²Rebecca Adeyemo, ³Muntaqim Opabode",
+        affiliations: [
+          "1. Clinical III, Faculty of Clinical Sciences, Ladoke Akintola University, Ogbomoso",
+          "2. Clinical II, Faculty of Clinical Sciences, Ladoke Akintola University, Ogbomoso",
+          "3. Clinical I, Faculty of Basic Clinical Sciences, Ladoke Akintola University, Ogbomoso"
+        ],
+        category: "Editorial Article",
+        page: 27,
+        summaryLabel: "Abstract",
+        abstract:
+          "Renal pathologies such as AKI, renal tumors and chronic kidney disease, have high morbidity and mortality rate and they pose a significant global concern for nephrology and public health. Artificial intelligence technologies which include machine learning, deep learning, neural networks and so on, are computational technologies that imitate or emulate human-intelligence supporting processes such as adaptation, reasoning, sensory comprehension and interaction. AI has found application in various healthcare domains, where it is used in clinical diagnosis, patient management and therapeutic planning. In nephrology, the technology has been found useful in early detection and prompt diagnosis of several kidney pathologies, optimizing therapy for patients placed on dialysis or those who underwent kidney transplantation, prediction of prognosis and analysis of biopsy images for pathological diagnosis. Limitations to the use of this amazing technology include, unfamiliarity of nephrologists with medical artificial intelligence, data access and quality, data privacy and security, bias, trustworthiness, ethical and legal issues. While AI holds promise as a non-invasive diagnostic technique in nephrology, challenges must be addressed for its full integration into clinical practice and ethical considerations must be put in place when developing AI-powered diagnostic techniques in the future.",
+        keywords: ["Kidney disease", "Non-invasive procedures", "Artificial intelligence"]
+      }
+    ],
+    nonEditorialContents: [
+      { title: "Crossword Puzzle", author: "Abdulbasit Muili", page: 31 },
+      { title: "Poem: 'Cheers' to Revolutionary Health Care", author: "Oluwanifemi Odediya", page: 32 }
+    ]
+  },
+  {
     id: "laumed-vol1-no2-dec2020",
     journal: "LAUMED, Journal of the Ladoke Akintola University Medical Students' Association",
     title: "Health & Lifestyle",
@@ -1178,8 +1346,15 @@ export const ISSUES: ArchiveJournalIssue[] = [
     format: "PDF",
     tagline: "...more is definitely better!",
     cover: LAUMED_VOL1_NO2_COVER,
+    coverWidth: 520,
+    coverHeight: 735,
     file: "/files/issues/LAUMED-Vol1-No2-Health-and-Lifestyle-Dec2020.pdf",
     downloadFilename: "LAUMED-Vol1-No2-Health-and-Lifestyle-Dec2020.pdf",
+    editorialPageRange: "Pages 9–49",
+    guestEditorialPageRange: "Pages 50–62",
+    nonEditorialPageRange: "Pages 63–80",
+    nonEditorialDescription:
+      "The following creative works, essays, book reviews, interview, and club report also appear in the full PDF edition (no standalone research abstracts printed in the PDF):",
     articles: [
       { title: "Gaming Disorder in Adolescents", page: 6 },
       { title: "Transient Smartphone Blindness", page: 25 }

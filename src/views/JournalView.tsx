@@ -108,13 +108,14 @@ export const JournalView: React.FC<JournalViewProps> = ({
           <p className="text-xs sm:text-sm text-[#fed7aa] bg-[#140a05]/80 border border-[#ea580c]/30 rounded-xl px-4 py-3 leading-relaxed">
             First launched in <strong className="text-white">2020</strong> under the name{' '}
             <span className="italic">LAUMED, Journal of the Ladoke Akintola University Medical Students&apos; Association</span>,
-            our annual journal is now published as <strong className="text-white">Medificial Intelligence</strong>. Earlier editions—including{' '}
+            our annual publication now carries the title <strong className="text-white">Medificial Intelligence</strong>. Read the{' '}
             <a
               href="#issues"
               className="underline decoration-[#ea580c] underline-offset-4 text-white hover:text-[#fed7aa] font-semibold"
             >
-              Volume 1, Number 2 (Health &amp; Lifestyle, December 2020)
-            </a>—remain preserved below in the Issues archive.
+              maiden edition of Medificial Intelligence (February 2025)
+            </a>{' '}
+            alongside earlier LAUMED editions in the archive below — <strong className="text-white">the next edition is coming soon</strong>.
           </p>
 
           <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
@@ -147,17 +148,17 @@ export const JournalView: React.FC<JournalViewProps> = ({
             <div className="border-b border-[#ea580c]/20 pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
                 <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
-                  Latest Archived Edition
+                  Maiden Edition · Current Issue
                 </span>
                 <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
                   Volume {JOURNAL_INFO.currentIssue.volume}, Number {JOURNAL_INFO.currentIssue.issue}
                 </h2>
                 <p className="text-xs sm:text-sm text-[#fed7aa] font-serif italic mt-0.5">
-                  "{JOURNAL_INFO.currentIssue.title}"
+                  &ldquo;{JOURNAL_INFO.currentIssue.title}&rdquo;
                 </p>
               </div>
               <span className="font-mono text-xs text-[#b5a89c]">
-                Published {JOURNAL_INFO.currentIssue.publicationDate}
+                Published {JOURNAL_INFO.currentIssue.publicationDate} · Next edition coming soon
               </span>
             </div>
 
@@ -204,10 +205,10 @@ export const JournalView: React.FC<JournalViewProps> = ({
                         <div className="w-full max-w-[210px] mx-auto md:mx-0 md:w-52 shrink-0">
                           <LazyImage
                             src={issue.cover}
-                            width={520}
-                            height={735}
+                            width={issue.coverWidth ?? 520}
+                            height={issue.coverHeight ?? 735}
                             alt={`Cover of ${issue.journal} — ${issue.title}, Volume ${issue.volume}, Number ${issue.number}, ${issue.date}`}
-                            aspectRatioClassName="aspect-[520/735]"
+                            aspectRatioClassName={issue.coverHeight === 673 ? 'aspect-[520/673]' : 'aspect-[520/735]'}
                             wrapperClassName="rounded-xl border border-[#ea580c]/35 bg-[#140a05] shadow-lg"
                             className="w-full h-full object-cover"
                           />
@@ -220,6 +221,11 @@ export const JournalView: React.FC<JournalViewProps> = ({
                               {isLatest && (
                                 <span className="px-2.5 py-0.5 rounded-full bg-[#c2410c] text-white text-[11px] font-mono font-bold uppercase tracking-wider">
                                   Latest
+                                </span>
+                              )}
+                              {issue.editionLabel && (
+                                <span className="px-2.5 py-0.5 rounded-full bg-[#2A120B] border border-[#ea580c]/45 text-[#fed7aa] text-[11px] font-mono font-semibold">
+                                  {issue.editionLabel}
                                 </span>
                               )}
                               <span className="text-xs font-mono font-semibold text-[#fed7aa]">
@@ -255,10 +261,14 @@ export const JournalView: React.FC<JournalViewProps> = ({
 
                           {/* Metadata Line */}
                           <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs font-mono text-[#d6cebe] py-2.5 px-3.5 rounded-xl bg-[#140a05] border border-[#ea580c]/20">
-                            <span>
-                              <strong className="text-white">ISSN:</strong> {issue.issn}
-                            </span>
-                            <span aria-hidden="true" className="text-[#ea580c]">·</span>
+                            {issue.issn && (
+                              <>
+                                <span>
+                                  <strong className="text-white">ISSN:</strong> {issue.issn}
+                                </span>
+                                <span aria-hidden="true" className="text-[#ea580c]">·</span>
+                              </>
+                            )}
                             <span>
                               <strong className="text-white">{issue.pages}</strong> pages
                             </span>
@@ -303,7 +313,7 @@ export const JournalView: React.FC<JournalViewProps> = ({
                             <a
                               href={issue.file}
                               download={issue.downloadFilename}
-                              aria-label="Download LAUMED Volume 1 Number 2, Health and Lifestyle, PDF, 1.6 MB"
+                              aria-label={`Download ${issue.title.replace(/&/g, 'and')}, Volume ${issue.volume} Number ${issue.number}, ${issue.format}, ${issue.size}`}
                               className="w-full min-[600px]:w-auto min-h-[44px] inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#ea580c] to-[#c2410c] hover:from-[#f97316] hover:to-[#ea580c] text-white font-semibold text-sm shadow-lg shadow-[#ea580c]/25 transition-[transform,opacity] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1E0C08]"
                             >
                               <Download className="w-4 h-4 shrink-0" aria-hidden="true" />
@@ -343,21 +353,21 @@ export const JournalView: React.FC<JournalViewProps> = ({
                 );
               })}
 
-              {/* Empty-state placeholder for upcoming back/future issues */}
+              {/* Upcoming edition announcement slot */}
               <div className="rounded-2xl bg-[#140a05] border border-dashed border-[#ea580c]/30 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="space-y-1">
                   <span className="text-[11px] font-mono uppercase tracking-wider text-[#fed7aa]">
-                    Archive Slot
+                    Upcoming Edition
                   </span>
                   <p className="text-base font-serif font-semibold text-white">
-                    [Next issue coming soon]
+                    Medificial Intelligence — Next Edition Coming Soon
                   </p>
                   <p className="text-xs text-[#d6cebe]">
-                    Additional digitized issues from the journal archive will appear here as downloadable PDFs.
+                    Volume 2, Number 1 (February 2025) is the maiden edition of Medificial Intelligence. The next annual edition is in preparation and will be published here as a downloadable PDF.
                   </p>
                 </div>
-                <span className="text-xs font-mono text-[#b5a89c] shrink-0">
-                  PDF · Pending upload
+                <span className="text-xs font-mono text-[#fed7aa] shrink-0">
+                  Coming soon
                 </span>
               </div>
             </div>
@@ -682,7 +692,7 @@ export const JournalView: React.FC<JournalViewProps> = ({
                   {viewerIssue.title} — Volume {viewerIssue.volume}, Number {viewerIssue.number} ({viewerIssue.date})
                 </h3>
                 <p className="text-xs font-mono text-[#fed7aa] truncate">
-                  {viewerIssue.journal} · ISSN {viewerIssue.issn}
+                  {viewerIssue.journal}{viewerIssue.issn ? ` · ISSN ${viewerIssue.issn}` : ''}
                 </p>
               </div>
               <div className="flex items-center gap-2.5 shrink-0">
@@ -698,7 +708,7 @@ export const JournalView: React.FC<JournalViewProps> = ({
                 <a
                   href={viewerIssue.file}
                   download={viewerIssue.downloadFilename}
-                  aria-label="Download LAUMED Volume 1 Number 2, Health and Lifestyle, PDF, 1.6 MB"
+                  aria-label={`Download ${viewerIssue.title.replace(/&/g, 'and')}, Volume ${viewerIssue.volume} Number ${viewerIssue.number}, ${viewerIssue.format}, ${viewerIssue.size}`}
                   className="min-h-[44px] inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#c2410c] hover:bg-[#ea580c] text-xs font-semibold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
                 >
                   <Download className="w-3.5 h-3.5" aria-hidden="true" />

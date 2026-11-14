@@ -263,62 +263,121 @@ export const AboutView: React.FC = () => {
             </RevealBlock>
           </section>
 
-          {/* History of the Club (Styled Placeholder) */}
+          {/* History of the Club */}
           <section
             id="about-history"
-            className="scroll-mt-24 cv-auto initial-card p-6 sm:p-10 space-y-4 border-dashed border-[#ea580c]/35"
+            className="scroll-mt-24 cv-auto rounded-3xl bg-[#1E0C08] border border-[#ea580c]/35 p-6 sm:p-10 space-y-6 shadow-2xl"
           >
-            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
-              <FileText className="w-4 h-4" aria-hidden="true" />
-              <span>Archives & Milestones</span>
+            <div className="border-b border-[#ea580c]/20 pb-5 space-y-3">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
+                <FileText className="w-4 h-4" aria-hidden="true" />
+                <span>Founding Heritage &amp; Archives</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">
+                {ABOUT_INFO.history.title}
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                <div className="rounded-xl bg-[#140a05] border border-[#ea580c]/25 px-4 py-2.5">
+                  <div className="text-[11px] font-mono uppercase tracking-wider text-[#fb923c]">
+                    Inaugural Meeting
+                  </div>
+                  <div className="text-xs sm:text-sm font-serif font-semibold text-white mt-0.5">
+                    {ABOUT_INFO.history.inauguralDate}
+                  </div>
+                </div>
+                <div className="rounded-xl bg-[#140a05] border border-[#ea580c]/25 px-4 py-2.5">
+                  <div className="text-[11px] font-mono uppercase tracking-wider text-[#fb923c]">
+                    Founder
+                  </div>
+                  <div className="text-xs sm:text-sm font-serif font-semibold text-white mt-0.5">
+                    {ABOUT_INFO.history.founder}
+                  </div>
+                </div>
+                <div className="rounded-xl bg-[#140a05] border border-[#ea580c]/25 px-4 py-2.5">
+                  <div className="text-[11px] font-mono uppercase tracking-wider text-[#fb923c]">
+                    Co-Founders
+                  </div>
+                  <div className="text-xs sm:text-sm font-serif font-semibold text-white mt-0.5">
+                    {ABOUT_INFO.history.coFounders.join(' & ')}
+                  </div>
+                </div>
+              </div>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white">
-              History of the Club
-            </h2>
-            <div className="rounded-xl bg-[#140a05] border border-dashed border-[#ea580c]/30 p-5 text-xs sm:text-sm font-mono text-[#fed7aa]">
-              {ABOUT_INFO.historyPlaceholder}
+
+            <div className="space-y-4 text-xs sm:text-sm text-[#e6dfd3] leading-relaxed">
+              {ABOUT_INFO.history.paragraphs.map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
             </div>
-            <div className="pt-1 text-xs font-serif italic text-[#d6cebe]">
-              &ldquo;more is definitely better…&rdquo;
+
+            <div className="pt-4 border-t border-[#ea580c]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <div className="text-sm font-serif font-bold text-white">
+                  {ABOUT_INFO.history.attributionName}
+                </div>
+                <div className="text-xs font-serif italic text-[#fed7aa]">
+                  {ABOUT_INFO.history.attributionTitle}
+                </div>
+              </div>
+              <div className="text-xs font-serif italic text-[#d6cebe]">
+                &ldquo;more is definitely better…&rdquo;
+              </div>
             </div>
           </section>
 
-          {/* Faculty Advisors */}
+          {/* LAUMED JC Board of Consultants */}
           <section id="about-advisors" className="scroll-mt-24 cv-auto space-y-6">
             <div className="border-b border-[#ea580c]/20 pb-4">
               <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
-                Academic Mentorship
+                Consultant Oversight &amp; Mentorship
               </span>
               <h2 className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1">
-                Faculty Advisors & Patrons
+                LAUMED JC Board of Consultants
               </h2>
             </div>
 
             <RevealBlock>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {ABOUT_INFO.facultyAdvisors.map((advisor, i) => (
-                  <div key={i} className="initial-card p-6 space-y-3">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#fb923c] flex items-center justify-center font-bold text-sm shrink-0">
-                        {advisor.name.split(' ').slice(-1)[0].slice(0, 2).toUpperCase()}
-                      </div>
-                      <div className="space-y-0.5">
-                        <h3 className="text-base font-serif font-bold text-white">
-                          {advisor.name}
-                        </h3>
-                        <div className="text-xs text-[#fb923c] font-medium">
-                          {advisor.title}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {ABOUT_INFO.boardOfConsultants.map((consultant, i) => {
+                  const nameParts = consultant.name
+                    .replace(/^(Professor|Prof\.|Dr\.?)\s+/i, '')
+                    .trim()
+                    .split(/\s+/);
+                  const initials =
+                    nameParts.length >= 2
+                      ? `${nameParts[0][0] ?? ''}${nameParts[nameParts.length - 1][0] ?? ''}`.toUpperCase()
+                      : (nameParts[0]?.slice(0, 2) ?? '').toUpperCase();
+
+                  return (
+                    <div key={i} className="initial-card p-6 space-y-3">
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 rounded-xl bg-[#1e0e06] border border-[#ea580c] text-[#fb923c] flex items-center justify-center font-bold text-sm shrink-0">
+                          {initials}
                         </div>
-                        <div className="text-[11px] text-[#b5a89c]">
-                          {advisor.department}
+                        <div className="space-y-1">
+                          <h3 className="text-base font-serif font-bold text-white">
+                            {consultant.name}
+                          </h3>
+                          {consultant.title && (
+                            <div className="text-xs text-[#fb923c] font-medium leading-snug">
+                              {consultant.title}
+                            </div>
+                          )}
+                          {consultant.department && (
+                            <div className="text-[11px] text-[#b5a89c] leading-snug">
+                              {consultant.department}
+                            </div>
+                          )}
                         </div>
                       </div>
+                      {consultant.bio && (
+                        <p className="text-xs text-[#d6cebe] leading-relaxed pt-2 border-t border-[#ea580c]/15">
+                          {consultant.bio}
+                        </p>
+                      )}
                     </div>
-                    <p className="text-xs text-[#d6cebe] leading-relaxed pt-2 border-t border-[#ea580c]/15">
-                      {advisor.bio}
-                    </p>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </RevealBlock>
           </section>

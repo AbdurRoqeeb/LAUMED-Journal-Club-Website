@@ -205,9 +205,11 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
           <div className="w-40 sm:w-44 mx-auto md:mx-0 shrink-0">
             <LazyImage
               src={issue.cover}
+              width={issue.coverWidth ?? 520}
+              height={issue.coverHeight ?? 735}
               alt={`Cover of ${issue.journal} — ${issue.title}, Volume ${issue.volume}, Number ${issue.number}, ${issue.date}`}
-              aspectRatioClassName="aspect-[520/735]"
-              wrapperClassName="rounded-xl border border-[#ea580c]/35 bg-white shadow-lg"
+              aspectRatioClassName={issue.coverHeight === 673 ? 'aspect-[520/673]' : 'aspect-[520/735]'}
+              wrapperClassName="rounded-xl border border-[#ea580c]/35 bg-[#140a05] shadow-lg"
               priority
               className="w-full h-full object-cover"
             />
@@ -218,6 +220,11 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
               <span className="px-3 py-1 rounded-full bg-[#c2410c] text-white font-bold uppercase tracking-wider">
                 Article Abstracts
               </span>
+              {issue.editionLabel && (
+                <span className="px-2.5 py-1 rounded-full bg-[#2A120B] border border-[#ea580c]/45 text-[#fed7aa] font-semibold">
+                  {issue.editionLabel}
+                </span>
+              )}
               <span className="text-[#fed7aa] font-semibold">
                 Volume {issue.volume}, Number {issue.number} · {issue.date}
               </span>
@@ -234,10 +241,14 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
             </p>
 
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs font-mono text-[#d6cebe] py-2.5 px-4 rounded-xl bg-[#140a05] border border-[#ea580c]/20">
-              <span>
-                <strong className="text-white">ISSN:</strong> {issue.issn}
-              </span>
-              <span aria-hidden="true" className="text-[#ea580c]">·</span>
+              {issue.issn && (
+                <>
+                  <span>
+                    <strong className="text-white">ISSN:</strong> {issue.issn}
+                  </span>
+                  <span aria-hidden="true" className="text-[#ea580c]">·</span>
+                </>
+              )}
               <span>
                 <strong className="text-white">{issue.pages}</strong> pages
               </span>
@@ -255,7 +266,7 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
               <a
                 href={issue.file}
                 download={issue.downloadFilename}
-                aria-label={`Download LAUMED Volume ${issue.volume} Number ${issue.number}, ${issue.title.replace(/&/g, 'and')}, ${issue.format}, ${issue.size}`}
+                aria-label={`Download ${issue.title.replace(/&/g, 'and')}, Volume ${issue.volume} Number ${issue.number}, ${issue.format}, ${issue.size}`}
                 className="w-full min-[600px]:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#ea580c] to-[#c2410c] hover:from-[#f97316] hover:to-[#ea580c] text-white font-semibold text-sm shadow-lg shadow-[#ea580c]/25 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
               >
                 <Download className="w-4 h-4 shrink-0" aria-hidden="true" />
@@ -344,36 +355,38 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
           </div>
 
           {/* Guest Editorial Articles TOC */}
-          <div className="space-y-2 pt-2 border-t border-[#ea580c]/15">
-            <button
-              type="button"
-              onClick={() => scrollToSection('section-guest-editorial-articles')}
-              className="text-xs font-mono uppercase tracking-wider text-[#fb923c] font-bold hover:underline min-h-[44px] inline-flex items-center"
-            >
-              Guest Editorial Articles ({guestEditorialArticles.length})
-            </button>
-            <ol className="space-y-1.5">
-              {guestEditorialArticles.map((article, idx) => (
-                <li key={article.id}>
-                  <button
-                    type="button"
-                    onClick={() => scrollToSection(`article-${article.id}`)}
-                    className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg bg-[#140a05] hover:bg-[#2A120B] border border-[#ea580c]/15 hover:border-[#ea580c]/45 transition-colors flex items-start justify-between gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
-                  >
-                    <span className="text-xs text-[#f5ebe0] group-hover:text-white leading-snug">
-                      <span className="font-mono text-[#fb923c] mr-1.5">
-                        {String(editorialArticles.length + idx + 1).padStart(2, '0')}.
+          {guestEditorialArticles.length > 0 && (
+            <div className="space-y-2 pt-2 border-t border-[#ea580c]/15">
+              <button
+                type="button"
+                onClick={() => scrollToSection('section-guest-editorial-articles')}
+                className="text-xs font-mono uppercase tracking-wider text-[#fb923c] font-bold hover:underline min-h-[44px] inline-flex items-center"
+              >
+                Guest Editorial Articles ({guestEditorialArticles.length})
+              </button>
+              <ol className="space-y-1.5">
+                {guestEditorialArticles.map((article, idx) => (
+                  <li key={article.id}>
+                    <button
+                      type="button"
+                      onClick={() => scrollToSection(`article-${article.id}`)}
+                      className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg bg-[#140a05] hover:bg-[#2A120B] border border-[#ea580c]/15 hover:border-[#ea580c]/45 transition-colors flex items-start justify-between gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
+                    >
+                      <span className="text-xs text-[#f5ebe0] group-hover:text-white leading-snug">
+                        <span className="font-mono text-[#fb923c] mr-1.5">
+                          {String(editorialArticles.length + idx + 1).padStart(2, '0')}.
+                        </span>
+                        {article.title}
                       </span>
-                      {article.title}
-                    </span>
-                    <span className="text-[11px] font-mono text-[#fed7aa] shrink-0">
-                      p.{article.page}
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ol>
-          </div>
+                      <span className="text-[11px] font-mono text-[#fed7aa] shrink-0">
+                        p.{article.page}
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
 
           {issue.nonEditorialContents && issue.nonEditorialContents.length > 0 && (
             <div className="pt-2 border-t border-[#ea580c]/15">
@@ -382,8 +395,8 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
                 onClick={() => scrollToSection('section-non-editorial-contents')}
                 className="w-full text-left px-3 py-2.5 min-h-[44px] rounded-lg bg-[#140a05] hover:bg-[#2A120B] border border-[#ea580c]/20 text-xs font-mono text-[#fed7aa] hover:text-white transition-colors flex items-center justify-between"
               >
-                <span>Non-Editorial Articles ({issue.nonEditorialContents.length})</span>
-                <span>pp. 63–80</span>
+                <span>Non-Editorial Features ({issue.nonEditorialContents.length})</span>
+                {issue.nonEditorialPageRange && <span>{issue.nonEditorialPageRange}</span>}
               </button>
             </div>
           )}
@@ -400,7 +413,7 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
             <div className="border-b border-[#ea580c]/25 pb-3 flex flex-wrap items-end justify-between gap-2">
               <div>
                 <span className="text-xs font-mono uppercase tracking-widest text-[#ea580c] font-semibold">
-                  Section 01 · Pages 9–49
+                  Section 01{issue.editorialPageRange ? ` · ${issue.editorialPageRange}` : ''}
                 </span>
                 <h2
                   id="heading-editorial-articles"
@@ -422,36 +435,38 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
           </section>
 
           {/* Section 2: Guest Editorial Articles */}
-          <section
-            id="section-guest-editorial-articles"
-            aria-labelledby="heading-guest-editorial-articles"
-            className="cv-auto space-y-6 scroll-mt-24"
-          >
-            <div className="border-b border-[#ea580c]/25 pb-3 flex flex-wrap items-end justify-between gap-2">
-              <div>
-                <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
-                  Section 02 · Pages 50–62
+          {guestEditorialArticles.length > 0 && (
+            <section
+              id="section-guest-editorial-articles"
+              aria-labelledby="heading-guest-editorial-articles"
+              className="cv-auto space-y-6 scroll-mt-24"
+            >
+              <div className="border-b border-[#ea580c]/25 pb-3 flex flex-wrap items-end justify-between gap-2">
+                <div>
+                  <span className="text-xs font-mono uppercase tracking-widest text-[#fb923c] font-semibold">
+                    Section 02{issue.guestEditorialPageRange ? ` · ${issue.guestEditorialPageRange}` : ''}
+                  </span>
+                  <h2
+                    id="heading-guest-editorial-articles"
+                    className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1"
+                  >
+                    Guest Editorial Articles
+                  </h2>
+                </div>
+                <span className="text-xs font-mono text-[#fed7aa]">
+                  {guestEditorialArticles.length} Articles
                 </span>
-                <h2
-                  id="heading-guest-editorial-articles"
-                  className="text-2xl sm:text-3xl font-serif font-bold text-white mt-1"
-                >
-                  Guest Editorial Articles
-                </h2>
               </div>
-              <span className="text-xs font-mono text-[#fed7aa]">
-                {guestEditorialArticles.length} Articles
-              </span>
-            </div>
 
-            <div className="space-y-6">
-              {guestEditorialArticles.map((article, idx) =>
-                renderArticleCard(article, editorialArticles.length + idx + 1)
-              )}
-            </div>
-          </section>
+              <div className="space-y-6">
+                {guestEditorialArticles.map((article, idx) =>
+                  renderArticleCard(article, editorialArticles.length + idx + 1)
+                )}
+              </div>
+            </section>
+          )}
 
-          {/* Section 3: Non-Editorial Contents Reference from PDF p. 7 */}
+          {/* Section 3: Non-Editorial Contents Reference from PDF */}
           {issue.nonEditorialContents && issue.nonEditorialContents.length > 0 && (
             <section
               id="section-non-editorial-contents"
@@ -465,15 +480,18 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
                     id="heading-non-editorial-contents"
                     className="text-xl font-serif font-bold text-white"
                   >
-                    Non-Editorial Articles in This PDF
+                    Non-Editorial Features in This PDF
                   </h2>
                 </div>
-                <span className="text-xs font-mono text-[#fed7aa]">
-                  Pages 63–80
-                </span>
+                {issue.nonEditorialPageRange && (
+                  <span className="text-xs font-mono text-[#fed7aa]">
+                    {issue.nonEditorialPageRange}
+                  </span>
+                )}
               </div>
               <p className="text-xs text-[#d6cebe] leading-relaxed">
-                The following creative works, essays, book reviews, interview, and club report also appear in the full PDF edition (no standalone research abstracts printed in the PDF):
+                {issue.nonEditorialDescription ??
+                  'The following creative works, essays, book reviews, interview, and club report also appear in the full PDF edition (no standalone research abstracts printed in the PDF):'}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {issue.nonEditorialContents.map((item, idx) => (
@@ -514,7 +532,7 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
         <a
           href={issue.file}
           download={issue.downloadFilename}
-          aria-label={`Download LAUMED Volume ${issue.volume} Number ${issue.number}, ${issue.title.replace(/&/g, 'and')}, ${issue.format}, ${issue.size}`}
+          aria-label={`Download ${issue.title.replace(/&/g, 'and')}, Volume ${issue.volume} Number ${issue.number}, ${issue.format}, ${issue.size}`}
           className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-[#ea580c] to-[#c2410c] hover:from-[#f97316] hover:to-[#ea580c] text-white font-semibold text-sm shadow-lg shadow-[#ea580c]/25 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
         >
           <Download className="w-4 h-4 shrink-0" aria-hidden="true" />
@@ -544,7 +562,7 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
                   {issue.title} — Volume {issue.volume}, Number {issue.number} ({issue.date})
                 </h3>
                 <p className="text-xs font-mono text-[#fed7aa] truncate">
-                  {issue.journal} · ISSN {issue.issn}
+                  {issue.journal}{issue.issn ? ` · ISSN ${issue.issn}` : ''}
                 </p>
               </div>
               <div className="flex items-center gap-2.5 shrink-0">
@@ -560,7 +578,7 @@ export const JournalIssueAbstractsView: React.FC<JournalIssueAbstractsViewProps>
                 <a
                   href={issue.file}
                   download={issue.downloadFilename}
-                  aria-label={`Download LAUMED Volume ${issue.volume} Number ${issue.number}, ${issue.title.replace(/&/g, 'and')}, ${issue.format}, ${issue.size}`}
+                  aria-label={`Download ${issue.title.replace(/&/g, 'and')}, Volume ${issue.volume} Number ${issue.number}, ${issue.format}, ${issue.size}`}
                   className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[44px] rounded-full bg-[#c2410c] hover:bg-[#ea580c] text-xs font-semibold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fed7aa]"
                 >
                   <Download className="w-3.5 h-3.5" aria-hidden="true" />
