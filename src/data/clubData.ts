@@ -191,7 +191,7 @@ export const JOURNAL_SESSIONS: JournalSession[] = [
     year: 2026,
     title: "A New Era in Obesity Management: Can GLP-1 Agonists Deliver on Their Promise?",
     topicTag: "Endocrinology",
-    author: "LAUMED Journal Club",
+    author: "Ofure Alfred",
     institution: "LAUMED Journal Club · Ladoke Akintola University of Technology",
     date: "10th September, 2026",
     excerpt:
