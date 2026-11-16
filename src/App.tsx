@@ -118,8 +118,18 @@ export default function App() {
     const handlePopState = (event: PopStateEvent) => {
       scrollPositionsRef.current.set(routeKeyRef.current, window.scrollY);
       const nextState = event.state as { page?: PageId; issueId?: string } | null;
-      const nextPage: PageId =
-        nextState?.page && VALID_PAGES.includes(nextState.page) ? nextState.page : 'home';
+      // Plain in-page anchor clicks (#issues, #submission-guidelines) create history
+      // entries with no state. Keep the current page, stamp it onto the entry, and let
+      // the browser scroll to the anchor.
+      if (!nextState?.page) {
+        window.history.replaceState(
+          { page: currentPage, issueId: selectedIssueId },
+          '',
+          window.location.href
+        );
+        return;
+      }
+      const nextPage: PageId = VALID_PAGES.includes(nextState.page) ? nextState.page : 'home';
       const nextIssueId = nextState?.issueId || selectedIssueId;
       const nextKey = getRouteKey(nextPage, nextIssueId);
       const savedY = scrollPositionsRef.current.get(nextKey) ?? 0;
@@ -132,8 +142,7 @@ export default function App() {
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [focusMainContent, restoreScrollOrTop, selectedIssueId]);
-
+  }, [currentPage, focusMainContent, restoreScrollOrTop, selectedIssueId]);
   const navigateToPage = useCallback(
     (nextPage: PageId, options?: { issueId?: string; restoreScroll?: boolean; hash?: string }) => {
       const nextIssueId = options?.issueId ?? selectedIssueId;
