@@ -4,6 +4,9 @@ import { supabase } from '../lib/supabase';
 import EventsModule from './EventsModule';
 import ApplicationsModule from './ApplicationsModule';
 import BooksModule from './BooksModule';
+import ContactModule from './ContactModule';
+import FeedbackModule from './FeedbackModule';
+import ResourcesModule from './ResourcesModule';
 import { Button, Card, PageHeader, inputClass } from './ui';
 
 type Role = 'super_admin' | 'editor' | 'moderator';
@@ -27,6 +30,7 @@ const MODULES: { id: string; label: string; roles: Role[] }[] = [
   { id: 'applications', label: 'Membership applications', roles: ['super_admin', 'editor', 'moderator'] },
   { id: 'messages', label: 'Contact inbox', roles: ['super_admin', 'editor', 'moderator'] },
   { id: 'resources', label: 'Resources & editorial board', roles: ['super_admin', 'editor'] },
+  { id: 'feedback', label: 'Feedback & roadmap', roles: ['super_admin', 'editor', 'moderator'] },
   { id: 'admins', label: 'Admin accounts', roles: ['super_admin'] },
 ];
 
@@ -207,8 +211,18 @@ export default function AdminApp() {
 
       <main className="min-w-0 flex-1 p-5 md:p-10">
         <div className="mx-auto max-w-5xl">
+          {import.meta.env.VITE_DEMO_MODE === 'true' && (
+            <div className="mb-6 rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
+              Demo mode: please use made-up test data only. Everything here is cleared before launch.
+            </div>
+          )}
           {current?.id === 'events' ? (
             <EventsModule />
+          ) : current?.id === 'resources' ? (
+            <ResourcesModule />
+          ) : current?.id === 'messages' ? (            <ContactModule canDelete={profile.role === 'super_admin'} />
+          ) : current?.id === 'feedback' ? (
+            <FeedbackModule isSuperAdmin={profile.role === 'super_admin'} />
           ) : current?.id === 'orders' ? (
             <BooksModule />
           ) : current?.id === 'applications' ? (
