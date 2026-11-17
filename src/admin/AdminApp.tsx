@@ -3,6 +3,7 @@ import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import EventsModule from './EventsModule';
 import ApplicationsModule from './ApplicationsModule';
+import BooksModule from './BooksModule';
 import { Button, Card, PageHeader, inputClass } from './ui';
 
 type Role = 'super_admin' | 'editor' | 'moderator';
@@ -208,6 +209,8 @@ export default function AdminApp() {
         <div className="mx-auto max-w-5xl">
           {current?.id === 'events' ? (
             <EventsModule />
+          ) : current?.id === 'orders' ? (
+            <BooksModule />
           ) : current?.id === 'applications' ? (
             <ApplicationsModule canDelete={profile.role === 'super_admin'} />
           ) : (
