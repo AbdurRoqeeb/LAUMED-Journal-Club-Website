@@ -45,6 +45,18 @@ function Centered({ children }: { children: React.ReactNode }) {
 
 function Brand() {
   return (
+    <a
+      href="/"
+      title="Back to the website"
+      className="block rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+    >
+      <BrandMark />
+    </a>
+  );
+}
+
+function BrandMark() {
+  return (
     <div className="flex items-center gap-3">
       <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand font-serif text-sm font-bold text-white">
         LJ
@@ -76,6 +88,9 @@ function LoginForm() {
       <Card className="w-full max-w-sm space-y-5 p-8">
         <Brand />
         <p className="text-sm text-cream/70">Authorised editors only.</p>
+        <a href="/" className="inline-block text-sm text-brand hover:underline">
+          ← Back to website
+        </a>
         <input
           type="email"
           autoComplete="username"
@@ -160,6 +175,9 @@ export default function AdminApp() {
           <p className="text-sm text-cream/80">
             {session.user.email} is signed in but is not set up as an admin. Ask a super admin to add you.
           </p>
+          <a href="/" className="block text-sm text-brand hover:underline">
+            ← Back to website
+          </a>
           <Button variant="secondary" onClick={() => supabase.auth.signOut()}>
             Sign out
           </Button>
@@ -205,6 +223,12 @@ export default function AdminApp() {
             </button>
           ))}
         </nav>
+        <a
+          href="/"
+          className="mt-4 inline-flex items-center justify-center rounded-lg border border-line px-4 py-2 text-sm font-semibold text-cream transition hover:bg-white/5"
+        >
+          View website
+        </a>
         <ChangePassword />
         <Button variant="secondary" className="mt-2" onClick={() => supabase.auth.signOut()}>
           Sign out
