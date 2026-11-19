@@ -206,13 +206,13 @@ export const EventsView: React.FC = () => {
                       <Calendar className="w-4 h-4 text-[#ea580c] shrink-0 mt-0.5" />
                       <div>
                         <div className="text-[10px] font-mono uppercase text-[#8c7e72]">
-                          Tentative Date
+                          {event.isProvisional ? 'Tentative Date' : 'Date'}
                         </div>
                         <div className="text-white font-semibold mt-0.5">
-                          12 December 2026
+                          {event.displayDate}
                         </div>
                         <div className="text-[11px] text-[#fed7aa]">
-                          Provisional · Subject to confirmation
+                          {event.isProvisional ? 'Provisional · Subject to confirmation' : 'Confirmed'}
                         </div>
                       </div>
                     </div>
@@ -224,10 +224,10 @@ export const EventsView: React.FC = () => {
                           Venue & Time
                         </div>
                         <div className="text-white font-semibold mt-0.5">
-                          To be announced
+                          {event.venue && event.venue.toLowerCase() !== 'to be announced' ? event.venue : 'To be announced'}
                         </div>
                         <div className="text-[11px] text-[#a89f91]">
-                          Official details forthcoming
+                          {event.time && event.time.toLowerCase() !== 'to be announced' ? event.time : 'Official details forthcoming'}
                         </div>
                       </div>
                     </div>
@@ -675,8 +675,7 @@ export const EventsView: React.FC = () => {
                   {selectedEventForInterest.title}
                 </h3>
                 <p className="text-[11px] font-mono text-[#fed7aa] mt-0.5">
-                  Tentative Date: 12 December 2026 (Subject to Confirmation)
-                </p>
+                  {selectedEventForInterest.isProvisional ? 'Tentative date: ' : 'Date: '}{selectedEventForInterest.displayDate}{selectedEventForInterest.isProvisional ? ' (Subject to Confirmation)' : ''}                </p>
               </div>
               <button
                 type="button"
