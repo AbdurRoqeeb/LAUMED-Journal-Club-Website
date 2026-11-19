@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { CLUB_EVENTS, ClubEvent } from '../data/clubData';
+import { ClubEvent } from '../data/clubData';
+import { useEvents } from '../lib/events';
 import {
   Calendar,
   Clock,
@@ -14,6 +15,8 @@ import {
   X
 } from 'lucide-react';
 import { LazyImage } from '../components/LazyImage';
+import { FORMS_ENABLED } from '../lib/features';
+import { FormsPaused } from '../components/FormsPaused';
 import { RevealBlock } from '../components/RevealBlock';
 
 export const EventsView: React.FC = () => {
@@ -28,8 +31,9 @@ export const EventsView: React.FC = () => {
   const [interestLevel, setInterestLevel] = useState('500L MB;BS');
   const [interestRef, setInterestRef] = useState('');
 
-  const upcomingEvents = CLUB_EVENTS.filter((e) => e.status === 'upcoming');
-  const pastEvents = CLUB_EVENTS.filter((e) => e.status === 'past');
+  const events = useEvents();
+  const upcomingEvents = events.filter((e) => e.status === 'upcoming');
+  const pastEvents = events.filter((e) => e.status === 'past');
   const primaryUpcoming = upcomingEvents[0];
 
   const [timeLeft, setTimeLeft] = useState<{
@@ -717,7 +721,10 @@ export const EventsView: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleInterestSubmit} className="space-y-4">
+              !FORMS_ENABLED ? (
+                <FormsPaused topic="event" />
+              ) : (
+                <form onSubmit={handleInterestSubmit} className="space-y-4">
                 <div className="space-y-1">
                   <label className="text-xs font-medium text-[#faf5ee]">Full Name</label>
                   <input
@@ -770,6 +777,7 @@ export const EventsView: React.FC = () => {
                   </button>
                 </div>
               </form>
+              )
             )}
           </div>
         </div>

@@ -1,9 +1,10 @@
 import React from 'react';
-import { RESOURCES_LIST } from '../data/clubData';
+import { useResources } from '../lib/resources';
 import { ExternalLink } from 'lucide-react';
 import { RevealBlock } from '../components/RevealBlock';
 
 export const ResourcesView: React.FC = () => {
+  const resources = useResources();
   const usefulLinks = [
     {
       title: 'Cochrane Handbook for Systematic Reviews',
@@ -57,7 +58,7 @@ export const ResourcesView: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {RESOURCES_LIST.map((res) => (
+          Replace with: {resources.map((res) => (
             <RevealBlock key={res.id}>
               <div className="initial-card p-6 h-full flex flex-col justify-between space-y-4 group">
                 <div className="space-y-3">

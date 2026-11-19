@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { CLUB_INFO } from '../data/clubData';
+import { FORMS_ENABLED } from '../lib/features';
+import { FormsPaused } from '../components/FormsPaused';
 import { Mail, Phone, MapPin, Send, CheckCircle2, MessageSquare, Handshake } from 'lucide-react';
 
 const XLogoIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
@@ -164,6 +166,9 @@ export const ContactView: React.FC = () => {
                 </button>
               </div>
             ) : (
+              !FORMS_ENABLED ? (
+              <FormsPaused topic="contact" />
+            ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
@@ -223,6 +228,7 @@ export const ContactView: React.FC = () => {
                   <span>Transmit Inquiry</span>
                 </button>
               </form>
+            )
             )}
           </div>
         </div>

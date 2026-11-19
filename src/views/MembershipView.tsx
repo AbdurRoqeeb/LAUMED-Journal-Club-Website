@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { MEMBERSHIP_INFO } from '../data/clubData';
+import { FORMS_ENABLED } from '../lib/features';
+import { FormsPaused } from '../components/FormsPaused';
 import { UserPlus, CheckCircle2, ShieldCheck, Award, Users, BookOpen, ExternalLink, ArrowRight } from 'lucide-react';
 import { RevealBlock } from '../components/RevealBlock';
 
@@ -153,6 +155,9 @@ export const MembershipView: React.FC = () => {
             </button>
           </div>
         ) : (
+          !FORMS_ENABLED ? (
+          <FormsPaused topic="membership" />
+        ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1">
               <label className="text-xs font-medium text-[#faf5ee]">
@@ -260,6 +265,7 @@ export const MembershipView: React.FC = () => {
               <span className="text-[#fed7aa]">{EXTERNAL_FORM_LINK_PLACEHOLDER}</span>
             </div>
           </form>
+        )
         )}
       </div>
     </div>

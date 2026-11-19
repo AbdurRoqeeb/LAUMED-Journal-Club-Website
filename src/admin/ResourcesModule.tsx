@@ -20,6 +20,7 @@ interface Resource {
   description: string | null;
   url: string;
   category: string | null;
+  organization: string | null;
   sort_order: number;
   status: Status;
 }
@@ -30,6 +31,7 @@ interface ResForm {
   description: string;
   url: string;
   category: string;
+  organization: string;
   sort_order: string;
   status: Status;
 }
@@ -39,6 +41,7 @@ const EMPTY_RES: ResForm = {
   description: '',
   url: '',
   category: '',
+  organization: '',
   sort_order: '0',
   status: 'draft',
 };
@@ -54,8 +57,7 @@ function Resources() {
     setLoading(true);
     const { data, error: err } = await supabase
       .from('resources')
-      .select('id, title, description, url, category, sort_order, status')
-      .order('sort_order')
+      .select('id, title, description, url, category, organization, sort_order, status')      .order('sort_order')
       .order('title');
     if (err) setError(err.message);
     else setRows((data as Resource[]) ?? []);
@@ -85,6 +87,7 @@ function Resources() {
       url,
       description: form.description.trim() || null,
       category: form.category.trim() || null,
+      organization: form.organization.trim() || null,
       sort_order: order,
       status: form.status,
     };
@@ -154,6 +157,13 @@ function Resources() {
             />
           </Field>
           <div className="grid gap-5 sm:grid-cols-3">
+            <Field label="Organization" hint="Who publishes it, e.g. CASP or Cochrane.">
+              <input
+                className={inputClass}
+                value={form.organization}
+                onChange={(e) => set('organization', e.target.value)}
+              />
+            </Field>
             <Field label="Category" hint="For grouping, e.g. Reporting guidelines.">
               <input className={inputClass} value={form.category} onChange={(e) => set('category', e.target.value)} />
             </Field>
@@ -219,6 +229,7 @@ function Resources() {
                         description: r.description ?? '',
                         url: r.url,
                         category: r.category ?? '',
+                        organization: r.organization ?? '',
                         sort_order: String(r.sort_order),
                         status: r.status,
                       });

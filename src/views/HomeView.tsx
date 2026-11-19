@@ -1,6 +1,7 @@
 import React from 'react';
 import { PageId } from '../components/Navbar';
-import { CLUB_INFO, JOURNAL_SESSIONS, CLUB_EVENTS, JOURNAL_INFO, JournalSession } from '../data/clubData';
+import { CLUB_INFO, JOURNAL_SESSIONS, JOURNAL_INFO, JournalSession } from '../data/clubData';
+import { useEvents } from '../lib/events';
 import {
   ArrowRight,
   BookOpen,
@@ -25,10 +26,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
   openSubmitModal
 }) => {
   // Featured event card pulled from Events data (prioritize upcoming event, fallback to flagship)
+  const events = useEvents();
   const featuredEvent =
-    CLUB_EVENTS.find(e => e.status === 'upcoming') ||
-    CLUB_EVENTS.find(e => e.isFlagship) ||
-    CLUB_EVENTS[0];
+    events.find(e => e.status === 'upcoming') ||
+    events.find(e => e.isFlagship) ||
+    events[0];
   const recentSessions = JOURNAL_SESSIONS.slice(0, 3);
 
   const whatWeDoCards = [
