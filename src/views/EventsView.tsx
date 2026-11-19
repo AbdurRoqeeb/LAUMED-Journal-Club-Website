@@ -233,10 +233,10 @@ export const EventsView: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Countdown to Tentative Date */}
+                  {event.date && (<>{/* Countdown to Tentative Date */}
                   <div className="space-y-2">
                     <span className="text-[11px] font-mono uppercase text-[#a89f91] tracking-wider block">
-                      Countdown to Tentative Date (12 Dec 2026 — Subject to Confirmation):
+                      Countdown to Tentative Date ({event.displayDate}{event.isProvisional ? ' — Subject to Confirmation' : ''}):
                     </span>
                     <div className="grid grid-cols-4 max-w-md gap-3 text-center">
                       <div className="p-3 bg-[#080402] border border-[#ea580c]/30 rounded-xl">
@@ -265,6 +265,8 @@ export const EventsView: React.FC = () => {
                       </div>
                     </div>
                   </div>
+
+                  </>)}
 
                   <div className="pt-2 flex flex-wrap items-center gap-3">
                     <button

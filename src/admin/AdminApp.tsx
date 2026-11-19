@@ -7,6 +7,7 @@ import BooksModule from './BooksModule';
 import ContactModule from './ContactModule';
 import FeedbackModule from './FeedbackModule';
 import ResourcesModule from './ResourcesModule';
+import ChangePassword from './ChangePassword';
 import { Button, Card, PageHeader, inputClass } from './ui';
 
 type Role = 'super_admin' | 'editor' | 'moderator';
@@ -204,7 +205,8 @@ export default function AdminApp() {
             </button>
           ))}
         </nav>
-        <Button variant="secondary" className="mt-4" onClick={() => supabase.auth.signOut()}>
+        <ChangePassword />
+        <Button variant="secondary" className="mt-2" onClick={() => supabase.auth.signOut()}>
           Sign out
         </Button>
       </aside>
