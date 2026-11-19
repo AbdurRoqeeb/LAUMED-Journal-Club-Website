@@ -15,7 +15,7 @@ interface Req {
 }
 
 const AVAILABLE = [
-  'Events: create, edit and publish (not yet shown on the public site)',
+  'Events: create, edit and publish, shown on the public site, with flyer upload',
   'Book products and pre-orders: prices, stock, open and close dates, order tracking',
   'Membership applications: review, approve or reject, export to Excel',
   'Contact inbox: read and reply to messages',
@@ -23,9 +23,9 @@ const AVAILABLE = [
 ];
 
 const NEXT = [
-  'Connect the public website to this panel, so what you publish here appears there',
+  'Connect the rest of the public website (journal issues, sessions, About, team) to this panel',
   'Online booking form for the journal, with spam protection',
-  'Journal issues and articles: upload covers and PDFs',
+'Journal issues and articles: covers, PDFs and publishing',
   'Resources and editorial board editing',
   'Add and remove officers from inside the panel',
 ];
@@ -119,7 +119,7 @@ export default function FeedbackModule({ isSuperAdmin }: { isSuperAdmin: boolean
       )}
 
       <div className="mb-8 grid gap-4 lg:grid-cols-3">
-        <List title="Available in this demo" items={AVAILABLE} />
+        <List title="Available now" items={AVAILABLE} />
         <List title="Coming next" items={NEXT} />
         <List title="We need your input" items={NEEDS_YOU} />
       </div>

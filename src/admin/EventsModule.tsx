@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { Badge, Button, Card, Field, PageHeader, inputClass } from './ui';
 import { formatDateTime, slugify, toIso, toLocalInput } from './util';
-
+import ImageUpload from './ImageUpload';
 type Status = 'draft' | 'published' | 'archived';
 type Details = Record<string, unknown>;
 
@@ -451,15 +451,11 @@ export default function EventsModule() {
                   placeholder="https://"
                 />
               </Field>
-              <Field
-                label="Flyer link"
-                hint="A web address for now. Image upload comes with the storage step."
-              >
-                <input
-                  className={inputClass}
+              <Field label="Flyer" hint="Upload an image, or paste a link. Large images are shrunk automatically.">
+                <ImageUpload
+                  folder="events"
                   value={form.banner_url}
-                  onChange={(e) => set('banner_url', e.target.value)}
-                  placeholder="https://"
+                  onChange={(url) => set('banner_url', url)}
                 />
               </Field>
             </div>
