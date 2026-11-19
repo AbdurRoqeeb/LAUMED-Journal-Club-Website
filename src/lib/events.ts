@@ -46,8 +46,11 @@ function toEvent(row: EventRow): ClubEvent {
     isProvisional: row.is_tentative,
     date: start ? start.toISOString() : '',
     displayDate: (labelsValid && text(d.displayDate)) || (start ? fmtDate(start) : 'Date to be announced'),
-    time: (labelsValid && text(d.time)) || (start ? fmtTime(start) : ''),
-    venue: row.venue ?? '',
+    time:
+      d.timeTba === true
+        ? 'To be announced'
+        : (labelsValid && text(d.time)) || (start ? fmtTime(start) : 'To be announced'),
+    venue: row.venue?.trim() || 'To be announced',
     flyerUrl: row.banner_url ?? text(d.flyerUrl) ?? '',
     description: row.description ?? '',
     registrationOpen:
