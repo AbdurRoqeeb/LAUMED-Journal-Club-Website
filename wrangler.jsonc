@@ -1,0 +1,14 @@
+{
+  "name": "laumedjc",
+  "account_id": "2ca72470c905b9f95f0534376ea10a66",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*", "/files/*"]
+  },
+  "r2_buckets": [
+    { "binding": "PUBLIC_FILES", "bucket_name": "laumed-public" }
+  ]
+}

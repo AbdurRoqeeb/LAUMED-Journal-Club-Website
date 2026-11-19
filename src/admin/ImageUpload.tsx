@@ -51,12 +51,18 @@ export default function ImageUpload({
     setBusy(true);
     try {
       const blob = await toWebp(file);
-      const path = `${folder}/${crypto.randomUUID()}.webp`;
-      const { error: err } = await supabase.storage
-        .from('images')
-        .upload(path, blob, { contentType: 'image/webp', cacheControl: '31536000', upsert: false });
-      if (err) throw err;
-      onChange(supabase.storage.from('images').getPublicUrl(path).data.publicUrl);
+      const { data: sessionData } = await supabase.auth.getSession();
+      const token = sessionData.session?.access_token;
+      if (!token) throw new Error('Please sign in again.');
+
+      const res = await fetch(`/api/upload?folder=${encodeURIComponent(folder)}`, {
+        method: 'POST',
+        headers: { authorization: `Bearer ${token}`, 'content-type': 'image/webp' },
+        body: blob,
+      });
+      const data = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
+      if (!res.ok || !data.url) throw new Error(data.error || 'Upload failed. Please try again.');
+      onChange(data.url);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Upload failed. Please try again.');
     } finally {
